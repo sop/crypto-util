@@ -2,6 +2,7 @@
 
 use CryptoUtil\PEM\PEM;
 use CryptoUtil\ASN1\RSA\RSAPrivateKey;
+use CryptoUtil\ASN1\RSA\RSAPublicKey;
 
 
 /**
@@ -48,5 +49,17 @@ class RSAPrivateKeyTest extends PHPUnit_Framework_TestCase
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem");
 		$pk = RSAPrivateKey::fromPEM($pem);
 		$this->assertInstanceOf(RSAPrivateKey::class, $pk);
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param RSAPrivateKey $pk
+	 */
+	public function testGetPublicKey(RSAPrivateKey $pk) {
+		$pub = $pk->publicKey();
+		$ref = RSAPublicKey::fromPEM(
+			PEM::fromFile(TEST_ASSETS_DIR . "/rsa/rsa_public_key.pem"));
+		$this->assertEquals($ref, $pub);
 	}
 }

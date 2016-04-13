@@ -144,6 +144,15 @@ class RSAPrivateKey
 	}
 	
 	/**
+	 * Get public key component
+	 *
+	 * @return RSAPublicKey
+	 */
+	public function publicKey() {
+		return new RSAPublicKey($this->_modulus, $this->_publicExponent);
+	}
+	
+	/**
 	 * Generate ASN.1 structure
 	 *
 	 * @return Sequence

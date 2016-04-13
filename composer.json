@@ -1,6 +1,7 @@
 {
 	"name": "sop/crypto-util",
-	"description": "A PHP library containing various utilities for cryptographic applications.",
+	"description": "A PHP library of various utilities for cryptographic applications.",
+	"homepage": "https://github.com/sop/crypto-util",
 	"license": "MIT",
 	"type": "library",
 	"keywords": ["crypto", "util", "pem", "asn1", "rsa"],

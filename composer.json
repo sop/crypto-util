@@ -1,0 +1,23 @@
+{
+	"name": "sop/crypto-util",
+	"description": "A PHP library containing various utilities for cryptographic applications.",
+	"license": "MIT",
+	"type": "library",
+	"keywords": ["crypto", "util", "pem", "asn1", "rsa"],
+	"authors": [
+		{
+			"name": "Joni Eskelinen",
+			"email": "jonieske@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.6.3",
+		"sop/asn1": "^1.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"CryptoUtil\\": "lib/CryptoUtil/"
+		}
+	}
+}

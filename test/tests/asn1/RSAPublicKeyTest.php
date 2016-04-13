@@ -5,7 +5,7 @@ use CryptoUtil\ASN1\RSA\RSAPublicKey;
 
 
 /**
- * @group crypto
+ * @group asn1
  */
 class RSAPublicKeyTest extends PHPUnit_Framework_TestCase
 {

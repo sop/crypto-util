@@ -3,6 +3,7 @@
 use CryptoUtil\PEM\PEM;
 use CryptoUtil\ASN1\PrivateKeyInfo;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
+use CryptoUtil\ASN1\RSA\RSAEncryptionAlgorithmIdentifier;
 
 
 /**
@@ -22,10 +23,21 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param PrivateKeyInfo $pki
 	 */
-	public function testAlgoOID(PrivateKeyInfo $pki) {
+	public function testAlgoObj(PrivateKeyInfo $pki) {
+		$ref = new RSAEncryptionAlgorithmIdentifier();
+		$algo = $pki->algorithmIdentifier();
+		$this->assertEquals($ref, $algo);
+		return $algo;
+	}
+	
+	/**
+	 * @depends testAlgoObj
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testAlgoOID(AlgorithmIdentifier $algo) {
 		$this->assertEquals(AlgorithmIdentifier::OID_RSA_ENCRYPTION, 
-			$pki->algorithmIdentifier()
-				->oid());
+			$algo->oid());
 	}
 	
 	public function testFromPEM() {

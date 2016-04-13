@@ -2,6 +2,9 @@
 
 namespace CryptoUtil\ASN1\RSA;
 
+use CryptoUtil\PEM\PEM;
+use CryptoUtil\ASN1\PrivateKeyInfo;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 
@@ -83,6 +86,28 @@ class RSAPrivateKey
 	 */
 	public static function fromDER($data) {
 		return self::fromASN1(Sequence::fromDER($data));
+	}
+	
+	/**
+	 * Initialize from PEM
+	 *
+	 * @param PEM $pem
+	 * @throws \UnexpectedValueException
+	 * @return self
+	 */
+	public static function fromPEM(PEM $pem) {
+		if ($pem->type() == PEM::TYPE_RSA_PRIVATE_KEY) {
+			return self::fromDER($pem->data());
+		}
+		if ($pem->type() != PEM::TYPE_PRIVATE_KEY) {
+			throw new \UnexpectedValueException("Invalid PEM type");
+		}
+		$pki = PrivateKeyInfo::fromDER($pem->data());
+		if ($pki->algorithmIdentifier()->oid() !=
+			 AlgorithmIdentifier::OID_RSA_ENCRYPTION) {
+			throw new \UnexpectedValueException("Not an RSA private key");
+		}
+		return self::fromDER($pki->privateKeyData());
 	}
 	
 	public function modulus() {

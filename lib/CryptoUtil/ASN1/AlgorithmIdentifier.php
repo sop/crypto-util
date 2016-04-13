@@ -4,6 +4,7 @@ namespace CryptoUtil\ASN1;
 
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\ObjectIdentifier;
 
 
 /**
@@ -59,5 +60,18 @@ class AlgorithmIdentifier
 	 */
 	public function oid() {
 		return $this->_oid;
+	}
+	
+	/**
+	 * Generate ASN.1 structure
+	 *
+	 * @return Sequence
+	 */
+	public function toASN1() {
+		$elements = array(new ObjectIdentifier($this->_oid));
+		if (isset($this->_params)) {
+			$elements[] = $this->_params;
+		}
+		return new Sequence(...$elements);
 	}
 }

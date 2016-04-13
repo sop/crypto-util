@@ -20,6 +20,28 @@ class RSAPrivateKeyTest extends PHPUnit_Framework_TestCase
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/rsa_private_key.pem");
 		$pk = RSAPrivateKey::fromPEM($pem);
 		$this->assertInstanceOf(RSAPrivateKey::class, $pk);
+		return $pk;
+	}
+	
+	/**
+	 * @depends testFromPEM
+	 *
+	 * @param RSAPrivateKey $pk
+	 */
+	public function testToPEM(RSAPrivateKey $pk) {
+		$pem = $pk->toPEM();
+		$this->assertInstanceOf(PEM::class, $pem);
+		return $pem;
+	}
+	
+	/**
+	 * @depends testToPEM
+	 *
+	 * @param PEM $pem
+	 */
+	public function testRecodedPEM(PEM $pem) {
+		$ref = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/rsa_private_key.pem");
+		$this->assertEquals($ref, $pem);
 	}
 	
 	public function testFromPKIPEM() {

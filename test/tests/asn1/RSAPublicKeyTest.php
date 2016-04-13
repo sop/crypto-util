@@ -20,6 +20,28 @@ class RSAPublicKeyTest extends PHPUnit_Framework_TestCase
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/rsa_public_key.pem");
 		$pk = RSAPublicKey::fromPEM($pem);
 		$this->assertInstanceOf(RSAPublicKey::class, $pk);
+		return $pk;
+	}
+	
+	/**
+	 * @depends testFromPEM
+	 *
+	 * @param RSAPublicKey $pk
+	 */
+	public function testToPEM(RSAPublicKey $pk) {
+		$pem = $pk->toPEM();
+		$this->assertInstanceOf(PEM::class, $pem);
+		return $pem;
+	}
+	
+	/**
+	 * @depends testToPEM
+	 *
+	 * @param PEM $pem
+	 */
+	public function testRecodedPEM(PEM $pem) {
+		$ref = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/rsa_public_key.pem");
+		$this->assertEquals($ref, $pem);
 	}
 	
 	public function testFromPKIPEM() {

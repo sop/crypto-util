@@ -6,6 +6,7 @@ use CryptoUtil\PEM\PEM;
 use CryptoUtil\ASN1\PrivateKeyInfo;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use ASN1\Element;
+use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Constructed\Sequence;
 
 
@@ -140,5 +141,36 @@ class RSAPrivateKey
 	
 	public function coefficient() {
 		return $this->_coefficient;
+	}
+	
+	/**
+	 * Generate ASN.1 structure
+	 *
+	 * @return Sequence
+	 */
+	public function toASN1() {
+		return new Sequence(new Integer(0), new Integer($this->_modulus), 
+			new Integer($this->_publicExponent), 
+			new Integer($this->_privateExponent), new Integer($this->_prime1), 
+			new Integer($this->_prime2), new Integer($this->_exponent1), 
+			new Integer($this->_exponent2), new Integer($this->_coefficient));
+	}
+	
+	/**
+	 * Generate DER encoding
+	 *
+	 * @return string
+	 */
+	public function toDER() {
+		return $this->toASN1()->toDER();
+	}
+	
+	/**
+	 * Generate PEM
+	 *
+	 * @return PEM
+	 */
+	public function toPEM() {
+		return new PEM(PEM::TYPE_RSA_PRIVATE_KEY, $this->toDER());
 	}
 }

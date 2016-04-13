@@ -2,8 +2,10 @@
 
 namespace CryptoUtil\ASN1;
 
+use CryptoUtil\PEM\PEM;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\BitString;
 
 
 /**
@@ -52,6 +54,20 @@ class PublicKeyInfo
 	}
 	
 	/**
+	 * Initialize from PEM
+	 *
+	 * @param PEM $pem
+	 * @throws \UnexpectedValueException
+	 * @return self
+	 */
+	public static function fromPEM(PEM $pem) {
+		if ($pem->type() != PEM::TYPE_PUBLIC_KEY) {
+			throw new \UnexpectedValueException("Invalid PEM type");
+		}
+		return self::fromDER($pem->data());
+	}
+	
+	/**
 	 * Initialize from DER data
 	 *
 	 * @param string $data
@@ -77,5 +93,33 @@ class PublicKeyInfo
 	 */
 	public function publicKeyData() {
 		return $this->_publicKey;
+	}
+	
+	/**
+	 * Generate ASN.1 structure
+	 *
+	 * @return Sequence
+	 */
+	public function toASN1() {
+		return new Sequence($this->_algo->toASN1(), 
+			new BitString($this->_publicKey));
+	}
+	
+	/**
+	 * Generate DER encoding
+	 *
+	 * @return string
+	 */
+	public function toDER() {
+		return $this->toASN1()->toDER();
+	}
+	
+	/**
+	 * Generate PEM
+	 *
+	 * @return PEM
+	 */
+	public function toPEM() {
+		return new PEM(PEM::TYPE_PUBLIC_KEY, $this->toDER());
 	}
 }

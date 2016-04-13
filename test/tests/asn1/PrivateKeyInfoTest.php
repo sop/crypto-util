@@ -27,4 +27,32 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 			$pki->algorithmIdentifier()
 				->oid());
 	}
+	
+	public function testFromPEM() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem");
+		$pki = PrivateKeyInfo::fromPEM($pem);
+		$this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+		return $pki;
+	}
+	
+	/**
+	 * @depends testFromPEM
+	 *
+	 * @param PrivateKeyInfo $pki
+	 */
+	public function testToPEM(PrivateKeyInfo $pki) {
+		$pem = $pki->toPEM();
+		$this->assertInstanceOf(PEM::class, $pem);
+		return $pem;
+	}
+	
+	/**
+	 * @depends testToPEM
+	 *
+	 * @param PEM $pem
+	 */
+	public function testRecodedPEM(PEM $pem) {
+		$ref = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem");
+		$this->assertEquals($ref, $pem);
+	}
 }

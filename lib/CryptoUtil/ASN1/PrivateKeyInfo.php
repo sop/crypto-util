@@ -2,7 +2,10 @@
 
 namespace CryptoUtil\ASN1;
 
+use CryptoUtil\PEM\PEM;
 use ASN1\Element;
+use ASN1\Type\Primitive\Integer;
+use ASN1\Type\Primitive\OctetString;
 use ASN1\Type\Constructed\Sequence;
 
 
@@ -67,6 +70,20 @@ class PrivateKeyInfo
 	}
 	
 	/**
+	 * Initialize from PEM
+	 *
+	 * @param PEM $pem
+	 * @throws \UnexpectedValueException
+	 * @return self
+	 */
+	public static function fromPEM(PEM $pem) {
+		if ($pem->type() != PEM::TYPE_PRIVATE_KEY) {
+			throw new \UnexpectedValueException("Invalid PEM type");
+		}
+		return self::fromDER($pem->data());
+	}
+	
+	/**
 	 * Get algorithm
 	 *
 	 * @return AlgorithmIdentifier
@@ -82,5 +99,34 @@ class PrivateKeyInfo
 	 */
 	public function privateKeyData() {
 		return $this->_privateKey;
+	}
+	
+	/**
+	 * Generate ASN.1 structure
+	 *
+	 * @return Sequence
+	 */
+	public function toASN1() {
+		$elements = array(new Integer(0), $this->_algo->toASN1(), 
+			new OctetString($this->_privateKey));
+		return new Sequence(...$elements);
+	}
+	
+	/**
+	 * Generate DER encoding
+	 *
+	 * @return string
+	 */
+	public function toDER() {
+		return $this->toASN1()->toDER();
+	}
+	
+	/**
+	 * Generate PEM
+	 *
+	 * @return PEM
+	 */
+	public function toPEM() {
+		return new PEM(PEM::TYPE_PRIVATE_KEY, $this->toDER());
 	}
 }

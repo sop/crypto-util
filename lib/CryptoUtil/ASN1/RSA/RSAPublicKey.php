@@ -6,6 +6,7 @@ use CryptoUtil\PEM\PEM;
 use CryptoUtil\ASN1\PublicKeyInfo;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use ASN1\Element;
+use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Constructed\Sequence;
 
 
@@ -81,5 +82,33 @@ class RSAPublicKey
 	
 	public function publicExponent() {
 		return $this->_publicExponent;
+	}
+	
+	/**
+	 * Generate ASN.1 structure
+	 *
+	 * @return Sequence
+	 */
+	public function toASN1() {
+		return new Sequence(new Integer($this->_modulus), 
+			new Integer($this->_publicExponent));
+	}
+	
+	/**
+	 * Generate DER encoding
+	 *
+	 * @return string
+	 */
+	public function toDER() {
+		return $this->toASN1()->toDER();
+	}
+	
+	/**
+	 * Generate PEM
+	 *
+	 * @return PEM
+	 */
+	public function toPEM() {
+		return new PEM(PEM::TYPE_RSA_PUBLIC_KEY, $this->toDER());
 	}
 }

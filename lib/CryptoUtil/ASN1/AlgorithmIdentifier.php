@@ -2,6 +2,7 @@
 
 namespace CryptoUtil\ASN1;
 
+use CryptoUtil\ASN1\RSA\RSAEncryptionAlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
@@ -50,6 +51,10 @@ class AlgorithmIdentifier
 	public static function fromASN1(Sequence $seq) {
 		$oid = $seq->at(0, Element::TYPE_OBJECT_IDENTIFIER)->oid();
 		$params = $seq->has(1) ? $seq->at(1) : null;
+		switch ($oid) {
+		case self::OID_RSA_ENCRYPTION:
+			return new RSAEncryptionAlgorithmIdentifier();
+		}
 		return new self($oid, $params);
 	}
 	

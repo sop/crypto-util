@@ -17,15 +17,25 @@ use ASN1\Type\Constructed\Sequence;
  */
 class RSAPublicKey
 {
+	/**
+	 * Modulus
+	 *
+	 * @var int|string $_modulus
+	 */
 	protected $_modulus;
 	
+	/**
+	 * Public exponent
+	 *
+	 * @var int|string $_publicExponent
+	 */
 	protected $_publicExponent;
 	
 	/**
 	 * Constructor
 	 *
-	 * @param int|string $n
-	 * @param int|string $e
+	 * @param int|string $n Modulus
+	 * @param int|string $e Public exponent
 	 */
 	public function __construct($n, $e) {
 		$this->_modulus = $n;
@@ -76,10 +86,20 @@ class RSAPublicKey
 		return self::fromDER($pki->publicKeyData());
 	}
 	
+	/**
+	 * Get modulus
+	 *
+	 * @return int|string
+	 */
 	public function modulus() {
 		return $this->_modulus;
 	}
 	
+	/**
+	 * Get public exponent
+	 *
+	 * @return int|string
+	 */
 	public function publicExponent() {
 		return $this->_publicExponent;
 	}

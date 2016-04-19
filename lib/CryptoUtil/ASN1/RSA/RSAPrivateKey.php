@@ -17,33 +17,73 @@ use ASN1\Type\Constructed\Sequence;
  */
 class RSAPrivateKey
 {
+	/**
+	 * Modulus
+	 *
+	 * @var int|string $_modulus
+	 */
 	protected $_modulus;
 	
+	/**
+	 * Public exponent
+	 *
+	 * @var int|string $_publicExponent
+	 */
 	protected $_publicExponent;
 	
+	/**
+	 * Private exponent
+	 *
+	 * @var int|string $_privateExponent
+	 */
 	protected $_privateExponent;
 	
+	/**
+	 * First prime factor
+	 *
+	 * @var int|string $_prime1
+	 */
 	protected $_prime1;
 	
+	/**
+	 * Second prime factor
+	 *
+	 * @var int|string $_prime2
+	 */
 	protected $_prime2;
 	
+	/**
+	 * First factor exponent
+	 *
+	 * @var int|string $_exponent1
+	 */
 	protected $_exponent1;
 	
+	/**
+	 * Second factor exponent
+	 *
+	 * @var int|string $_exponent2
+	 */
 	protected $_exponent2;
 	
+	/**
+	 * CRT coefficient of the second factor
+	 *
+	 * @var int|string $_coefficient
+	 */
 	protected $_coefficient;
 	
 	/**
 	 * Constructor
 	 *
-	 * @param int|string $n
-	 * @param int|string $e
-	 * @param int|string $d
-	 * @param int|string $p
-	 * @param int|string $q
-	 * @param int|string $dp
-	 * @param int|string $dq
-	 * @param int|string $qi
+	 * @param int|string $n Modulus
+	 * @param int|string $e Public exponent
+	 * @param int|string $d Private exponent
+	 * @param int|string $p First prime factor
+	 * @param int|string $q Second prime factor
+	 * @param int|string $dp First factor exponent
+	 * @param int|string $dq Second factor exponent
+	 * @param int|string $qi CRT coefficient of the second factor
 	 */
 	public function __construct($n, $e, $d, $p, $q, $dp, $dq, $qi) {
 		$this->_modulus = $n;
@@ -111,34 +151,74 @@ class RSAPrivateKey
 		return self::fromDER($pki->privateKeyData());
 	}
 	
+	/**
+	 * Get modulus
+	 *
+	 * @return int|string
+	 */
 	public function modulus() {
 		return $this->_modulus;
 	}
 	
+	/**
+	 * Get public exponent
+	 *
+	 * @return int|string
+	 */
 	public function publicExponent() {
 		return $this->_publicExponent;
 	}
 	
+	/**
+	 * Get private exponent
+	 *
+	 * @return int|string
+	 */
 	public function privateExponent() {
 		return $this->_privateExponent;
 	}
 	
+	/**
+	 * Get first prime factor
+	 *
+	 * @return int|string
+	 */
 	public function prime1() {
 		return $this->_prime1;
 	}
 	
+	/**
+	 * Get second prime factor
+	 *
+	 * @return int|string
+	 */
 	public function prime2() {
 		return $this->_prime2;
 	}
 	
+	/**
+	 * Get first factor exponent
+	 *
+	 * @return int|string
+	 */
 	public function exponent1() {
 		return $this->_exponent1;
 	}
 	
+	/**
+	 * Get second factor exponent
+	 *
+	 * @return int|string
+	 */
 	public function exponent2() {
 		return $this->_exponent2;
 	}
 	
+	/**
+	 * Get CRT coefficient of the second factor
+	 *
+	 * @return int|string
+	 */
 	public function coefficient() {
 		return $this->_coefficient;
 	}

@@ -2,7 +2,11 @@
 
 namespace CryptoUtil\ASN1;
 
-use CryptoUtil\ASN1\RSA\RSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\GenericAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
@@ -13,9 +17,45 @@ use ASN1\Type\Primitive\ObjectIdentifier;
  *
  * @link https://tools.ietf.org/html/rfc2898#appendix-C
  */
-class AlgorithmIdentifier
+abstract class AlgorithmIdentifier
 {
+	// RSA encryption
 	const OID_RSA_ENCRYPTION = "1.2.840.113549.1.1.1";
+	
+	// RSA signature algorithms
+	const OID_MD2_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.2";
+	const OID_MD4_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.3";
+	const OID_MD5_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.4";
+	const OID_SHA1_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.5";
+	const OID_SHA256_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.11";
+	const OID_SHA384_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.12";
+	const OID_SHA512_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.13";
+	
+	const OID_EC_PUBLIC_KEY = "1.2.840.10045.2.1";
+	const OID_ECDSA_WITH_SHA1 = "1.2.840.10045.4.1";
+	const OID_ECDSA_WITH_SHA224 = "1.2.840.10045.4.3.1";
+	const OID_ECDSA_WITH_SHA256 = "1.2.840.10045.4.3.2";
+	const OID_ECDSA_WITH_SHA384 = "1.2.840.10045.4.3.3";
+	const OID_ECDSA_WITH_SHA512 = "1.2.840.10045.4.3.4";
+	
+	// Cipher algorithms
+	const OID_DES_CBC = "1.3.14.3.2.7";
+	const OID_RC2_CBC = "1.2.840.113549.3.2";
+	const OID_DES_EDE3_CBC = "1.2.840.113549.3.7";
+	
+	/**
+	 * Mapping from OID to class name
+	 *
+	 * @var array
+	 */
+	private static $_oidToCls = array(
+		/* @formatter:off */
+		self::OID_RSA_ENCRYPTION => RSAEncryptionAlgorithmIdentifier::class,
+		self::OID_DES_CBC => DESCBCAlgorithmIdentifier::class,
+		self::OID_DES_EDE3_CBC => DESEDE3CBCAlgorithmIdentifier::class,
+		self::OID_RC2_CBC => RC2CBCAlgorithmIdentifier::class
+		/* @formatter:on */
+	);
 	
 	/**
 	 * Object identifier
@@ -25,22 +65,13 @@ class AlgorithmIdentifier
 	protected $_oid;
 	
 	/**
-	 * Algorithm specific parameters
+	 * Get algorithm identifier parameters as ASN.1.
 	 *
-	 * @var Element|null $_params
-	 */
-	protected $_params;
-	
-	/**
-	 * Constructor
+	 * If type allows parameters to be omitted, return null.
 	 *
-	 * @param string $oid Algorithm OID
-	 * @param Element $params Parameters
+	 * @return Element|null
 	 */
-	public function __construct($oid, Element $params = null) {
-		$this->_oid = $oid;
-		$this->_params = $params;
-	}
+	abstract protected function _paramsASN1();
 	
 	/**
 	 * Initialize from ASN.1
@@ -51,15 +82,16 @@ class AlgorithmIdentifier
 	public static function fromASN1(Sequence $seq) {
 		$oid = $seq->at(0, Element::TYPE_OBJECT_IDENTIFIER)->oid();
 		$params = $seq->has(1) ? $seq->at(1) : null;
-		switch ($oid) {
-		case self::OID_RSA_ENCRYPTION:
-			return new RSAEncryptionAlgorithmIdentifier();
+		// if algorithm identifier has a specific implementation
+		if (isset(self::$_oidToCls[$oid])) {
+			$cls = self::$_oidToCls[$oid];
+			return $cls::_fromASN1Params($params);
 		}
-		return new self($oid, $params);
+		return new GenericAlgorithmIdentifier($oid, $params);
 	}
 	
 	/**
-	 * Get algorithm OID
+	 * Get object identifier
 	 *
 	 * @return string
 	 */
@@ -74,8 +106,9 @@ class AlgorithmIdentifier
 	 */
 	public function toASN1() {
 		$elements = array(new ObjectIdentifier($this->_oid));
-		if (isset($this->_params)) {
-			$elements[] = $this->_params;
+		$params = $this->_paramsASN1();
+		if (isset($params)) {
+			$elements[] = $params;
 		}
 		return new Sequence(...$elements);
 	}

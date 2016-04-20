@@ -3,7 +3,7 @@
 use CryptoUtil\PEM\PEM;
 use CryptoUtil\ASN1\PublicKeyInfo;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
-use CryptoUtil\ASN1\RSA\RSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
 
 
 /**

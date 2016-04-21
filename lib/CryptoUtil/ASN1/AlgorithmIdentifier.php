@@ -8,6 +8,9 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\MD2WithRSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\MD5WithRSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
@@ -69,7 +72,10 @@ abstract class AlgorithmIdentifier
 		self::OID_DES_CBC => DESCBCAlgorithmIdentifier::class,
 		self::OID_DES_EDE3_CBC => DESEDE3CBCAlgorithmIdentifier::class,
 		self::OID_RC2_CBC => RC2CBCAlgorithmIdentifier::class,
-		self::OID_HMAC_WITH_SHA1 => HMACWithSHA1AlgorithmIdentifier::class
+		self::OID_HMAC_WITH_SHA1 => HMACWithSHA1AlgorithmIdentifier::class,
+		self::OID_MD2_WITH_RSA_ENCRYPTION => MD2WithRSAEncryptionAlgorithmIdentifier::class,
+		self::OID_MD5_WITH_RSA_ENCRYPTION => MD5WithRSAEncryptionAlgorithmIdentifier::class,
+		self::OID_SHA1_WITH_RSA_ENCRYPTION => SHA1WithRSAEncryptionAlgorithmIdentifier::class
 		/* @formatter:on */
 	);
 	

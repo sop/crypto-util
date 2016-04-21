@@ -7,7 +7,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
  *
  * @link https://tools.ietf.org/html/rfc3279#section-2.2.1
  */
-class SHA1WithRSAEncryptionAlgorithmIdentifier extends RSASignatureAlgorithmIdentifier
+class SHA1WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorithmIdentifier
 {
 	/**
 	 * Constructor

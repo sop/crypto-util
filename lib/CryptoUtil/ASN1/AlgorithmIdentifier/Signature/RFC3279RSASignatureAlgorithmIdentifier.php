@@ -22,7 +22,7 @@ From RFC 3279 - 2.2.1  RSA Signature Algorithm:
  *
  * @link https://tools.ietf.org/html/rfc3279#section-2.2.1
  */
-abstract class RSASignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
+abstract class RFC3279RSASignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
 	SignatureAlgorithmIdentifier
 {
 	protected static function _fromASN1Params(Element $params = null) {

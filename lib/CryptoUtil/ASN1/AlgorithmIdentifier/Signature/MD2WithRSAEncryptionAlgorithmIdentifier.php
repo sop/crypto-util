@@ -7,7 +7,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
  *
  * @link https://tools.ietf.org/html/rfc3279#section-2.2.1
  */
-class MD2WithRSAEncryptionAlgorithmIdentifier extends RSASignatureAlgorithmIdentifier
+class MD2WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorithmIdentifier
 {
 	/**
 	 * Constructor

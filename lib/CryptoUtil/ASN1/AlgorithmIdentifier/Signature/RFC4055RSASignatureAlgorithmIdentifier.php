@@ -24,11 +24,21 @@ From RFC 4055 - 5.  PKCS #1 Version 1.5 Signature Algorithm
 abstract class RFC4055RSASignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
 	SignatureAlgorithmIdentifier
 {
+	/**
+	 * Parameters
+	 *
+	 * @var Element|null $_params
+	 */
+	protected $_params;
+	
 	protected static function _fromASN1Params(Element $params = null) {
-		return new static();
+		$obj = new static();
+		// store parameters so re-encoding doesn't change
+		$obj->_params = $params;
+		return $obj;
 	}
 	
 	protected function _paramsASN1() {
-		return null;
+		return $this->_params;
 	}
 }

@@ -7,10 +7,19 @@ use ASN1\Element;
 use ASN1\Type\Primitive\OctetString;
 
 
+/* @formatter:off *//*
+
+RFC 2898 defines parameters as follows:
+
+{OCTET STRING (SIZE(8)) IDENTIFIED BY des-EDE3-CBC}
+
+*//* @formatter:on */
+
 /**
  *
  * @link http://www.alvestrand.no/objectid/1.2.840.113549.3.7.html
  * @link http://oid-info.com/get/1.2.840.113549.3.7
+ * @link https://tools.ietf.org/html/rfc2898#appendix-C
  * @link https://tools.ietf.org/html/rfc2630#section-12.4.1
  */
 class DESEDE3CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements 

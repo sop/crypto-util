@@ -2,6 +2,7 @@
 
 namespace CryptoUtil\ASN1;
 
+use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
@@ -19,6 +20,12 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA224EncryptionAlgor
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA256EncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA384EncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA512EncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndDESCBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndRC2CBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithSHA1AndDESCBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithSHA1AndRC2CBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBKDF2AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBES2AlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
@@ -30,7 +37,7 @@ use ASN1\Type\Primitive\ObjectIdentifier;
  * @link https://tools.ietf.org/html/rfc2898#appendix-C
  * @link https://tools.ietf.org/html/rfc3447#appendix-C
  */
-abstract class AlgorithmIdentifier
+abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 {
 	// RSA encryption
 	const OID_RSA_ENCRYPTION = "1.2.840.113549.1.1.1";
@@ -93,7 +100,13 @@ abstract class AlgorithmIdentifier
 		self::OID_ECDSA_WITH_SHA224 => ECDSAWithSHA224EncryptionAlgorithmIdentifier::class,
 		self::OID_ECDSA_WITH_SHA256 => ECDSAWithSHA256EncryptionAlgorithmIdentifier::class,
 		self::OID_ECDSA_WITH_SHA384 => ECDSAWithSHA384EncryptionAlgorithmIdentifier::class,
-		self::OID_ECDSA_WITH_SHA512 => ECDSAWithSHA512EncryptionAlgorithmIdentifier::class
+		self::OID_ECDSA_WITH_SHA512 => ECDSAWithSHA512EncryptionAlgorithmIdentifier::class,
+		self::OID_PBE_WITH_MD5_AND_DES_CBC => PBEWithMD5AndDESCBCAlgorithmIdentifier::class,
+		self::OID_PBE_WITH_MD5_AND_RC2_CBC => PBEWithMD5AndRC2CBCAlgorithmIdentifier::class,
+		self::OID_PBE_WITH_SHA1_AND_DES_CBC => PBEWithSHA1AndDESCBCAlgorithmIdentifier::class,
+		self::OID_PBE_WITH_SHA1_AND_RC2_CBC => PBEWithSHA1AndRC2CBCAlgorithmIdentifier::class,
+		self::OID_PBKDF2 => PBKDF2AlgorithmIdentifier::class,
+		self::OID_PBES2 => PBES2AlgorithmIdentifier::class
 		/* @formatter:on */
 	);
 	

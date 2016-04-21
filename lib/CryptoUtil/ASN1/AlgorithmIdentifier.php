@@ -5,6 +5,7 @@ namespace CryptoUtil\ASN1;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
@@ -58,6 +59,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	const OID_ECDSA_WITH_SHA384 = "1.2.840.10045.4.3.3";
 	const OID_ECDSA_WITH_SHA512 = "1.2.840.10045.4.3.4";
 	
+	// Elliptic Curve public key
 	const OID_EC_PUBLIC_KEY = "1.2.840.10045.2.1";
 	
 	// Cipher algorithms
@@ -86,6 +88,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	private static $_oidToCls = array(
 		/* @formatter:off */
 		self::OID_RSA_ENCRYPTION => RSAEncryptionAlgorithmIdentifier::class,
+		self::OID_EC_PUBLIC_KEY => ECPublicKeyAlgorithmIdentifier::class,
 		self::OID_DES_CBC => DESCBCAlgorithmIdentifier::class,
 		self::OID_DES_EDE3_CBC => DESEDE3CBCAlgorithmIdentifier::class,
 		self::OID_RC2_CBC => RC2CBCAlgorithmIdentifier::class,

@@ -1,7 +1,7 @@
 <?php
 
 use CryptoUtil\ASN1\AlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA224EncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA224AlgorithmIdentifier;
 use ASN1\Type\Constructed\Sequence;
 
 
@@ -12,7 +12,7 @@ use ASN1\Type\Constructed\Sequence;
 class ECDSAWithSHA224AITest extends PHPUnit_Framework_TestCase
 {
 	public function testEncode() {
-		$ai = new ECDSAWithSHA224EncryptionAlgorithmIdentifier();
+		$ai = new ECDSAWithSHA224AlgorithmIdentifier();
 		$seq = $ai->toASN1();
 		$this->assertInstanceOf(Sequence::class, $seq);
 		return $seq;
@@ -26,7 +26,7 @@ class ECDSAWithSHA224AITest extends PHPUnit_Framework_TestCase
 	public function testDecode(Sequence $seq) {
 		$ai = AlgorithmIdentifier::fromASN1($seq);
 		$this->assertInstanceOf(
-			ECDSAWithSHA224EncryptionAlgorithmIdentifier::class, $ai);
+			ECDSAWithSHA224AlgorithmIdentifier::class, $ai);
 		return $ai;
 	}
 }

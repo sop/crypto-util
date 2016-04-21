@@ -5,9 +5,9 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 
 /**
  *
- * @link https://tools.ietf.org/html/rfc4055#section-5
+ * @link https://tools.ietf.org/html/rfc3279#section-2.2.3
  */
-class ECDSAWithSHA1EncryptionAlgorithmIdentifier extends ECSignatureAlgorithmIdentifier
+class ECDSAWithSHA1AlgorithmIdentifier extends ECSignatureAlgorithmIdentifier
 {
 	/**
 	 * Constructor

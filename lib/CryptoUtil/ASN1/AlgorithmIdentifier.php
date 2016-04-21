@@ -16,11 +16,11 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithm
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA384WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA1EncryptionAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA224EncryptionAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA256EncryptionAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA384EncryptionAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA512EncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA224AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA256AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA384AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA512AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndDESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndRC2CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithSHA1AndDESCBCAlgorithmIdentifier;
@@ -99,11 +99,11 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 		self::OID_SHA256_WITH_RSA_ENCRYPTION => SHA256WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA384_WITH_RSA_ENCRYPTION => SHA384WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA512_WITH_RSA_ENCRYPTION => SHA512WithRSAEncryptionAlgorithmIdentifier::class,
-		self::OID_ECDSA_WITH_SHA1 => ECDSAWithSHA1EncryptionAlgorithmIdentifier::class,
-		self::OID_ECDSA_WITH_SHA224 => ECDSAWithSHA224EncryptionAlgorithmIdentifier::class,
-		self::OID_ECDSA_WITH_SHA256 => ECDSAWithSHA256EncryptionAlgorithmIdentifier::class,
-		self::OID_ECDSA_WITH_SHA384 => ECDSAWithSHA384EncryptionAlgorithmIdentifier::class,
-		self::OID_ECDSA_WITH_SHA512 => ECDSAWithSHA512EncryptionAlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA1 => ECDSAWithSHA1AlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA224 => ECDSAWithSHA224AlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA256 => ECDSAWithSHA256AlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA384 => ECDSAWithSHA384AlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA512 => ECDSAWithSHA512AlgorithmIdentifier::class,
 		self::OID_PBE_WITH_MD5_AND_DES_CBC => PBEWithMD5AndDESCBCAlgorithmIdentifier::class,
 		self::OID_PBE_WITH_MD5_AND_RC2_CBC => PBEWithMD5AndRC2CBCAlgorithmIdentifier::class,
 		self::OID_PBE_WITH_SHA1_AND_DES_CBC => PBEWithSHA1AndDESCBCAlgorithmIdentifier::class,

@@ -6,7 +6,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Feature;
 /**
  * Algorithm identifier for block ciphers
  */
-interface BlockCipherAlgorithmIdentifier
+interface BlockCipherAlgorithmIdentifier extends AlgorithmIdentifierType
 {
 	/**
 	 * Get block size in bytes

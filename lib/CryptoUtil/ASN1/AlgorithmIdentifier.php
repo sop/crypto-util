@@ -14,6 +14,11 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithm
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA384WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA1EncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA224EncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA256EncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA384EncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA512EncryptionAlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
@@ -39,12 +44,14 @@ abstract class AlgorithmIdentifier
 	const OID_SHA384_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.12";
 	const OID_SHA512_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.13";
 	
-	const OID_EC_PUBLIC_KEY = "1.2.840.10045.2.1";
+	// Elliptic Curve signature algorithms
 	const OID_ECDSA_WITH_SHA1 = "1.2.840.10045.4.1";
 	const OID_ECDSA_WITH_SHA224 = "1.2.840.10045.4.3.1";
 	const OID_ECDSA_WITH_SHA256 = "1.2.840.10045.4.3.2";
 	const OID_ECDSA_WITH_SHA384 = "1.2.840.10045.4.3.3";
 	const OID_ECDSA_WITH_SHA512 = "1.2.840.10045.4.3.4";
+	
+	const OID_EC_PUBLIC_KEY = "1.2.840.10045.2.1";
 	
 	// Cipher algorithms
 	const OID_DES_CBC = "1.3.14.3.2.7";
@@ -81,7 +88,12 @@ abstract class AlgorithmIdentifier
 		self::OID_SHA1_WITH_RSA_ENCRYPTION => SHA1WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA256_WITH_RSA_ENCRYPTION => SHA256WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA384_WITH_RSA_ENCRYPTION => SHA384WithRSAEncryptionAlgorithmIdentifier::class,
-		self::OID_SHA512_WITH_RSA_ENCRYPTION => SHA512WithRSAEncryptionAlgorithmIdentifier::class
+		self::OID_SHA512_WITH_RSA_ENCRYPTION => SHA512WithRSAEncryptionAlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA1 => ECDSAWithSHA1EncryptionAlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA224 => ECDSAWithSHA224EncryptionAlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA256 => ECDSAWithSHA256EncryptionAlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA384 => ECDSAWithSHA384EncryptionAlgorithmIdentifier::class,
+		self::OID_ECDSA_WITH_SHA512 => ECDSAWithSHA512EncryptionAlgorithmIdentifier::class
 		/* @formatter:on */
 	);
 	

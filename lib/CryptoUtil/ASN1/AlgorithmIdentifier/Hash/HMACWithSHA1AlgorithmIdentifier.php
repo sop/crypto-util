@@ -18,6 +18,7 @@ algid-hmacWithSHA1 AlgorithmIdentifier {{PBKDF2-PRFs}} ::=
 *//* @formatter:on */
 
 /**
+ * HMAC-SHA-1 algorithm identifier.
  *
  * @link http://www.alvestrand.no/objectid/1.2.840.113549.2.7.html
  * @link http://www.oid-info.com/get/1.2.840.113549.2.7

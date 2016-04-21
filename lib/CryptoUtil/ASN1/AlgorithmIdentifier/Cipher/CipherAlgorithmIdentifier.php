@@ -5,6 +5,9 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Cipher;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
+/**
+ * Base class for cipher algorithm identifiers.
+ */
 abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
 	/**

@@ -7,15 +7,17 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
 
 
 /**
- * Implements PKCS #5 AlgorithmIdentifier ASN.1 type.
+ * Implements AlgorithmIdentifier ASN.1 type.
  *
  * @link https://tools.ietf.org/html/rfc2898#appendix-C
+ * @link https://tools.ietf.org/html/rfc3447#appendix-C
  */
 abstract class AlgorithmIdentifier
 {
@@ -43,6 +45,19 @@ abstract class AlgorithmIdentifier
 	const OID_RC2_CBC = "1.2.840.113549.3.2";
 	const OID_DES_EDE3_CBC = "1.2.840.113549.3.7";
 	
+	// PKCS #5 algorithms
+	const OID_PBE_WITH_MD2_AND_DES_CBC = "1.2.840.113549.1.5.1";
+	const OID_PBE_WITH_MD5_AND_DES_CBC = "1.2.840.113549.1.5.3";
+	const OID_PBE_WITH_MD2_AND_RC2_CBC = "1.2.840.113549.1.5.4";
+	const OID_PBE_WITH_MD5_AND_RC2_CBC = "1.2.840.113549.1.5.6";
+	const OID_PBE_WITH_MD5_AND_XOR = "1.2.840.113549.1.5.9";
+	const OID_PBE_WITH_SHA1_AND_DES_CBC = "1.2.840.113549.1.5.10";
+	const OID_PBE_WITH_SHA1_AND_RC2_CBC = "1.2.840.113549.1.5.11";
+	const OID_PBKDF2 = "1.2.840.113549.1.5.12";
+	const OID_PBES2 = "1.2.840.113549.1.5.13";
+	const OID_PBMAC1 = "1.2.840.113549.1.5.14";
+	const OID_HMAC_WITH_SHA1 = "1.2.840.113549.2.7";
+	
 	/**
 	 * Mapping from OID to class name
 	 *
@@ -53,7 +68,8 @@ abstract class AlgorithmIdentifier
 		self::OID_RSA_ENCRYPTION => RSAEncryptionAlgorithmIdentifier::class,
 		self::OID_DES_CBC => DESCBCAlgorithmIdentifier::class,
 		self::OID_DES_EDE3_CBC => DESEDE3CBCAlgorithmIdentifier::class,
-		self::OID_RC2_CBC => RC2CBCAlgorithmIdentifier::class
+		self::OID_RC2_CBC => RC2CBCAlgorithmIdentifier::class,
+		self::OID_HMAC_WITH_SHA1 => HMACWithSHA1AlgorithmIdentifier::class
 		/* @formatter:on */
 	);
 	

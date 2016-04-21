@@ -7,10 +7,20 @@ use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
 
 
+/* @formatter:off *//*
+
+From RFC 3447:
+
+    When rsaEncryption is used in an AlgorithmIdentifier the
+    parameters MUST be present and MUST be NULL.
+
+*//* @formatter:on */
+
 /**
  * RSA Encryption
  *
  * @link http://www.oid-info.com/get/1.2.840.113549.1.1.1
+ * @link https://tools.ietf.org/html/rfc3447#appendix-C
  */
 class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {

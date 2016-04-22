@@ -30,4 +30,16 @@ class PublicKeyTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(ECPublicKey::class, $pk);
 		return $pk;
 	}
+	
+	public function testRSAPKIRecode() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/public_key.pem");
+		$result = PublicKey::fromPEM($pem)->publicKeyInfo()->toPEM();
+		$this->assertEquals($pem, $result);
+	}
+	
+	public function testECPKIRecode() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/ec/public_key.pem");
+		$result = PublicKey::fromPEM($pem)->publicKeyInfo()->toPEM();
+		$this->assertEquals($pem, $result);
+	}
 }

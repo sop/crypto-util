@@ -9,6 +9,13 @@ use CryptoUtil\PEM\PEM;
 abstract class PublicKey
 {
 	/**
+	 * Get public key info for the public key.
+	 *
+	 * @return PublicKeyInfo
+	 */
+	abstract public function publicKeyInfo();
+	
+	/**
 	 * Get DER encoding of the public key.
 	 *
 	 * @return string

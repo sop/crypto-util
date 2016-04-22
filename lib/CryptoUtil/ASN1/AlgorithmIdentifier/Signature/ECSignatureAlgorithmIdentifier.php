@@ -2,9 +2,9 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 
-use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use ASN1\Element;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
 /* @formatter:off *//*

@@ -2,10 +2,10 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\PBE;
 
-use CryptoUtil\ASN1\AlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 
 
 /* @formatter:off *//*
@@ -50,7 +50,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 	 * @param CipherAlgorithmIdentifier $es
 	 */
 	public function __construct(PBKDF2AlgorithmIdentifier $kdf, 
-		CipherAlgorithmIdentifier $es) {
+			CipherAlgorithmIdentifier $es) {
 		parent::__construct($kdf->salt(), $kdf->iterationCount());
 		$this->_oid = self::OID_PBES2;
 		$this->_kdf = $kdf;

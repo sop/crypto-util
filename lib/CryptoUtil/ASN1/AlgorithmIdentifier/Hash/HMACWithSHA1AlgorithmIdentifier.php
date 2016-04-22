@@ -2,10 +2,10 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Hash;
 
-use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use ASN1\Element;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
-use ASN1\Element;
+use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
 /* @formatter:off *//*

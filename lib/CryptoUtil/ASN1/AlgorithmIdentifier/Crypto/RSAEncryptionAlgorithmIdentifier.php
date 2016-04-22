@@ -2,9 +2,9 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Crypto;
 
-use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
+use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
 /* @formatter:off *//*

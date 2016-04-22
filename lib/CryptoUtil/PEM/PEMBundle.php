@@ -74,8 +74,6 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	
 	/**
 	 *
-	 * {@inheritDoc}
-	 *
 	 * @see Countable::count()
 	 */
 	public function count() {

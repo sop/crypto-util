@@ -2,14 +2,14 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\PBE;
 
-use CryptoUtil\ASN1\AlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
 use ASN1\Element;
+use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
-use ASN1\Type\Constructed\Sequence;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
 /* @formatter:off *//*
@@ -73,12 +73,13 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	 * @param PRFAlgorithmIdentifier|null $prf_algo Default to HMAC-SHA1
 	 */
 	public function __construct($salt, $iteration_count, $key_length = null, 
-		PRFAlgorithmIdentifier $prf_algo = null) {
+			PRFAlgorithmIdentifier $prf_algo = null) {
 		$this->_oid = self::OID_PBKDF2;
 		$this->_specifiedSalt = $salt;
 		$this->_iterationCount = $iteration_count;
 		$this->_keyLength = $key_length;
-		$this->_prfAlgo = isset($prf_algo) ? $prf_algo : new HMACWithSHA1AlgorithmIdentifier();
+		$this->_prfAlgo = isset($prf_algo) ?
+			$prf_algo : new HMACWithSHA1AlgorithmIdentifier();
 	}
 	
 	protected static function _fromASN1Params(Element $params = null) {

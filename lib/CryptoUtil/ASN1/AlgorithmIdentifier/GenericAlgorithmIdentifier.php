@@ -2,8 +2,8 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier;
 
-use CryptoUtil\ASN1\AlgorithmIdentifier;
 use ASN1\Element;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
 
 
 /**

@@ -3,9 +3,9 @@
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\PBE;
 
 use ASN1\Element;
+use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
-use ASN1\Type\Constructed\Sequence;
 
 
 /* @formatter:off *//*

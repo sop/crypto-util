@@ -2,9 +2,10 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 
-use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use ASN1\Element;
+use ASN1\Type\Primitive\NullType;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
 /* @formatter:off *//*
@@ -30,6 +31,10 @@ abstract class RFC4055RSASignatureAlgorithmIdentifier extends SpecificAlgorithmI
 	 * @var Element|null $_params
 	 */
 	protected $_params;
+	
+	public function __construct() {
+		$this->_params = new NullType();
+	}
 	
 	protected static function _fromASN1Params(Element $params = null) {
 		$obj = new static();

@@ -13,6 +13,7 @@ class SHA256WithRSAEncryptionAlgorithmIdentifier extends RFC4055RSASignatureAlgo
 	 * Constructor
 	 */
 	public function __construct() {
+		parent::__construct();
 		$this->_oid = self::OID_SHA256_WITH_RSA_ENCRYPTION;
 	}
 }

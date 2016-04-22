@@ -67,4 +67,24 @@ class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 		$ref = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/public_key.pem");
 		$this->assertEquals($ref, $pem);
 	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param PublicKeyInfo $pki
+	 */
+	public function testKeyIdentifier(PublicKeyInfo $pki) {
+		$id = $pki->keyIdentifier();
+		$this->assertEquals(160, strlen($id) * 8);
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param PublicKeyInfo $pki
+	 */
+	public function testKeyIdentifier64(PublicKeyInfo $pki) {
+		$id = $pki->keyIdentifier64();
+		$this->assertEquals(64, strlen($id) * 8);
+	}
 }

@@ -115,6 +115,29 @@ class PublicKeyInfo
 	}
 	
 	/**
+	 * Get key identifier using method 1 as described by RFC 5280.
+	 *
+	 * @link https://tools.ietf.org/html/rfc5280#section-4.2.1.2
+	 * @return string 20 bytes (160 bits) long identifier
+	 */
+	public function keyIdentifier() {
+		return sha1($this->_publicKeyData, true);
+	}
+	
+	/**
+	 * Get key identifier using method 2 as described by RFC 5280.
+	 *
+	 * @link https://tools.ietf.org/html/rfc5280#section-4.2.1.2
+	 * @return string 8 bytes (64 bits) long identifier
+	 */
+	public function keyIdentifier64() {
+		$id = substr($this->keyIdentifier(), -8);
+		$c = (ord($id[0]) & 0x0f) | 0x40;
+		$id[0] = chr($c);
+		return $id;
+	}
+	
+	/**
 	 * Generate ASN.1 structure
 	 *
 	 * @return Sequence

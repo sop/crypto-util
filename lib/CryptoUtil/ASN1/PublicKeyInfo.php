@@ -3,6 +3,8 @@
 namespace CryptoUtil\ASN1;
 
 use CryptoUtil\PEM\PEM;
+use CryptoUtil\ASN1\RSA\RSAPublicKey;
+use CryptoUtil\ASN1\EC\ECPublicKey;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\BitString;
@@ -25,9 +27,9 @@ class PublicKeyInfo
 	/**
 	 * Public key data
 	 *
-	 * @var string $_publicKey
+	 * @var string $_publicKeyData
 	 */
-	protected $_publicKey;
+	protected $_publicKeyData;
 	
 	/**
 	 * Constructor
@@ -37,7 +39,7 @@ class PublicKeyInfo
 	 */
 	public function __construct(AlgorithmIdentifier $algo, $key) {
 		$this->_algo = $algo;
-		$this->_publicKey = $key;
+		$this->_publicKeyData = $key;
 	}
 	
 	/**
@@ -49,7 +51,7 @@ class PublicKeyInfo
 	public static function fromASN1(Sequence $seq) {
 		$algo = AlgorithmIdentifier::fromASN1(
 			$seq->at(0, Element::TYPE_SEQUENCE));
-		$key = $seq->at(1, Element::TYPE_STRING)->str();
+		$key = $seq->at(1, Element::TYPE_BIT_STRING)->str();
 		return new self($algo, $key);
 	}
 	
@@ -92,7 +94,24 @@ class PublicKeyInfo
 	 * @return string
 	 */
 	public function publicKeyData() {
-		return $this->_publicKey;
+		return $this->_publicKeyData;
+	}
+	
+	/**
+	 * Get public key
+	 *
+	 * @throws \RuntimeException
+	 * @return PublicKey
+	 */
+	public function publicKey() {
+		switch ($this->_algo->oid()) {
+		case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
+			return RSAPublicKey::fromDER($this->_publicKeyData);
+		case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
+			return ECPublicKey::fromDER($this->_publicKeyData);
+		}
+		throw new \RuntimeException(
+			"Public key " . $this->_algo->oid() . " not supported");
 	}
 	
 	/**
@@ -102,7 +121,7 @@ class PublicKeyInfo
 	 */
 	public function toASN1() {
 		return new Sequence($this->_algo->toASN1(), 
-			new BitString($this->_publicKey));
+			new BitString($this->_publicKeyData));
 	}
 	
 	/**

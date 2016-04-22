@@ -3,6 +3,8 @@
 namespace CryptoUtil\ASN1;
 
 use CryptoUtil\PEM\PEM;
+use CryptoUtil\ASN1\RSA\RSAPrivateKey;
+use CryptoUtil\ASN1\EC\ECPrivateKey;
 use ASN1\Element;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
@@ -28,7 +30,7 @@ class PrivateKeyInfo
 	 *
 	 * @var string $_privateKey
 	 */
-	protected $_privateKey;
+	protected $_privateKeyData;
 	
 	/**
 	 * Constructor
@@ -38,7 +40,7 @@ class PrivateKeyInfo
 	 */
 	public function __construct(AlgorithmIdentifier $algo, $key) {
 		$this->_algo = $algo;
-		$this->_privateKey = $key;
+		$this->_privateKeyData = $key;
 	}
 	
 	/**
@@ -55,7 +57,8 @@ class PrivateKeyInfo
 		}
 		$algo = AlgorithmIdentifier::fromASN1(
 			$seq->at(1, Element::TYPE_SEQUENCE));
-		$key = $seq->at(2, Element::TYPE_STRING)->str();
+		$key = $seq->at(2, Element::TYPE_OCTET_STRING)->str();
+		// @todo parse attributes
 		return new self($algo, $key);
 	}
 	
@@ -98,7 +101,24 @@ class PrivateKeyInfo
 	 * @return string
 	 */
 	public function privateKeyData() {
-		return $this->_privateKey;
+		return $this->_privateKeyData;
+	}
+	
+	/**
+	 * Get private key
+	 *
+	 * @throws \RuntimeException
+	 * @return PrivateKey
+	 */
+	public function privateKey() {
+		switch ($this->_algo->oid()) {
+		case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
+			return RSAPrivateKey::fromDER($this->_privateKeyData);
+		case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
+			return ECPrivateKey::fromDER($this->_privateKeyData);
+		}
+		throw new \RuntimeException(
+			"Private key " . $this->_algo->oid() . " not supported");
 	}
 	
 	/**
@@ -108,7 +128,7 @@ class PrivateKeyInfo
 	 */
 	public function toASN1() {
 		$elements = array(new Integer(0), $this->_algo->toASN1(), 
-			new OctetString($this->_privateKey));
+			new OctetString($this->_privateKeyData));
 		return new Sequence(...$elements);
 	}
 	

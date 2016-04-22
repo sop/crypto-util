@@ -2,13 +2,13 @@
 
 namespace CryptoUtil\ASN1\RSA;
 
-use CryptoUtil\PEM\PEM;
+use ASN1\Element;
+use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\Integer;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\PublicKey;
 use CryptoUtil\ASN1\PublicKeyInfo;
-use CryptoUtil\ASN1\AlgorithmIdentifier;
-use ASN1\Element;
-use ASN1\Type\Primitive\Integer;
-use ASN1\Type\Constructed\Sequence;
+use CryptoUtil\PEM\PEM;
 
 
 /**

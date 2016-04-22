@@ -2,8 +2,8 @@
 
 namespace CryptoUtil\ASN1;
 
-use CryptoUtil\PEM\PEM;
 use CryptoUtil\ASN1\RSA\RSAPublicKey;
+use CryptoUtil\PEM\PEM;
 
 
 abstract class PublicKey
@@ -25,7 +25,7 @@ abstract class PublicKey
 	public static function fromPEM(PEM $pem) {
 		switch ($pem->type()) {
 		case PEM::TYPE_RSA_PUBLIC_KEY:
-			return RSAPublicKey::fromPEM($pem);
+			return RSAPublicKey::fromDER($pem->data());
 		case PEM::TYPE_PUBLIC_KEY:
 			return PublicKeyInfo::fromPEM($pem)->publicKey();
 		}

@@ -1,8 +1,10 @@
 <?php
 
-use CryptoUtil\PEM\PEM;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPrivateKey;
 use CryptoUtil\ASN1\EC\ECPublicKey;
+use CryptoUtil\ASN1\PrivateKeyInfo;
+use CryptoUtil\PEM\PEM;
 
 
 /**
@@ -50,6 +52,17 @@ class ECPrivateKeyTest extends PHPUnit_Framework_TestCase
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/ec/private_key.pem");
 		$pk = ECPrivateKey::fromPEM($pem);
 		$this->assertInstanceOf(ECPrivateKey::class, $pk);
+		return $pk;
+	}
+	
+	/**
+	 * @depends testFromPKIPEM
+	 *
+	 * @param ECPrivateKey $pk
+	 */
+	public function testHasNamedCurveFromPKI(ECPrivateKey $pk) {
+		$this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, 
+			$pk->namedCurve());
 	}
 	
 	/**
@@ -62,5 +75,15 @@ class ECPrivateKeyTest extends PHPUnit_Framework_TestCase
 		$ref = ECPublicKey::fromPEM(
 			PEM::fromFile(TEST_ASSETS_DIR . "/ec/public_key.pem"));
 		$this->assertEquals($ref, $pub);
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param ECPrivateKey $pk
+	 */
+	public function testGetPrivateKeyInfo(ECPrivateKey $pk) {
+		$pki = $pk->privateKeyInfo();
+		$this->assertInstanceOf(PrivateKeyInfo::class, $pki);
 	}
 }

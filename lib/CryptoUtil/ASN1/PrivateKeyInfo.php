@@ -2,13 +2,13 @@
 
 namespace CryptoUtil\ASN1;
 
-use CryptoUtil\PEM\PEM;
-use CryptoUtil\ASN1\RSA\RSAPrivateKey;
-use CryptoUtil\ASN1\EC\ECPrivateKey;
 use ASN1\Element;
+use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
-use ASN1\Type\Constructed\Sequence;
+use CryptoUtil\ASN1\EC\ECPrivateKey;
+use CryptoUtil\ASN1\RSA\RSAPrivateKey;
+use CryptoUtil\PEM\PEM;
 
 
 /**
@@ -112,10 +112,17 @@ class PrivateKeyInfo
 	 */
 	public function privateKey() {
 		switch ($this->_algo->oid()) {
+		// RSA
 		case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
 			return RSAPrivateKey::fromDER($this->_privateKeyData);
+		// elliptic curve
 		case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
-			return ECPrivateKey::fromDER($this->_privateKeyData);
+			$pk = ECPrivateKey::fromDER($this->_privateKeyData);
+			// if private key doesn't encode named curve, assign from parameters
+			if (!$pk->hasNamedCurve()) {
+				$pk = $pk->withNamedCurve($this->_algo->namedCurve());
+			}
+			return $pk;
 		}
 		throw new \RuntimeException(
 			"Private key " . $this->_algo->oid() . " not supported");

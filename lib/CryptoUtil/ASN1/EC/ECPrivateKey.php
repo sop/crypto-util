@@ -2,17 +2,18 @@
 
 namespace CryptoUtil\ASN1\EC;
 
-use CryptoUtil\PEM\PEM;
+use ASN1\Element;
+use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\BitString;
+use ASN1\Type\Primitive\Integer;
+use ASN1\Type\Primitive\ObjectIdentifier;
+use ASN1\Type\Primitive\OctetString;
+use ASN1\Type\Tagged\ExplicitlyTaggedType;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\PrivateKey;
 use CryptoUtil\ASN1\PrivateKeyInfo;
-use CryptoUtil\ASN1\AlgorithmIdentifier;
-use ASN1\Element;
-use ASN1\Type\Primitive\Integer;
-use ASN1\Type\Primitive\BitString;
-use ASN1\Type\Primitive\OctetString;
-use ASN1\Type\Primitive\ObjectIdentifier;
-use ASN1\Type\Constructed\Sequence;
-use ASN1\Type\Tagged\ExplicitlyTaggedType;
+use CryptoUtil\PEM\PEM;
 
 
 /**
@@ -51,7 +52,7 @@ class ECPrivateKey extends PrivateKey
 	 * @param string|null $public_key ECPoint value
 	 */
 	public function __construct($private_key, $named_curve = null, 
-		$public_key = null) {
+			$public_key = null) {
 		$this->_privateKey = $private_key;
 		$this->_namedCurve = $named_curve;
 		$this->_publicKey = $public_key;
@@ -109,18 +110,73 @@ class ECPrivateKey extends PrivateKey
 			throw new \UnexpectedValueException("Not a private key");
 		}
 		$pki = PrivateKeyInfo::fromDER($pem->data());
-		if ($pki->algorithmIdentifier()->oid() !=
-			 AlgorithmIdentifier::OID_EC_PUBLIC_KEY) {
+		$algo = $pki->algorithmIdentifier();
+		if ($algo->oid() != AlgorithmIdentifier::OID_EC_PUBLIC_KEY) {
 			throw new \UnexpectedValueException("Not an elliptic curve key");
 		}
-		return self::fromDER($pki->privateKeyData());
+		$obj = self::fromDER($pki->privateKeyData());
+		if (!isset($obj->_namedCurve)) {
+			$obj->_namedCurve = $algo->namedCurve();
+		}
+		return $obj;
 	}
 	
+	/**
+	 * Whether named curve is present.
+	 *
+	 * @return bool
+	 */
+	public function hasNamedCurve() {
+		return isset($this->_namedCurve);
+	}
+	
+	/**
+	 * Get named curve OID
+	 *
+	 * @return string
+	 */
+	public function namedCurve() {
+		return $this->_namedCurve;
+	}
+	
+	/**
+	 * Get self with named curve.
+	 *
+	 * @param string $named_curve Named curve OID
+	 * @return self
+	 */
+	public function withNamedCurve($named_curve) {
+		$obj = clone $this;
+		$obj->_namedCurve = $named_curve;
+		return $obj;
+	}
+	
+	/**
+	 *
+	 * @see \CryptoUtil\ASN1\PrivateKey::privateKeyInfo()
+	 * @return PrivateKeyInfo
+	 */
+	public function privateKeyInfo() {
+		if (!isset($this->_namedCurve)) {
+			throw new \LogicException("namedCurve not set");
+		}
+		$algo = new ECPublicKeyAlgorithmIdentifier($this->_namedCurve);
+		// NOTE: OpenSSL strips named curve from ECPrivateKey structure
+		// when serializing into PrivateKeyInfo. However RFC 5915 dictates
+		// that parameters (NamedCurve) must always be included.
+		return new PrivateKeyInfo($algo, $this->toDER());
+	}
+	
+	/**
+	 *
+	 * @see \CryptoUtil\ASN1\PrivateKey::publicKey()
+	 * @return ECPublicKey
+	 */
 	public function publicKey() {
 		if (!isset($this->_publicKey)) {
 			throw new \LogicException("No public key");
 		}
-		return new ECPublicKey($this->_publicKey);
+		return new ECPublicKey($this->_publicKey, $this->_namedCurve);
 	}
 	
 	/**
@@ -141,6 +197,11 @@ class ECPrivateKey extends PrivateKey
 		return new Sequence(...$elements);
 	}
 	
+	/**
+	 *
+	 * @see \CryptoUtil\ASN1\PrivateKey::toDER()
+	 * @return string
+	 */
 	public function toDER() {
 		return $this->toASN1()->toDER();
 	}

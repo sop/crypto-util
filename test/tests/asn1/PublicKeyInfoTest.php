@@ -1,17 +1,20 @@
 <?php
 
-use CryptoUtil\PEM\PEM;
-use CryptoUtil\ASN1\PublicKeyInfo;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\EC\ECPublicKey;
+use CryptoUtil\ASN1\PublicKeyInfo;
+use CryptoUtil\ASN1\RSA\RSAPublicKey;
+use CryptoUtil\PEM\PEM;
 
 
 /**
  * @group asn1
+ * @group publickey
  */
 class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 {
-	public function testDecode() {
+	public function testDecodeRSA() {
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/public_key.pem");
 		$pki = PublicKeyInfo::fromDER($pem->data());
 		$this->assertInstanceOf(PublicKeyInfo::class, $pki);
@@ -19,7 +22,7 @@ class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @depends testDecode
+	 * @depends testDecodeRSA
 	 *
 	 * @param PublicKeyInfo $pki
 	 */
@@ -40,7 +43,34 @@ class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 			$algo->oid());
 	}
 	
-	public function testFromPEM() {
+	/**
+	 * @depends testDecodeRSA
+	 *
+	 * @param PublicKeyInfo $pki
+	 */
+	public function testGetRSAPublicKey(PublicKeyInfo $pki) {
+		$pk = $pki->publicKey();
+		$this->assertInstanceOf(RSAPublicKey::class, $pk);
+	}
+	
+	public function testDecodeEC() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/ec/public_key.pem");
+		$pki = PublicKeyInfo::fromDER($pem->data());
+		$this->assertInstanceOf(PublicKeyInfo::class, $pki);
+		return $pki;
+	}
+	
+	/**
+	 * @depends testDecodeEC
+	 *
+	 * @param PublicKeyInfo $pki
+	 */
+	public function testGetECPublicKey(PublicKeyInfo $pki) {
+		$pk = $pki->publicKey();
+		$this->assertInstanceOf(ECPublicKey::class, $pk);
+	}
+	
+	public function testFromRSAPEM() {
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/public_key.pem");
 		$pki = PublicKeyInfo::fromPEM($pem);
 		$this->assertInstanceOf(PublicKeyInfo::class, $pki);
@@ -48,7 +78,7 @@ class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @depends testFromPEM
+	 * @depends testFromRSAPEM
 	 *
 	 * @param PublicKeyInfo $pki
 	 */
@@ -69,7 +99,7 @@ class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @depends testDecode
+	 * @depends testDecodeRSA
 	 *
 	 * @param PublicKeyInfo $pki
 	 */
@@ -79,7 +109,7 @@ class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @depends testDecode
+	 * @depends testDecodeRSA
 	 *
 	 * @param PublicKeyInfo $pki
 	 */

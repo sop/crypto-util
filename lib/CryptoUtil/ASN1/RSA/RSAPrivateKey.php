@@ -2,13 +2,14 @@
 
 namespace CryptoUtil\ASN1\RSA;
 
-use CryptoUtil\PEM\PEM;
+use ASN1\Element;
+use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\Integer;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\PrivateKey;
 use CryptoUtil\ASN1\PrivateKeyInfo;
-use CryptoUtil\ASN1\AlgorithmIdentifier;
-use ASN1\Element;
-use ASN1\Type\Primitive\Integer;
-use ASN1\Type\Constructed\Sequence;
+use CryptoUtil\PEM\PEM;
 
 
 /**
@@ -225,8 +226,18 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get public key component
 	 *
+	 * @see \CryptoUtil\ASN1\PrivateKey::privateKeyInfo()
+	 * @return PrivateKeyInfo
+	 */
+	public function privateKeyInfo() {
+		return new PrivateKeyInfo(new RSAEncryptionAlgorithmIdentifier(), 
+			$this->toDER());
+	}
+	
+	/**
+	 *
+	 * @see \CryptoUtil\ASN1\PrivateKey::publicKey()
 	 * @return RSAPublicKey
 	 */
 	public function publicKey() {
@@ -247,8 +258,8 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Generate DER encoding
 	 *
+	 * @see \CryptoUtil\ASN1\PrivateKey::toDER()
 	 * @return string
 	 */
 	public function toDER() {

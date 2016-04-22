@@ -1,17 +1,21 @@
 <?php
 
-use CryptoUtil\PEM\PEM;
-use CryptoUtil\ASN1\PrivateKeyInfo;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\EC\ECPrivateKey;
+use CryptoUtil\ASN1\PrivateKeyInfo;
+use CryptoUtil\ASN1\RSA\RSAPrivateKey;
+use CryptoUtil\PEM\PEM;
 
 
 /**
  * @group asn1
+ * @group privatekey
  */
 class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 {
-	public function testDecode() {
+	public function testDecodeRSA() {
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem");
 		$pki = PrivateKeyInfo::fromDER($pem->data());
 		$this->assertInstanceOf(PrivateKeyInfo::class, $pki);
@@ -19,7 +23,7 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @depends testDecode
+	 * @depends testDecodeRSA
 	 *
 	 * @param PrivateKeyInfo $pki
 	 */
@@ -40,7 +44,45 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 			$algo->oid());
 	}
 	
-	public function testFromPEM() {
+	/**
+	 * @depends testDecodeRSA
+	 *
+	 * @param PrivateKeyInfo $pki
+	 */
+	public function testGetRSAPrivateKey(PrivateKeyInfo $pki) {
+		$pk = $pki->privateKey();
+		$this->assertInstanceOf(RSAPrivateKey::class, $pk);
+	}
+	
+	public function testDecodeEC() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/ec/private_key.pem");
+		$pki = PrivateKeyInfo::fromDER($pem->data());
+		$this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+		return $pki;
+	}
+	
+	/**
+	 * @depends testDecodeEC
+	 *
+	 * @param PrivateKeyInfo $pki
+	 */
+	public function testGetECPrivateKey(PrivateKeyInfo $pki) {
+		$pk = $pki->privateKey();
+		$this->assertInstanceOf(ECPrivateKey::class, $pk);
+		return $pk;
+	}
+	
+	/**
+	 * @depends testGetECPrivateKey
+	 * 
+	 * @param ECPrivateKey $pk
+	 */
+	public function testECPrivateKeyHasNamedCurve(ECPrivateKey $pk) {
+		$this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, 
+			$pk->namedCurve());
+	}
+	
+	public function testFromRSAPEM() {
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem");
 		$pki = PrivateKeyInfo::fromPEM($pem);
 		$this->assertInstanceOf(PrivateKeyInfo::class, $pki);
@@ -48,7 +90,7 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @depends testFromPEM
+	 * @depends testFromRSAPEM
 	 *
 	 * @param PrivateKeyInfo $pki
 	 */

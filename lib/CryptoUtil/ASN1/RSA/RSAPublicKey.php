@@ -3,6 +3,7 @@
 namespace CryptoUtil\ASN1\RSA;
 
 use CryptoUtil\PEM\PEM;
+use CryptoUtil\ASN1\PublicKey;
 use CryptoUtil\ASN1\PublicKeyInfo;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use ASN1\Element;
@@ -15,7 +16,7 @@ use ASN1\Type\Constructed\Sequence;
  *
  * @link https://tools.ietf.org/html/rfc2437#section-11.1.1
  */
-class RSAPublicKey
+class RSAPublicKey extends PublicKey
 {
 	/**
 	 * Modulus
@@ -64,13 +65,6 @@ class RSAPublicKey
 		return self::fromASN1(Sequence::fromDER($data));
 	}
 	
-	/**
-	 * Initialize from PEM
-	 *
-	 * @param PEM $pem
-	 * @throws \UnexpectedValueException
-	 * @return self
-	 */
 	public static function fromPEM(PEM $pem) {
 		if ($pem->type() == PEM::TYPE_RSA_PUBLIC_KEY) {
 			return self::fromDER($pem->data());

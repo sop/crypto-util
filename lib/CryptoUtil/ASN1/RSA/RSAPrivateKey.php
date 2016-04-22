@@ -3,6 +3,7 @@
 namespace CryptoUtil\ASN1\RSA;
 
 use CryptoUtil\PEM\PEM;
+use CryptoUtil\ASN1\PrivateKey;
 use CryptoUtil\ASN1\PrivateKeyInfo;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use ASN1\Element;
@@ -15,7 +16,7 @@ use ASN1\Type\Constructed\Sequence;
  *
  * @link https://tools.ietf.org/html/rfc2437#section-11.1.2
  */
-class RSAPrivateKey
+class RSAPrivateKey extends PrivateKey
 {
 	/**
 	 * Modulus

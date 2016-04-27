@@ -3,10 +3,13 @@
 namespace CryptoUtil\PEM;
 
 
+/**
+ * Container for multiple PEM objects.
+ */
 class PEMBundle implements \Countable, \IteratorAggregate
 {
 	/**
-	 * PEMs
+	 * Array of PEM objects.
 	 *
 	 * @var PEM[] $_pems
 	 */
@@ -22,7 +25,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	}
 	
 	/**
-	 * Initialize from string
+	 * Initialize from a string.
 	 *
 	 * @param string $str
 	 * @throws \InvalidArgumentException
@@ -46,7 +49,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	}
 	
 	/**
-	 * Initialize from file
+	 * Initialize from a file.
 	 *
 	 * @param string $filename
 	 * @throws \InvalidArgumentException
@@ -64,7 +67,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	}
 	
 	/**
-	 * Get all PEMs in a bundle
+	 * Get all PEMs in a bundle.
 	 *
 	 * @return PEM[]
 	 */
@@ -75,16 +78,17 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	/**
 	 *
 	 * @see Countable::count()
+	 * @return int
 	 */
 	public function count() {
 		return count($this->_pems);
 	}
 	
 	/**
-	 * Get iterator for PEMs
+	 * Get iterator for PEMs.
 	 *
 	 * @see IteratorAggregate::getIterator()
-	 * @return \ArrayIterator|PEM[]
+	 * @return \ArrayIterator
 	 */
 	public function getIterator() {
 		return new \ArrayIterator($this->_pems);

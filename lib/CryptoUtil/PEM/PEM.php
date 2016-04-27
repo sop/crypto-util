@@ -3,8 +3,12 @@
 namespace CryptoUtil\PEM;
 
 
+/**
+ * Implements PEM file encoding and decoding.
+ */
 class PEM
 {
+	// well-known PEM types
 	const TYPE_CERTIFICATE = "CERTIFICATE";
 	const TYPE_CERTIFICATE_REQUEST = "CERTIFICATE REQUEST";
 	const TYPE_ATTRIBUTE_CERTIFICATE = "ATTRIBUTE CERTIFICATE";
@@ -16,7 +20,7 @@ class PEM
 	const TYPE_EC_PRIVATE_KEY = "EC PRIVATE KEY";
 	
 	/**
-	 * Regular expression to match PEM block
+	 * Regular expression to match PEM block.
 	 *
 	 * @var string
 	 */
@@ -28,14 +32,14 @@ class PEM
 	'/ms'; /* @formatter:on */
 	
 	/**
-	 * Content type
+	 * Content type.
 	 *
 	 * @var string $_type
 	 */
 	protected $_type;
 	
 	/**
-	 * Payload
+	 * Payload.
 	 *
 	 * @var string $_data
 	 */
@@ -53,7 +57,7 @@ class PEM
 	}
 	
 	/**
-	 * Initialize from PEM formatted string
+	 * Initialize from a PEM-formatted string.
 	 *
 	 * @param string $str
 	 * @throws \InvalidArgumentException
@@ -72,7 +76,7 @@ class PEM
 	}
 	
 	/**
-	 * Initialize from file
+	 * Initialize from a file.
 	 *
 	 * @param string $filename Path to file
 	 * @throws \InvalidArgumentException
@@ -90,7 +94,7 @@ class PEM
 	}
 	
 	/**
-	 * Get content type
+	 * Get content type.
 	 *
 	 * @return string
 	 */
@@ -99,7 +103,7 @@ class PEM
 	}
 	
 	/**
-	 * Get payload
+	 * Get payload.
 	 *
 	 * @return string
 	 */
@@ -108,7 +112,7 @@ class PEM
 	}
 	
 	/**
-	 * Encode to PEM string
+	 * Encode to PEM string.
 	 *
 	 * @return string
 	 */

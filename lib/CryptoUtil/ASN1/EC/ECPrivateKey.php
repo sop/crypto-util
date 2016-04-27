@@ -24,21 +24,21 @@ use CryptoUtil\PEM\PEM;
 class ECPrivateKey extends PrivateKey
 {
 	/**
-	 * Private key
+	 * Private key.
 	 *
 	 * @var string $_privateKey
 	 */
 	protected $_privateKey;
 	
 	/**
-	 * Named curve OID
+	 * Named curve OID.
 	 *
 	 * @var string|null $_namedCurve
 	 */
 	protected $_namedCurve;
 	
 	/**
-	 * ECPoint value
+	 * ECPoint value.
 	 *
 	 * @var string|null $_publicKey
 	 */
@@ -96,8 +96,8 @@ class ECPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Initialize from PEM.
 	 *
+	 * @see PrivateKey::fromPEM()
 	 * @param PEM $pem
 	 * @throws \UnexpectedValueException
 	 * @return self
@@ -131,7 +131,7 @@ class ECPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get named curve OID
+	 * Get named curve OID.
 	 *
 	 * @return string
 	 */

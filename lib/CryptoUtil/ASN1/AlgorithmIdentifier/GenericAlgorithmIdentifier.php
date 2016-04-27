@@ -12,7 +12,7 @@ use CryptoUtil\ASN1\AlgorithmIdentifier;
 class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 {
 	/**
-	 * Parameters
+	 * Parameters.
 	 *
 	 * @var Element|null $_params
 	 */
@@ -29,6 +29,11 @@ class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 		$this->_params = $params;
 	}
 	
+	/**
+	 *
+	 * @see \CryptoUtil\ASN1\AlgorithmIdentifier::_paramsASN1()
+	 * @return Element|null
+	 */
 	protected function _paramsASN1() {
 		return $this->_params;
 	}

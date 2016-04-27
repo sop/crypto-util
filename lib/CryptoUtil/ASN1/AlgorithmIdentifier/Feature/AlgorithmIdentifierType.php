@@ -4,19 +4,19 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Feature;
 
 
 /**
- * Base interface for algorithm identifiers
+ * Base interface for algorithm identifiers.
  */
 interface AlgorithmIdentifierType
 {
 	/**
-	 * Get object identifier
+	 * Get object identifier.
 	 *
 	 * @return string
 	 */
 	public function oid();
 	
 	/**
-	 * Generate ASN.1 structure
+	 * Generate ASN.1 structure.
 	 *
 	 * @return Sequence
 	 */

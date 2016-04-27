@@ -19,14 +19,14 @@ use CryptoUtil\PEM\PEM;
 class PrivateKeyInfo
 {
 	/**
-	 * Algorithm
+	 * Algorithm identifier.
 	 *
 	 * @var AlgorithmIdentifier $_algo
 	 */
 	protected $_algo;
 	
 	/**
-	 * Private key data
+	 * Private key data.
 	 *
 	 * @var string $_privateKey
 	 */
@@ -44,7 +44,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Initialize from ASN.1
+	 * Initialize from ASN.1.
 	 *
 	 * @param Sequence $seq
 	 * @throws \UnexpectedValueException
@@ -63,7 +63,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Initialize from DER data
+	 * Initialize from DER data.
 	 *
 	 * @param string $data
 	 * @return self
@@ -73,7 +73,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Initialize from PEM
+	 * Initialize from PEM.
 	 *
 	 * @param PEM $pem
 	 * @throws \UnexpectedValueException
@@ -87,7 +87,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Get algorithm
+	 * Get algorithm identifier.
 	 *
 	 * @return AlgorithmIdentifier
 	 */
@@ -96,7 +96,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Get private key data
+	 * Get private key data.
 	 *
 	 * @return string
 	 */
@@ -105,7 +105,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Get private key
+	 * Get private key.
 	 *
 	 * @throws \RuntimeException
 	 * @return PrivateKey
@@ -129,7 +129,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Generate ASN.1 structure
+	 * Generate ASN.1 structure.
 	 *
 	 * @return Sequence
 	 */
@@ -140,7 +140,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Generate DER encoding
+	 * Generate DER encoding.
 	 *
 	 * @return string
 	 */
@@ -149,7 +149,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Generate PEM
+	 * Generate PEM.
 	 *
 	 * @return PEM
 	 */

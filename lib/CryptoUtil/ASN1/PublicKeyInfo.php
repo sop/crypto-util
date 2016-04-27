@@ -18,14 +18,14 @@ use CryptoUtil\PEM\PEM;
 class PublicKeyInfo
 {
 	/**
-	 * Algorithm
+	 * Algorithm identifier.
 	 *
 	 * @var AlgorithmIdentifier $_algo
 	 */
 	protected $_algo;
 	
 	/**
-	 * Public key data
+	 * Public key data.
 	 *
 	 * @var string $_publicKeyData
 	 */
@@ -43,7 +43,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Initialize from ASN.1
+	 * Initialize from ASN.1.
 	 *
 	 * @param Sequence $seq
 	 * @return self
@@ -56,7 +56,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Initialize from PEM
+	 * Initialize from PEM.
 	 *
 	 * @param PEM $pem
 	 * @throws \UnexpectedValueException
@@ -70,7 +70,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Initialize from DER data
+	 * Initialize from DER data.
 	 *
 	 * @param string $data
 	 * @return self
@@ -80,7 +80,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Get algorithm
+	 * Get algorithm identifier.
 	 *
 	 * @return AlgorithmIdentifier
 	 */
@@ -89,7 +89,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Get public key data
+	 * Get public key data.
 	 *
 	 * @return string
 	 */
@@ -98,7 +98,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Get public key
+	 * Get public key.
 	 *
 	 * @throws \RuntimeException
 	 * @return PublicKey
@@ -142,7 +142,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Generate ASN.1 structure
+	 * Generate ASN.1 structure.
 	 *
 	 * @return Sequence
 	 */
@@ -152,7 +152,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Generate DER encoding
+	 * Generate DER encoding.
 	 *
 	 * @return string
 	 */
@@ -161,7 +161,7 @@ class PublicKeyInfo
 	}
 	
 	/**
-	 * Generate PEM
+	 * Generate PEM.
 	 *
 	 * @return PEM
 	 */

@@ -20,56 +20,56 @@ use CryptoUtil\PEM\PEM;
 class RSAPrivateKey extends PrivateKey
 {
 	/**
-	 * Modulus
+	 * Modulus.
 	 *
 	 * @var int|string $_modulus
 	 */
 	protected $_modulus;
 	
 	/**
-	 * Public exponent
+	 * Public exponent.
 	 *
 	 * @var int|string $_publicExponent
 	 */
 	protected $_publicExponent;
 	
 	/**
-	 * Private exponent
+	 * Private exponent.
 	 *
 	 * @var int|string $_privateExponent
 	 */
 	protected $_privateExponent;
 	
 	/**
-	 * First prime factor
+	 * First prime factor.
 	 *
 	 * @var int|string $_prime1
 	 */
 	protected $_prime1;
 	
 	/**
-	 * Second prime factor
+	 * Second prime factor.
 	 *
 	 * @var int|string $_prime2
 	 */
 	protected $_prime2;
 	
 	/**
-	 * First factor exponent
+	 * First factor exponent.
 	 *
 	 * @var int|string $_exponent1
 	 */
 	protected $_exponent1;
 	
 	/**
-	 * Second factor exponent
+	 * Second factor exponent.
 	 *
 	 * @var int|string $_exponent2
 	 */
 	protected $_exponent2;
 	
 	/**
-	 * CRT coefficient of the second factor
+	 * CRT coefficient of the second factor.
 	 *
 	 * @var int|string $_coefficient
 	 */
@@ -99,7 +99,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Initialize from ASN.1
+	 * Initialize from ASN.1.
 	 *
 	 * @param Sequence $seq
 	 * @throws \UnexpectedValueException
@@ -122,7 +122,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Initialize from DER data
+	 * Initialize from DER data.
 	 *
 	 * @param string $data
 	 * @return self
@@ -132,8 +132,8 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Initialize from PEM
 	 *
+	 * @see PrivateKey::fromPEM()
 	 * @param PEM $pem
 	 * @throws \UnexpectedValueException
 	 * @return self
@@ -154,7 +154,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get modulus
+	 * Get modulus.
 	 *
 	 * @return int|string
 	 */
@@ -163,7 +163,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get public exponent
+	 * Get public exponent.
 	 *
 	 * @return int|string
 	 */
@@ -172,7 +172,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get private exponent
+	 * Get private exponent.
 	 *
 	 * @return int|string
 	 */
@@ -181,7 +181,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get first prime factor
+	 * Get first prime factor.
 	 *
 	 * @return int|string
 	 */
@@ -190,7 +190,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get second prime factor
+	 * Get second prime factor.
 	 *
 	 * @return int|string
 	 */
@@ -199,7 +199,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get first factor exponent
+	 * Get first factor exponent.
 	 *
 	 * @return int|string
 	 */
@@ -208,7 +208,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get second factor exponent
+	 * Get second factor exponent.
 	 *
 	 * @return int|string
 	 */
@@ -217,7 +217,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get CRT coefficient of the second factor
+	 * Get CRT coefficient of the second factor.
 	 *
 	 * @return int|string
 	 */
@@ -245,7 +245,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Generate ASN.1 structure
+	 * Generate ASN.1 structure.
 	 *
 	 * @return Sequence
 	 */
@@ -267,7 +267,7 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Generate PEM
+	 * Generate PEM.
 	 *
 	 * @return PEM
 	 */

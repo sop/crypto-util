@@ -81,7 +81,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	const OID_HMAC_WITH_SHA1 = "1.2.840.113549.2.7";
 	
 	/**
-	 * Mapping from OID to class name
+	 * Mapping from OID to class name.
 	 *
 	 * @var array
 	 */
@@ -114,7 +114,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	);
 	
 	/**
-	 * Object identifier
+	 * Object identifier.
 	 *
 	 * @var string $_oid
 	 */
@@ -130,7 +130,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	abstract protected function _paramsASN1();
 	
 	/**
-	 * Initialize from ASN.1
+	 * Initialize from ASN.1.
 	 *
 	 * @param Sequence $seq
 	 * @return self
@@ -147,7 +147,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	}
 	
 	/**
-	 * Get object identifier
+	 * Get object identifier.
 	 *
 	 * @return string
 	 */
@@ -156,7 +156,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	}
 	
 	/**
-	 * Generate ASN.1 structure
+	 * Generate ASN.1 structure.
 	 *
 	 * @return Sequence
 	 */

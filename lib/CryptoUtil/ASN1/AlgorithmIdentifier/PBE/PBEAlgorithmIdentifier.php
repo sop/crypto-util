@@ -13,14 +13,14 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 abstract class PBEAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
 	/**
-	 * Salt
+	 * Salt.
 	 *
 	 * @var string $_salt
 	 */
 	protected $_salt;
 	
 	/**
-	 * Iteration count
+	 * Iteration count.
 	 *
 	 * @var int $_iterationCount
 	 */
@@ -38,7 +38,7 @@ abstract class PBEAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get salt
+	 * Get salt.
 	 *
 	 * @return string
 	 */
@@ -47,7 +47,7 @@ abstract class PBEAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get iteration count
+	 * Get iteration count.
 	 *
 	 * @return int
 	 */

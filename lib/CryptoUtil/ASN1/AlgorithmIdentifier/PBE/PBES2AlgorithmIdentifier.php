@@ -30,14 +30,14 @@ PBES2-params ::= SEQUENCE {
 class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 {
 	/**
-	 * PBKDF2 algorithm identifier
+	 * PBKDF2 algorithm identifier.
 	 *
 	 * @var PBKDF2AlgorithmIdentifier $_kdf
 	 */
 	protected $_kdf;
 	
 	/**
-	 * Encryption algorithm identifier
+	 * Encryption algorithm identifier.
 	 *
 	 * @var CipherAlgorithmIdentifier $_es
 	 */
@@ -80,7 +80,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get key derivation function algorithm identifier
+	 * Get key derivation function algorithm identifier.
 	 *
 	 * @return PBKDF2AlgorithmIdentifier
 	 */
@@ -89,7 +89,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get encryption scheme algorithm identifier
+	 * Get encryption scheme algorithm identifier.
 	 *
 	 * @return CipherAlgorithmIdentifier
 	 */

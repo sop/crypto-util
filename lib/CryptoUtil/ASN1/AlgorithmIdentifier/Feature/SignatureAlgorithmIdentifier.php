@@ -4,7 +4,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Feature;
 
 
 /**
- * Algorithm identifier for signature algorithms
+ * Algorithm identifier for signature algorithms.
  */
 interface SignatureAlgorithmIdentifier extends AlgorithmIdentifierType
 {

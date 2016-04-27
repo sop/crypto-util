@@ -7,6 +7,9 @@ use CryptoUtil\ASN1\RSA\RSAPrivateKey;
 use CryptoUtil\PEM\PEM;
 
 
+/**
+ * Base class for private keys.
+ */
 abstract class PrivateKey
 {
 	/**

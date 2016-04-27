@@ -20,14 +20,14 @@ use CryptoUtil\PEM\PEM;
 class RSAPublicKey extends PublicKey
 {
 	/**
-	 * Modulus
+	 * Modulus.
 	 *
 	 * @var int|string $_modulus
 	 */
 	protected $_modulus;
 	
 	/**
-	 * Public exponent
+	 * Public exponent.
 	 *
 	 * @var int|string $_publicExponent
 	 */
@@ -45,7 +45,7 @@ class RSAPublicKey extends PublicKey
 	}
 	
 	/**
-	 * Initialize from ASN.1
+	 * Initialize from ASN.1.
 	 *
 	 * @param Sequence $seq
 	 * @return self
@@ -57,7 +57,7 @@ class RSAPublicKey extends PublicKey
 	}
 	
 	/**
-	 * Initialize from DER data
+	 * Initialize from DER data.
 	 *
 	 * @param string $data
 	 * @return self
@@ -66,6 +66,13 @@ class RSAPublicKey extends PublicKey
 		return self::fromASN1(Sequence::fromDER($data));
 	}
 	
+	/**
+	 *
+	 * @see PublicKey::fromPEM()
+	 * @param PEM $pem
+	 * @throws \UnexpectedValueException
+	 * @return self
+	 */
 	public static function fromPEM(PEM $pem) {
 		if ($pem->type() == PEM::TYPE_RSA_PUBLIC_KEY) {
 			return self::fromDER($pem->data());
@@ -82,7 +89,7 @@ class RSAPublicKey extends PublicKey
 	}
 	
 	/**
-	 * Get modulus
+	 * Get modulus.
 	 *
 	 * @return int|string
 	 */
@@ -91,7 +98,7 @@ class RSAPublicKey extends PublicKey
 	}
 	
 	/**
-	 * Get public exponent
+	 * Get public exponent.
 	 *
 	 * @return int|string
 	 */
@@ -110,7 +117,7 @@ class RSAPublicKey extends PublicKey
 	}
 	
 	/**
-	 * Generate ASN.1 structure
+	 * Generate ASN.1 structure.
 	 *
 	 * @return Sequence
 	 */
@@ -120,8 +127,8 @@ class RSAPublicKey extends PublicKey
 	}
 	
 	/**
-	 * Generate DER encoding
 	 *
+	 * @see \CryptoUtil\ASN1\PublicKey::toDER()
 	 * @return string
 	 */
 	public function toDER() {
@@ -129,7 +136,7 @@ class RSAPublicKey extends PublicKey
 	}
 	
 	/**
-	 * Generate PEM
+	 * Generate PEM.
 	 *
 	 * @return PEM
 	 */

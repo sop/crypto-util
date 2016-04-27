@@ -45,6 +45,13 @@ class ECPublicKey extends PublicKey
 		$this->_namedCurve = $named_curve;
 	}
 	
+	/**
+	 *
+	 * @see PublicKey::fromPEM()
+	 * @param PEM $pem
+	 * @throws \UnexpectedValueException
+	 * @return self
+	 */
 	public static function fromPEM(PEM $pem) {
 		if ($pem->type() != PEM::TYPE_PUBLIC_KEY) {
 			throw new \UnexpectedValueException("Not a public key");
@@ -59,7 +66,7 @@ class ECPublicKey extends PublicKey
 	}
 	
 	/**
-	 * Get ECPoint value
+	 * Get ECPoint value.
 	 *
 	 * @return string
 	 */
@@ -89,6 +96,11 @@ class ECPublicKey extends PublicKey
 		return new OctetString($this->_ecPoint);
 	}
 	
+	/**
+	 *
+	 * @see \CryptoUtil\ASN1\PublicKey::toDER()
+	 * @return string
+	 */
 	public function toDER() {
 		return $this->toASN1()->toDER();
 	}

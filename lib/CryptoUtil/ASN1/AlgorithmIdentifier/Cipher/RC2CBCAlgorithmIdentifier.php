@@ -37,6 +37,7 @@ RC2CBCParameter ::= SEQUENCE {
 *//* @formatter:on */
 
 /**
+ * Algorithm identifier for RC2 cipher in CBC mode.
  *
  * @link http://www.alvestrand.no/objectid/1.2.840.113549.3.2.html
  * @link http://www.oid-info.com/get/1.2.840.113549.3.2
@@ -48,7 +49,7 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 	BlockCipherAlgorithmIdentifier
 {
 	/**
-	 * Effective key bits
+	 * Effective key bits.
 	 *
 	 * @var int $_effectiveKeyBits
 	 */
@@ -120,7 +121,7 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 	}
 	
 	/**
-	 * Get number of effective key bits
+	 * Get number of effective key bits.
 	 *
 	 * @return int
 	 */
@@ -150,7 +151,7 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 	}
 	
 	/**
-	 * Translate version number to number of effective key bits
+	 * Translate version number to number of effective key bits.
 	 *
 	 * @param int $version
 	 * @return int

@@ -17,7 +17,7 @@ From RFC 3447:
 *//* @formatter:on */
 
 /**
- * RSA Encryption
+ * Algorithm identifier for RSA encryption.
  *
  * @link http://www.oid-info.com/get/1.2.840.113549.1.1.1
  * @link https://tools.ietf.org/html/rfc3447#appendix-C

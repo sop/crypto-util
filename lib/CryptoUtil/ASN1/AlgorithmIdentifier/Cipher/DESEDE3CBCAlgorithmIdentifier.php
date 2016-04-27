@@ -16,6 +16,7 @@ RFC 2898 defines parameters as follows:
 *//* @formatter:on */
 
 /**
+ * Algorithm identifier for Triple-DES cipher in CBC mode.
  *
  * @link http://www.alvestrand.no/objectid/1.2.840.113549.3.7.html
  * @link http://oid-info.com/get/1.2.840.113549.3.7

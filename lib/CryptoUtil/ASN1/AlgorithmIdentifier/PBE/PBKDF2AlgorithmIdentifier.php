@@ -37,28 +37,28 @@ PBKDF2-params ::= SEQUENCE {
 class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
 	/**
-	 * Explicitly specified salt
+	 * Explicitly specified salt.
 	 *
 	 * @var string $_salt
 	 */
 	protected $_specifiedSalt;
 	
 	/**
-	 * Iteration count
+	 * Iteration count.
 	 *
 	 * @var int $_iterationCount
 	 */
 	protected $_iterationCount;
 	
 	/**
-	 * Key length
+	 * Key length.
 	 *
 	 * @var int|null $_keyLength
 	 */
 	protected $_keyLength;
 	
 	/**
-	 * Pseudorandom function algorithm identifier
+	 * Pseudorandom function algorithm identifier.
 	 *
 	 * @var PRFAlgorithmIdentifier|null $_prfAlgo
 	 */
@@ -78,8 +78,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 		$this->_specifiedSalt = $salt;
 		$this->_iterationCount = $iteration_count;
 		$this->_keyLength = $key_length;
-		$this->_prfAlgo = isset($prf_algo) ?
-			$prf_algo : new HMACWithSHA1AlgorithmIdentifier();
+		$this->_prfAlgo = isset($prf_algo) ? $prf_algo : new HMACWithSHA1AlgorithmIdentifier();
 	}
 	
 	protected static function _fromASN1Params(Element $params = null) {
@@ -112,7 +111,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get salt
+	 * Get salt.
 	 *
 	 * @return string
 	 */
@@ -121,7 +120,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get iteration count
+	 * Get iteration count.
 	 *
 	 * @return int
 	 */
@@ -130,7 +129,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Whether key length is present
+	 * Whether key length is present.
 	 *
 	 * @return bool
 	 */
@@ -139,7 +138,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get key length
+	 * Get key length.
 	 *
 	 * @throws \LogicException
 	 * @return int
@@ -152,7 +151,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get pseudorandom function algorithm
+	 * Get pseudorandom function algorithm.
 	 *
 	 * @return PRFAlgorithmIdentifier
 	 */

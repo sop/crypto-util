@@ -6,6 +6,9 @@ use CryptoUtil\ASN1\RSA\RSAPublicKey;
 use CryptoUtil\PEM\PEM;
 
 
+/**
+ * Base class for public keys.
+ */
 abstract class PublicKey
 {
 	/**

@@ -11,21 +11,21 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
 	/**
-	 * Initialization vector
+	 * Initialization vector.
 	 *
 	 * @var string|null $_initializationVector
 	 */
 	protected $_initializationVector;
 	
 	/**
-	 * Get key size in bytes
+	 * Get key size in bytes.
 	 *
 	 * @return int
 	 */
 	abstract public function keySize();
 	
 	/**
-	 * Get initialization vector
+	 * Get initialization vector.
 	 *
 	 * @return string|null
 	 */
@@ -34,7 +34,7 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get copy of the object with given initialization vector
+	 * Get copy of the object with given initialization vector.
 	 *
 	 * @param string|null $iv
 	 * @return self

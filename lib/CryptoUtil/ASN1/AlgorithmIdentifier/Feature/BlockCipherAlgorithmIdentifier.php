@@ -4,19 +4,19 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Feature;
 
 
 /**
- * Algorithm identifier for block ciphers
+ * Algorithm identifier for block ciphers.
  */
 interface BlockCipherAlgorithmIdentifier extends AlgorithmIdentifierType
 {
 	/**
-	 * Get block size in bytes
+	 * Get block size in bytes.
 	 *
 	 * @return int
 	 */
 	public function blockSize();
 	
 	/**
-	 * Get key size in bytes
+	 * Get key size in bytes.
 	 *
 	 * @return int
 	 */

@@ -30,7 +30,7 @@ present:
 class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
 	/**
-	 * prime192v1/secp192r1 curve OID
+	 * prime192v1/secp192r1 curve OID.
 	 *
 	 * @link http://oid-info.com/get/1.2.840.10045.3.1.1
 	 * @var string
@@ -38,7 +38,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	const CURVE_PRIME192V1 = "1.2.840.10045.3.1.1";
 	
 	/**
-	 * prime192v2 curve OID
+	 * prime192v2 curve OID.
 	 *
 	 * @link http://oid-info.com/get/1.2.840.10045.3.1.2
 	 * @var string
@@ -46,7 +46,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	const CURVE_PRIME192V2 = "1.2.840.10045.3.1.2";
 	
 	/**
-	 * prime192v3 curve OID
+	 * prime192v3 curve OID.
 	 *
 	 * @link http://oid-info.com/get/1.2.840.10045.3.1.3
 	 * @var string
@@ -54,7 +54,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	const CURVE_PRIME192V3 = "1.2.840.10045.3.1.3";
 	
 	/**
-	 * prime239v1 curve OID
+	 * prime239v1 curve OID.
 	 *
 	 * @link http://oid-info.com/get/1.2.840.10045.3.1.4
 	 * @var string
@@ -62,7 +62,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	const CURVE_PRIME239V1 = "1.2.840.10045.3.1.4";
 	
 	/**
-	 * prime239v2 curve OID
+	 * prime239v2 curve OID.
 	 *
 	 * @link http://oid-info.com/get/1.2.840.10045.3.1.5
 	 * @var string
@@ -70,7 +70,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	const CURVE_PRIME239V2 = "1.2.840.10045.3.1.5";
 	
 	/**
-	 * prime239v3 curve OID
+	 * prime239v3 curve OID.
 	 *
 	 * @link http://oid-info.com/get/1.2.840.10045.3.1.6
 	 * @var string
@@ -78,7 +78,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	const CURVE_PRIME239V3 = "1.2.840.10045.3.1.6";
 	
 	/**
-	 * prime256v1/secp256r1 curve OID
+	 * prime256v1/secp256r1 curve OID.
 	 *
 	 * @link http://oid-info.com/get/1.2.840.10045.3.1.7
 	 * @var string
@@ -86,7 +86,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	const CURVE_PRIME256V1 = "1.2.840.10045.3.1.7";
 	
 	/**
-	 * OID of the named curve
+	 * OID of the named curve.
 	 *
 	 * @var string $_namedCurve
 	 */
@@ -111,7 +111,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	}
 	
 	/**
-	 * Get OID of the named curve
+	 * Get OID of the named curve.
 	 *
 	 * @return string
 	 */

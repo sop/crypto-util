@@ -4,7 +4,9 @@
 	"homepage": "https://github.com/sop/crypto-util",
 	"license": "MIT",
 	"type": "library",
-	"keywords": ["crypto", "util", "pem", "asn1", "rsa"],
+	"keywords": ["crypto", "cryptography", "util", "pem", "asn1", "asn.1",
+		"rsa", "ec", "public-key", "public key", "private key",
+		"pbes1", "pbes2", "pbkdf1", "pbkdf2"],
 	"authors": [
 		{
 			"name": "Joni Eskelinen",
@@ -14,6 +16,7 @@
 	],
 	"require": {
 		"php": ">=5.6.3",
+		"ext-openssl": "*",
 		"sop/asn1": "^1.0.0"
 	},
 	"autoload": {

@@ -10,7 +10,7 @@ A PHP library containing various utilities for cryptographic applications.
     * [ECPrivateKey](https://tools.ietf.org/html/rfc5915#section-3), [ECPublicKey](https://tools.ietf.org/html/rfc5480#section-2.2)
     * [PrivateKeyInfo](https://tools.ietf.org/html/rfc5208#section-5) ([PKCS #8](https://tools.ietf.org/html/rfc5208))
     * [EncryptedPrivateKeyInfo](https://tools.ietf.org/html/rfc5208#section-6) ([PKCS #8](https://tools.ietf.org/html/rfc5208))
-    * [SubjectPublicKeyInfo](https://tools.ietf.org/html/rfc5280#section-4.1) ([X509](https://tools.ietf.org/html/rfc5280))
+    * [SubjectPublicKeyInfo](https://tools.ietf.org/html/rfc5280#section-4.1) ([X.509](https://tools.ietf.org/html/rfc5280))
 * Password-Based Cryptography ([PKCS #5](https://tools.ietf.org/html/rfc2898))
     * Encrypt/decrypt EncryptedPrivateKeyInfo
 * Various algorithm identifiers

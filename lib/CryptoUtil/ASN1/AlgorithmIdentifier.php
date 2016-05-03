@@ -85,7 +85,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	 *
 	 * @var array
 	 */
-	private static $_oidToCls = array(
+	const CLS_MAPPING = array(
 		/* @formatter:off */
 		self::OID_RSA_ENCRYPTION => RSAEncryptionAlgorithmIdentifier::class,
 		self::OID_EC_PUBLIC_KEY => ECPublicKeyAlgorithmIdentifier::class,
@@ -139,8 +139,8 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 		$oid = $seq->at(0, Element::TYPE_OBJECT_IDENTIFIER)->oid();
 		$params = $seq->has(1) ? $seq->at(1) : null;
 		// if algorithm identifier has a specific implementation
-		if (isset(self::$_oidToCls[$oid])) {
-			$cls = self::$_oidToCls[$oid];
+		if (array_key_exists($oid, self::CLS_MAPPING)) {
+			$cls = self::CLS_MAPPING[$oid];
 			return $cls::_fromASN1Params($params);
 		}
 		return new GenericAlgorithmIdentifier($oid, $params);

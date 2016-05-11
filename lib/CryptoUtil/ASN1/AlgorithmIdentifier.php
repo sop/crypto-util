@@ -29,8 +29,10 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA256AlgorithmIdenti
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA384AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA512AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\MD2WithRSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\MD4WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\MD5WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA224WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA384WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
@@ -55,6 +57,7 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	const OID_SHA256_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.11";
 	const OID_SHA384_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.12";
 	const OID_SHA512_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.13";
+	const OID_SHA224_WITH_RSA_ENCRYPTION = "1.2.840.113549.1.1.14";
 	
 	// Elliptic Curve signature algorithms
 	const OID_ECDSA_WITH_SHA1 = "1.2.840.10045.4.1";
@@ -110,8 +113,10 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 		self::OID_HMAC_WITH_SHA384 => HMACWithSHA384AlgorithmIdentifier::class,
 		self::OID_HMAC_WITH_SHA512 => HMACWithSHA512AlgorithmIdentifier::class,
 		self::OID_MD2_WITH_RSA_ENCRYPTION => MD2WithRSAEncryptionAlgorithmIdentifier::class,
+		self::OID_MD4_WITH_RSA_ENCRYPTION => MD4WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_MD5_WITH_RSA_ENCRYPTION => MD5WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA1_WITH_RSA_ENCRYPTION => SHA1WithRSAEncryptionAlgorithmIdentifier::class,
+		self::OID_SHA224_WITH_RSA_ENCRYPTION => SHA224WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA256_WITH_RSA_ENCRYPTION => SHA256WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA384_WITH_RSA_ENCRYPTION => SHA384WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA512_WITH_RSA_ENCRYPTION => SHA512WithRSAEncryptionAlgorithmIdentifier::class,

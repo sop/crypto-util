@@ -28,4 +28,30 @@ class PEMTest extends PHPUnit_Framework_TestCase
 	public function testType(PEM $pem) {
 		$this->assertEquals(PEM::TYPE_PRIVATE_KEY, $pem->type());
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEM() {
+		PEM::fromString("nope");
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEMData() {
+		$str = <<<DATA
+-----BEGIN TEST-----
+%%%
+-----END TEST-----
+DATA;
+		PEM::fromString($str);
+	}
+	
+	/**
+	 * @expectedException RuntimeException
+	 */
+	public function testInvalidFile() {
+		PEM::fromFile(TEST_ASSETS_DIR . "/nonexistent");
+	}
 }

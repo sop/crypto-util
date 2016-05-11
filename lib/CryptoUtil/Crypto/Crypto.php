@@ -74,6 +74,6 @@ abstract class Crypto
 		if (defined("OPENSSL_VERSION_NUMBER")) {
 			return new OpenSSLCrypto();
 		}
-		throw new \RuntimeException("No crypto engine available");
+		throw new \RuntimeException("No crypto engine available.");
 	}
 }

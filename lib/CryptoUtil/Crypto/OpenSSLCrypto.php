@@ -97,14 +97,14 @@ class OpenSSLCrypto extends Crypto
 	 */
 	protected function _algoToDigest(SignatureAlgorithmIdentifier $algo) {
 		switch ($algo->oid()) {
-		case AlgorithmIdentifier::OID_MD2_WITH_RSA_ENCRYPTION:
-			return "md2WithRSAEncryption";
 		case AlgorithmIdentifier::OID_MD4_WITH_RSA_ENCRYPTION:
 			return "md4WithRSAEncryption";
 		case AlgorithmIdentifier::OID_MD5_WITH_RSA_ENCRYPTION:
 			return "md5WithRSAEncryption";
 		case AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION:
 			return "sha1WithRSAEncryption";
+		case AlgorithmIdentifier::OID_SHA224_WITH_RSA_ENCRYPTION:
+			return "sha224WithRSAEncryption";
 		case AlgorithmIdentifier::OID_SHA256_WITH_RSA_ENCRYPTION:
 			return "sha256WithRSAEncryption";
 		case AlgorithmIdentifier::OID_SHA384_WITH_RSA_ENCRYPTION:

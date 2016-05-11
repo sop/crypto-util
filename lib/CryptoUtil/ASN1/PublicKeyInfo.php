@@ -64,7 +64,7 @@ class PublicKeyInfo
 	 */
 	public static function fromPEM(PEM $pem) {
 		if ($pem->type() != PEM::TYPE_PUBLIC_KEY) {
-			throw new \UnexpectedValueException("Invalid PEM type");
+			throw new \UnexpectedValueException("Invalid PEM type.");
 		}
 		return self::fromDER($pem->data());
 	}
@@ -115,7 +115,7 @@ class PublicKeyInfo
 				$this->_algo->namedCurve());
 		}
 		throw new \RuntimeException(
-			"Public key " . $this->_algo->oid() . " not supported");
+			"Public key " . $this->_algo->oid() . " not supported.");
 	}
 	
 	/**

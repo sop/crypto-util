@@ -38,14 +38,14 @@ abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
 	 */
 	public function __construct($salt, $iteration_count) {
 		if (strlen($salt) !== 8) {
-			throw new \UnexpectedValueException("Salt length must be 8 octets");
+			throw new \UnexpectedValueException("Salt length must be 8 octets.");
 		}
 		parent::__construct($salt, $iteration_count);
 	}
 	
 	protected static function _fromASN1Params(Element $params = null) {
 		if (!isset($params)) {
-			throw new \UnexpectedValueException("No parameters");
+			throw new \UnexpectedValueException("No parameters.");
 		}
 		$params->expectType(Element::TYPE_SEQUENCE);
 		$salt = $params->at(0, Element::TYPE_OCTET_STRING)->str();

@@ -108,7 +108,7 @@ class RSAPrivateKey extends PrivateKey
 	public static function fromASN1(Sequence $seq) {
 		$version = $seq->at(0, Element::TYPE_INTEGER)->number();
 		if ($version != 0) {
-			throw new \UnexpectedValueException("Version must be 0");
+			throw new \UnexpectedValueException("Version must be 0.");
 		}
 		$n = $seq->at(1, Element::TYPE_INTEGER)->number();
 		$e = $seq->at(2, Element::TYPE_INTEGER)->number();
@@ -143,12 +143,12 @@ class RSAPrivateKey extends PrivateKey
 			return self::fromDER($pem->data());
 		}
 		if ($pem->type() != PEM::TYPE_PRIVATE_KEY) {
-			throw new \UnexpectedValueException("Invalid PEM type");
+			throw new \UnexpectedValueException("Invalid PEM type.");
 		}
 		$pki = PrivateKeyInfo::fromDER($pem->data());
 		if ($pki->algorithmIdentifier()->oid() !=
 			 AlgorithmIdentifier::OID_RSA_ENCRYPTION) {
-			throw new \UnexpectedValueException("Not an RSA private key");
+			throw new \UnexpectedValueException("Not an RSA private key.");
 		}
 		return self::fromDER($pki->privateKeyData());
 	}

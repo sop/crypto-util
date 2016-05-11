@@ -68,7 +68,7 @@ class ECPrivateKey extends PrivateKey
 	public static function fromASN1(Sequence $seq) {
 		$version = $seq->at(0, Element::TYPE_INTEGER)->number();
 		if ($version != 1) {
-			throw new \UnexpectedValueException("Invalid version");
+			throw new \UnexpectedValueException("Version must be 1.");
 		}
 		$private_key = $seq->at(1, Element::TYPE_OCTET_STRING)->str();
 		$named_curve = null;
@@ -107,12 +107,12 @@ class ECPrivateKey extends PrivateKey
 			return self::fromDER($pem->data());
 		}
 		if ($pem->type() != PEM::TYPE_PRIVATE_KEY) {
-			throw new \UnexpectedValueException("Not a private key");
+			throw new \UnexpectedValueException("Not a private key.");
 		}
 		$pki = PrivateKeyInfo::fromDER($pem->data());
 		$algo = $pki->algorithmIdentifier();
 		if ($algo->oid() != AlgorithmIdentifier::OID_EC_PUBLIC_KEY) {
-			throw new \UnexpectedValueException("Not an elliptic curve key");
+			throw new \UnexpectedValueException("Not an elliptic curve key.");
 		}
 		$obj = self::fromDER($pki->privateKeyData());
 		if (!isset($obj->_namedCurve)) {
@@ -133,16 +133,20 @@ class ECPrivateKey extends PrivateKey
 	/**
 	 * Get named curve OID.
 	 *
+	 * @throws \LogicException
 	 * @return string
 	 */
 	public function namedCurve() {
+		if (!$this->hasNamedCurve()) {
+			throw new \LogicException("namedCurve not set.");
+		}
 		return $this->_namedCurve;
 	}
 	
 	/**
 	 * Get self with named curve.
 	 *
-	 * @param string $named_curve Named curve OID
+	 * @param string|null $named_curve Named curve OID
 	 * @return self
 	 */
 	public function withNamedCurve($named_curve) {
@@ -157,10 +161,7 @@ class ECPrivateKey extends PrivateKey
 	 * @return PrivateKeyInfo
 	 */
 	public function privateKeyInfo() {
-		if (!isset($this->_namedCurve)) {
-			throw new \LogicException("namedCurve not set");
-		}
-		$algo = new ECPublicKeyAlgorithmIdentifier($this->_namedCurve);
+		$algo = new ECPublicKeyAlgorithmIdentifier($this->namedCurve());
 		// NOTE: OpenSSL strips named curve from ECPrivateKey structure
 		// when serializing into PrivateKeyInfo. However RFC 5915 dictates
 		// that parameters (NamedCurve) must always be included.
@@ -174,7 +175,7 @@ class ECPrivateKey extends PrivateKey
 	 */
 	public function publicKey() {
 		if (!isset($this->_publicKey)) {
-			throw new \LogicException("No public key");
+			throw new \LogicException("publicKey not set.");
 		}
 		return new ECPublicKey($this->_publicKey, $this->_namedCurve);
 	}

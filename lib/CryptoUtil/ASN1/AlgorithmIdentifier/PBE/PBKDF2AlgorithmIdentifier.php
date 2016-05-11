@@ -83,13 +83,13 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	
 	protected static function _fromASN1Params(Element $params = null) {
 		if (!isset($params)) {
-			throw new \UnexpectedValueException("No parameters");
+			throw new \UnexpectedValueException("No parameters.");
 		}
 		$el = $params->at(0);
 		if (!$el->isType(Element::TYPE_OCTET_STRING)) {
 			// @todo implement
 			throw new \UnexpectedValueException(
-				"otherSource salt not implemented");
+				"otherSource salt not implemented.");
 		}
 		$salt = $el->str();
 		$iteration_count = $params->at(1, Element::TYPE_INTEGER)->number();
@@ -104,7 +104,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 			if (!($prf_algo instanceof PRFAlgorithmIdentifier)) {
 				throw new \UnexpectedValueException(
 					$prf_algo->oid() .
-						 " is not supported as a pseudorandom function");
+						 " is not supported as a pseudorandom function.");
 			}
 		}
 		return new self($salt, $iteration_count, $key_length, $prf_algo);
@@ -145,7 +145,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	 */
 	public function keyLength() {
 		if (!$this->hasKeyLength()) {
-			throw new \LogicException("Key length not specified");
+			throw new \LogicException("keyLength not set.");
 		}
 		return $this->_keyLength;
 	}

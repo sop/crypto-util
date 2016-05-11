@@ -55,7 +55,7 @@ class EncryptedPrivateKeyInfo
 			$seq->at(0, Element::TYPE_SEQUENCE));
 		if (!($algo instanceof PBEAlgorithmIdentifier)) {
 			throw new \UnexpectedValueException(
-				"Unsupported algorithm " . $algo->oid());
+				"Unsupported algorithm " . $algo->oid() . ".");
 		}
 		$data = $seq->at(1, Element::TYPE_OCTET_STRING)->str();
 		return new self($algo, $data);
@@ -80,7 +80,7 @@ class EncryptedPrivateKeyInfo
 	 */
 	public static function fromPEM(PEM $pem) {
 		if ($pem->type() != PEM::TYPE_ENCRYPTED_PRIVATE_KEY) {
-			throw new \UnexpectedValueException("Invalid PEM type");
+			throw new \UnexpectedValueException("Invalid PEM type.");
 		}
 		return self::fromDER($pem->data());
 	}
@@ -146,7 +146,7 @@ class EncryptedPrivateKeyInfo
 			$data = $scheme->decrypt($this->_data, $password);
 			return PrivateKeyInfo::fromASN1(Sequence::fromDER($data));
 		} catch (\RuntimeException $e) {
-			throw new \RuntimeException("Failed to decrypt private key", 0, $e);
+			throw new \RuntimeException("Failed to decrypt private key.", 0, $e);
 		}
 	}
 	
@@ -174,7 +174,7 @@ class EncryptedPrivateKeyInfo
 	 *
 	 * @return PEM
 	 */
-	public function PEM() {
-		return new PEM(PEM::TYPE_ENCRYPTED_PRIVATE_KEY, $this->toASN1()->toDER());
+	public function toPEM() {
+		return new PEM(PEM::TYPE_ENCRYPTED_PRIVATE_KEY, $this->toDER());
 	}
 }

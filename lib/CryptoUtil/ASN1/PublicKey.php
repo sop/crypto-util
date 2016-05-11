@@ -40,6 +40,6 @@ abstract class PublicKey
 			return PublicKeyInfo::fromPEM($pem)->publicKey();
 		}
 		throw new \UnexpectedValueException(
-			"PEM type " . $pem->type() . " is not a valid public key");
+			"PEM type " . $pem->type() . " is not a valid public key.");
 	}
 }

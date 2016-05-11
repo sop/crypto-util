@@ -54,12 +54,12 @@ class ECPublicKey extends PublicKey
 	 */
 	public static function fromPEM(PEM $pem) {
 		if ($pem->type() != PEM::TYPE_PUBLIC_KEY) {
-			throw new \UnexpectedValueException("Not a public key");
+			throw new \UnexpectedValueException("Not a public key.");
 		}
 		$pki = PublicKeyInfo::fromDER($pem->data());
 		$algo = $pki->algorithmIdentifier();
 		if ($algo->oid() != AlgorithmIdentifier::OID_EC_PUBLIC_KEY) {
-			throw new \UnexpectedValueException("Not an elliptic curve key");
+			throw new \UnexpectedValueException("Not an elliptic curve key.");
 		}
 		// ECPoint is directly mapped into public key data
 		return new self($pki->publicKeyData(), $algo->namedCurve());
@@ -81,7 +81,7 @@ class ECPublicKey extends PublicKey
 	 */
 	public function publicKeyInfo() {
 		if (!isset($this->_namedCurve)) {
-			throw new \LogicException("No named curve");
+			throw new \LogicException("namedCurve not set.");
 		}
 		$algo = new ECPublicKeyAlgorithmIdentifier($this->_namedCurve);
 		return new PublicKeyInfo($algo, $this->_ecPoint);

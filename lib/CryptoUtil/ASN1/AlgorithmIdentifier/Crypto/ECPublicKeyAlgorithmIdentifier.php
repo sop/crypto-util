@@ -104,7 +104,7 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	
 	protected static function _fromASN1Params(Element $params = null) {
 		if (!isset($params)) {
-			throw new \UnexpectedValueException("No parameters");
+			throw new \UnexpectedValueException("No parameters.");
 		}
 		$named_curve = $params->expectType(Element::TYPE_OBJECT_IDENTIFIER)->oid();
 		return new self($named_curve);

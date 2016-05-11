@@ -53,7 +53,7 @@ class PrivateKeyInfo
 	public static function fromASN1(Sequence $seq) {
 		$version = $seq->at(0, Element::TYPE_INTEGER)->number();
 		if ($version != 0) {
-			throw new \UnexpectedValueException("Version must be 0");
+			throw new \UnexpectedValueException("Version must be 0.");
 		}
 		$algo = AlgorithmIdentifier::fromASN1(
 			$seq->at(1, Element::TYPE_SEQUENCE));
@@ -81,7 +81,7 @@ class PrivateKeyInfo
 	 */
 	public static function fromPEM(PEM $pem) {
 		if ($pem->type() != PEM::TYPE_PRIVATE_KEY) {
-			throw new \UnexpectedValueException("Invalid PEM type");
+			throw new \UnexpectedValueException("Invalid PEM type.");
 		}
 		return self::fromDER($pem->data());
 	}
@@ -125,7 +125,7 @@ class PrivateKeyInfo
 			return $pk;
 		}
 		throw new \RuntimeException(
-			"Private key " . $this->_algo->oid() . " not supported");
+			"Private key " . $this->_algo->oid() . " not supported.");
 	}
 	
 	/**

@@ -99,7 +99,7 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 	
 	protected static function _fromASN1Params(Element $params = null) {
 		if (!isset($params)) {
-			throw new \UnexpectedValueException("No parameters");
+			throw new \UnexpectedValueException("No parameters.");
 		}
 		$key_bits = 32;
 		$iv = null;
@@ -136,7 +136,7 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 			$version = self::EKB_TABLE[$this->_effectiveKeyBits];
 		}
 		if (!isset($this->_initializationVector)) {
-			throw new \UnexpectedValueException("IV not set");
+			throw new \LogicException("IV not set.");
 		}
 		return new Sequence(new Integer($version), 
 			new OctetString($this->_initializationVector));

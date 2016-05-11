@@ -59,7 +59,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 	
 	protected static function _fromASN1Params(Element $params = null) {
 		if (!isset($params)) {
-			throw new \UnexpectedValueException("No parameters");
+			throw new \UnexpectedValueException("No parameters.");
 		}
 		$params->expectType(Element::TYPE_SEQUENCE);
 		$kdf = AlgorithmIdentifier::fromASN1(
@@ -67,14 +67,14 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 		// ensure we got proper key derivation function algorithm
 		if (!($kdf instanceof PBKDF2AlgorithmIdentifier)) {
 			throw new \UnexpectedValueException(
-				"KDF algorithm " . $kdf->oid() . " not supported");
+				"KDF algorithm " . $kdf->oid() . " not supported.");
 		}
 		$es = AlgorithmIdentifier::fromASN1(
 			$params->at(1, Element::TYPE_SEQUENCE));
 		// ensure we got proper encryption algorithm
 		if (!($es instanceof CipherAlgorithmIdentifier)) {
 			throw new \UnexpectedValueException(
-				"ES algorithm " . $es->oid() . " not supported");
+				"ES algorithm " . $es->oid() . " not supported.");
 		}
 		return new self($kdf, $es);
 	}

@@ -37,7 +37,7 @@ class DESCBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 	
 	protected static function _fromASN1Params(Element $params = null) {
 		if (!isset($params)) {
-			throw new \UnexpectedValueException("No parameters");
+			throw new \UnexpectedValueException("No parameters.");
 		}
 		$iv = $params->expectType(Element::TYPE_OCTET_STRING)->str();
 		return new self($iv);
@@ -45,7 +45,7 @@ class DESCBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 	
 	protected function _paramsASN1() {
 		if (!isset($this->_initializationVector)) {
-			throw new \LogicException("IV not set");
+			throw new \LogicException("IV not set.");
 		}
 		return new OctetString($this->_initializationVector);
 	}

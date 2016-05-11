@@ -19,7 +19,9 @@ abstract class SpecificAlgorithmIdentifier extends AlgorithmIdentifier
 	 * @return self
 	 */
 	protected static function _fromASN1Params(Element $params = null) {
+		// @codeCoverageIgnoreStart
 		throw new \BadMethodCallException(
-			__METHOD__ . " must be implemented in subclass.");
+			__METHOD__ . " must be implemented in derived class.");
+		// @codeCoverageIgnoreEnd
 	}
 }

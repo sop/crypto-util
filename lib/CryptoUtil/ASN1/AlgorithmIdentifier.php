@@ -13,6 +13,10 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\AlgorithmIdentifierType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA224AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA256AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA384AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA512AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBES2AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndDESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndRC2CBCAlgorithmIdentifier;
@@ -80,6 +84,12 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	const OID_PBMAC1 = "1.2.840.113549.1.5.14";
 	const OID_HMAC_WITH_SHA1 = "1.2.840.113549.2.7";
 	
+	// HMAC algorithms from RFC 4231
+	const OID_HMAC_WITH_SHA224 = "1.2.840.113549.2.8";
+	const OID_HMAC_WITH_SHA256 = "1.2.840.113549.2.9";
+	const OID_HMAC_WITH_SHA384 = "1.2.840.113549.2.10";
+	const OID_HMAC_WITH_SHA512 = "1.2.840.113549.2.11";
+	
 	/**
 	 * Mapping from OID to class name.
 	 *
@@ -95,6 +105,10 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 		self::OID_DES_EDE3_CBC => DESEDE3CBCAlgorithmIdentifier::class,
 		self::OID_RC2_CBC => RC2CBCAlgorithmIdentifier::class,
 		self::OID_HMAC_WITH_SHA1 => HMACWithSHA1AlgorithmIdentifier::class,
+		self::OID_HMAC_WITH_SHA224 => HMACWithSHA224AlgorithmIdentifier::class,
+		self::OID_HMAC_WITH_SHA256 => HMACWithSHA256AlgorithmIdentifier::class,
+		self::OID_HMAC_WITH_SHA384 => HMACWithSHA384AlgorithmIdentifier::class,
+		self::OID_HMAC_WITH_SHA512 => HMACWithSHA512AlgorithmIdentifier::class,
 		self::OID_MD2_WITH_RSA_ENCRYPTION => MD2WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_MD5_WITH_RSA_ENCRYPTION => MD5WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_SHA1_WITH_RSA_ENCRYPTION => SHA1WithRSAEncryptionAlgorithmIdentifier::class,

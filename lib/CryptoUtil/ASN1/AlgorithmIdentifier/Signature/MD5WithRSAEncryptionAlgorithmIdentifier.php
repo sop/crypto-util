@@ -4,6 +4,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 
 
 /**
+ * Signature algorithm with MD5 and RSA encryption.
  *
  * @link https://tools.ietf.org/html/rfc3279#section-2.2.1
  */

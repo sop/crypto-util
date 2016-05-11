@@ -28,20 +28,20 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	 * Initialize from a string.
 	 *
 	 * @param string $str
-	 * @throws \InvalidArgumentException
+	 * @throws \UnexpectedValueException
 	 * @return self
 	 */
 	public static function fromString($str) {
 		if (!preg_match_all(PEM::PEM_REGEX, $str, $matches, PREG_SET_ORDER)) {
-			throw new \InvalidArgumentException("No PEM blocks");
+			throw new \UnexpectedValueException("No PEM blocks.");
 		}
 		$pems = array_map(
 			function ($match) {
 				$payload = preg_replace('/\s+/', "", $match[2]);
 				$data = base64_decode($payload, true);
 				if (false === $data) {
-					throw new \InvalidArgumentException(
-						"Failed to decode PEM data");
+					throw new \UnexpectedValueException(
+						"Failed to decode PEM data.");
 				}
 				return new PEM($match[1], $data);
 			}, $matches);
@@ -52,16 +52,19 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	 * Initialize from a file.
 	 *
 	 * @param string $filename
-	 * @throws \InvalidArgumentException
+	 * @throws \RuntimeException If file reading fails
 	 * @return self
 	 */
 	public static function fromFile($filename) {
 		if (!is_readable($filename)) {
-			throw new \InvalidArgumentException("$filename is not readable");
+			throw new \RuntimeException("$filename is not readable.");
 		}
 		$str = file_get_contents($filename);
 		if ($str === false) {
-			throw new \InvalidArgumentException("Failed to read $filename");
+			/* Cannot be covered by tests */
+			// @codeCoverageIgnoreStart
+			throw new \RuntimeException("Failed to read $filename.");
+			// @codeCoverageIgnoreEnd
 		}
 		return self::fromString($str);
 	}

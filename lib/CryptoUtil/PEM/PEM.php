@@ -60,17 +60,17 @@ class PEM
 	 * Initialize from a PEM-formatted string.
 	 *
 	 * @param string $str
-	 * @throws \InvalidArgumentException
+	 * @throws \UnexpectedValueException If string is not valid PEM
 	 * @return self
 	 */
 	public static function fromString($str) {
 		if (!preg_match(self::PEM_REGEX, $str, $match)) {
-			throw new \InvalidArgumentException("Not a PEM formatted string");
+			throw new \UnexpectedValueException("Not a PEM formatted string.");
 		}
 		$payload = preg_replace('/\s+/', "", $match[2]);
 		$data = base64_decode($payload, true);
 		if ($data === false) {
-			throw new \InvalidArgumentException("Failed to decode PEM data");
+			throw new \UnexpectedValueException("Failed to decode PEM data.");
 		}
 		return new self($match[1], $data);
 	}
@@ -79,16 +79,19 @@ class PEM
 	 * Initialize from a file.
 	 *
 	 * @param string $filename Path to file
-	 * @throws \InvalidArgumentException
+	 * @throws \RuntimeException If file reading fails
 	 * @return self
 	 */
 	public static function fromFile($filename) {
 		if (!is_readable($filename)) {
-			throw new \InvalidArgumentException("$filename is not readable");
+			throw new \RuntimeException("$filename is not readable.");
 		}
 		$str = file_get_contents($filename);
 		if ($str === false) {
-			throw new \InvalidArgumentException("Failed to read $filename");
+			/* Cannot be covered by tests */
+			// @codeCoverageIgnoreStart
+			throw new \RuntimeException("Failed to read $filename.");
+			// @codeCoverageIgnoreEnd
 		}
 		return self::fromString($str);
 	}

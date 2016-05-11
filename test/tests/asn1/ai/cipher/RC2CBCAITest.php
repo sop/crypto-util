@@ -1,8 +1,10 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\ObjectIdentifier;
+use ASN1\Type\Primitive\OctetString;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -31,6 +33,14 @@ class RC2CBCAITest extends PHPUnit_Framework_TestCase
 		return $ai;
 	}
 	
+	public function testDecodeRFC2268OnlyIV() {
+		$seq = new Sequence(
+			new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC), 
+			new OctetString("\0"));
+		$ai = AlgorithmIdentifier::fromASN1($seq);
+		$this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
+	}
+	
 	/**
 	 * @depends testDecode
 	 *
@@ -38,5 +48,59 @@ class RC2CBCAITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIV(RC2CBCAlgorithmIdentifier $ai) {
 		$this->assertEquals(self::IV, $ai->initializationVector());
+	}
+	
+	/**
+	 * @depends testEncode
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeNoParamsFail(Sequence $seq) {
+		$seq = $seq->withoutElement(1);
+		AlgorithmIdentifier::fromASN1($seq);
+	}
+	
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testEncodeNoIVFail() {
+		$ai = new RC2CBCAlgorithmIdentifier();
+		$ai->toASN1();
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param RC2CBCAlgorithmIdentifier $ai
+	 */
+	public function testBlockSize(RC2CBCAlgorithmIdentifier $ai) {
+		$this->assertEquals(8, $ai->blockSize());
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param RC2CBCAlgorithmIdentifier $ai
+	 */
+	public function testKeySize(RC2CBCAlgorithmIdentifier $ai) {
+		$this->assertEquals(8, $ai->keySize());
+	}
+	
+	public function testEncodeLargeKey() {
+		$ai = new RC2CBCAlgorithmIdentifier(512, "\0");
+		$seq = $ai->toASN1();
+		$this->assertInstanceOf(Sequence::class, $seq);
+		return $seq;
+	}
+	
+	/**
+	 * @depends testEncodeLargeKey
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeLargeKey(Sequence $seq) {
+		$ai = AlgorithmIdentifier::fromASN1($seq);
+		$this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
 	}
 }

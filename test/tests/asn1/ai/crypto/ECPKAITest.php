@@ -1,8 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -32,8 +32,19 @@ class ECPKAITest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * @depends testEncode
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeNoParamsFail(Sequence $seq) {
+		$seq = $seq->withoutElement(1);
+		AlgorithmIdentifier::fromASN1($seq);
+	}
+	
+	/**
 	 * @depends testDecode
-	 * 
+	 *
 	 * @param ECPublicKeyAlgorithmIdentifier $ai
 	 */
 	public function testNamedCurve(ECPublicKeyAlgorithmIdentifier $ai) {

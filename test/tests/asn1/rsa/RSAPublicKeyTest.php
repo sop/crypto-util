@@ -1,7 +1,7 @@
 <?php
 
-use CryptoUtil\PEM\PEM;
 use CryptoUtil\ASN1\RSA\RSAPublicKey;
+use CryptoUtil\PEM\PEM;
 
 
 /**
@@ -48,5 +48,39 @@ class RSAPublicKeyTest extends PHPUnit_Framework_TestCase
 		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/public_key.pem");
 		$pk = RSAPublicKey::fromPEM($pem);
 		$this->assertInstanceOf(RSAPublicKey::class, $pk);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEMType() {
+		$pem = new PEM("nope", "");
+		RSAPublicKey::fromPEM($pem);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testECKeyFail() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/ec/public_key.pem");
+		RSAPublicKey::fromPEM($pem);
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param RSAPublicKey $pk
+	 */
+	public function testModulus(RSAPublicKey $pk) {
+		$this->assertNotEmpty($pk->modulus());
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param RSAPublicKey $pk
+	 */
+	public function testPublicExponent(RSAPublicKey $pk) {
+		$this->assertNotEmpty($pk->publicExponent());
 	}
 }

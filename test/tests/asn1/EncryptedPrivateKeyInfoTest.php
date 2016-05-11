@@ -1,5 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\ObjectIdentifier;
+use ASN1\Type\Primitive\OctetString;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBES2AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithSHA1AndRC2CBCAlgorithmIdentifier;
@@ -19,9 +22,24 @@ class EncryptedPrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 {
 	const PASSWORD = "password";
 	
+	private static $_pem_v1;
+	
+	private static $_pem_v2;
+	
+	public static function setUpBeforeClass() {
+		self::$_pem_v1 = PEM::fromFile(
+			TEST_ASSETS_DIR . "/rsa/encrypted_private_key.pem");
+		self::$_pem_v2 = PEM::fromFile(
+			TEST_ASSETS_DIR . "/rsa/encrypted_private_key_v2.pem");
+	}
+	
+	public static function tearDownAfterClass() {
+		self::$_pem_v1 = null;
+		self::$_pem_v2 = null;
+	}
+	
 	public function testFromPEM() {
-		$epki = EncryptedPrivateKeyInfo::fromPEM(
-			PEM::fromFile(TEST_ASSETS_DIR . "/rsa/encrypted_private_key.pem"));
+		$epki = EncryptedPrivateKeyInfo::fromPEM(self::$_pem_v1);
 		$this->assertInstanceOf(EncryptedPrivateKeyInfo::class, $epki);
 		return $epki;
 	}
@@ -68,9 +86,38 @@ class EncryptedPrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 		return $pki;
 	}
 	
+	/**
+	 * @depends testCreate
+	 * @expectedException RuntimeException
+	 *
+	 * @param EncryptedPrivateKeyInfo $epki
+	 */
+	public function testDecryptFail(EncryptedPrivateKeyInfo $epki) {
+		$epki->decryptPrivateKeyInfo("nope", Crypto::getDefault());
+	}
+	
+	/**
+	 * @depends testCreate
+	 *
+	 * @param EncryptedPrivateKeyInfo $epki
+	 */
+	public function testToPEM(EncryptedPrivateKeyInfo $epki) {
+		$pem = $epki->toPEM();
+		$this->assertInstanceOf(PEM::class, $pem);
+		return $pem;
+	}
+	
+	/**
+	 * @depends testToPEM
+	 *
+	 * @param PEM $pem
+	 */
+	public function testPEMEqualsToRef(PEM $pem) {
+		$this->assertEquals(self::$_pem_v1, $pem);
+	}
+	
 	public function testV2FromPEM() {
-		$epki = EncryptedPrivateKeyInfo::fromPEM(
-			PEM::fromFile(TEST_ASSETS_DIR . "/rsa/encrypted_private_key_v2.pem"));
+		$epki = EncryptedPrivateKeyInfo::fromPEM(self::$_pem_v2);
 		$this->assertInstanceOf(EncryptedPrivateKeyInfo::class, $epki);
 		return $epki;
 	}
@@ -145,5 +192,22 @@ class EncryptedPrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 		$epki = EncryptedPrivateKeyInfo::encryptPrivateKeyInfoWithDerivedKey(
 			$pki, $algo, $key, Crypto::getDefault());
 		$this->assertEquals($refkey, $epki);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidAlgo() {
+		$seq = new Sequence(new Sequence(new ObjectIdentifier("1.3.6.1.3")), 
+			new OctetString(""));
+		EncryptedPrivateKeyInfo::fromASN1($seq);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEMType() {
+		$pem = new PEM("nope", "");
+		EncryptedPrivateKeyInfo::fromPEM($pem);
 	}
 }

@@ -1,5 +1,7 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\Integer;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPrivateKey;
 use CryptoUtil\ASN1\EC\ECPublicKey;
@@ -85,5 +87,50 @@ class ECPrivateKeyTest extends PHPUnit_Framework_TestCase
 	public function testGetPrivateKeyInfo(ECPrivateKey $pk) {
 		$pki = $pk->privateKeyInfo();
 		$this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidVersion() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/ec/ec_private_key.pem");
+		$seq = Sequence::fromDER($pem->data());
+		$seq = $seq->withReplaced(0, new Integer(0));
+		ECPrivateKey::fromASN1($seq);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEMType() {
+		$pem = new PEM("nope", "");
+		ECPrivateKey::fromPEM($pem);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testRSAKeyFail() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem");
+		ECPrivateKey::fromPEM($pem);
+	}
+	
+	/**
+	 * @depends testDecode
+	 * @expectedException LogicException
+	 *
+	 * @param ECPrivateKey $pk
+	 */
+	public function testNamedCurveNotSet(ECPrivateKey $pk) {
+		$pk = $pk->withNamedCurve(null);
+		$pk->namedCurve();
+	}
+	
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testPublicKeyNotSet() {
+		$pk = new ECPrivateKey("\0");
+		$pk->publicKey();
 	}
 }

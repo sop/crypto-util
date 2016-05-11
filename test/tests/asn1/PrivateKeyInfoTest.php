@@ -1,5 +1,7 @@
 <?php
 
+use ASN1\Type\Primitive\Integer;
+use ASN1\Type\Primitive\ObjectIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
@@ -74,7 +76,7 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * @depends testGetECPrivateKey
-	 * 
+	 *
 	 * @param ECPrivateKey $pk
 	 */
 	public function testECPrivateKeyHasNamedCurve(ECPrivateKey $pk) {
@@ -108,5 +110,38 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 	public function testRecodedPEM(PEM $pem) {
 		$ref = PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem");
 		$this->assertEquals($ref, $pem);
+	}
+	
+	/**
+	 * @depends testDecodeRSA
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param PrivateKeyInfo $pki
+	 */
+	public function testInvalidVersion(PrivateKeyInfo $pki) {
+		$seq = $pki->toASN1();
+		$seq = $seq->withReplaced(0, new Integer(1));
+		PrivateKeyInfo::fromASN1($seq);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEMType() {
+		$pem = new PEM("nope", "");
+		PrivateKeyInfo::fromPEM($pem);
+	}
+	
+	/**
+	 * @depends testDecodeRSA
+	 * @expectedException RuntimeException
+	 *
+	 * @param PrivateKeyInfo $pki
+	 */
+	public function testInvalidAI(PrivateKeyInfo $pki) {
+		$seq = $pki->toASN1();
+		$ai = $seq->at(1)->withReplaced(0, new ObjectIdentifier("1.3.6.1.3"));
+		$seq = $seq->withReplaced(1, $ai);
+		PrivateKeyInfo::fromASN1($seq)->privateKey();
 	}
 }

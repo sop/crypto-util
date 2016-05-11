@@ -1,8 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -38,5 +38,42 @@ class DESCBCAITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIV(DESCBCAlgorithmIdentifier $ai) {
 		$this->assertEquals(self::IV, $ai->initializationVector());
+	}
+	
+	/**
+	 * @depends testEncode
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeNoParamsFail(Sequence $seq) {
+		$seq = $seq->withoutElement(1);
+		AlgorithmIdentifier::fromASN1($seq);
+	}
+	
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testEncodeNoIVFail() {
+		$ai = new DESCBCAlgorithmIdentifier();
+		$ai->toASN1();
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param DESCBCAlgorithmIdentifier $ai
+	 */
+	public function testBlockSize(DESCBCAlgorithmIdentifier $ai) {
+		$this->assertEquals(8, $ai->blockSize());
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param DESCBCAlgorithmIdentifier $ai
+	 */
+	public function testKeySize(DESCBCAlgorithmIdentifier $ai) {
+		$this->assertEquals(8, $ai->keySize());
 	}
 }

@@ -42,4 +42,12 @@ class PublicKeyTest extends PHPUnit_Framework_TestCase
 		$result = PublicKey::fromPEM($pem)->publicKeyInfo()->toPEM();
 		$this->assertEquals($pem, $result);
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEM() {
+		$pem = new PEM("nope", "");
+		PublicKey::fromPEM($pem);
+	}
 }

@@ -1,5 +1,6 @@
 <?php
 
+use ASN1\Type\Primitive\ObjectIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPublicKey;
@@ -116,5 +117,26 @@ class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 	public function testKeyIdentifier64(PublicKeyInfo $pki) {
 		$id = $pki->keyIdentifier64();
 		$this->assertEquals(64, strlen($id) * 8);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEMType() {
+		$pem = new PEM("nope", "");
+		PublicKeyInfo::fromPEM($pem);
+	}
+	
+	/**
+	 * @depends testDecodeRSA
+	 * @expectedException RuntimeException
+	 *
+	 * @param PublicKeyInfo $pki
+	 */
+	public function testInvalidAI(PublicKeyInfo $pki) {
+		$seq = $pki->toASN1();
+		$ai = $seq->at(0)->withReplaced(0, new ObjectIdentifier("1.3.6.1.3"));
+		$seq = $seq->withReplaced(0, $ai);
+		PublicKeyInfo::fromASN1($seq)->publicKey();
 	}
 }

@@ -58,4 +58,12 @@ class PrivateKeyTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, 
 			$pk->namedCurve());
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPEMType() {
+		$pem = new PEM("nope", "");
+		PrivateKey::fromPEM($pem);
+	}
 }

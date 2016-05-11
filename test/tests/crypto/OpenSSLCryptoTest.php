@@ -194,4 +194,28 @@ class OpenSSLCryptoTest extends PHPUnit_Framework_TestCase
 		$algo = new DESCBCAlgorithmIdentifier("87654321");
 		self::$_crypto->decrypt($data, $key, $algo);
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testUnsupportedCipherFail() {
+		self::$_crypto->encrypt(self::DATA, "", 
+			new OpenSSLCryptoTest_UnsupportedCipher());
+	}
+}
+
+
+class OpenSSLCryptoTest_UnsupportedCipher extends CipherAlgorithmIdentifier
+{
+	public function __construct() {
+		$this->_oid = "1.3.6.1.3";
+	}
+	
+	public function keySize() {
+		return 1;
+	}
+	
+	protected function _paramsASN1() {
+		return null;
+	}
 }

@@ -30,7 +30,7 @@ class PBEKDF1 extends PBEKDF
 	
 	public function derive($password, $salt, $count, $length) {
 		if ($length > $this->_hashFunc->length()) {
-			throw new \LogicException("Derived key too long");
+			throw new \LogicException("Derived key too long.");
 		}
 		$key = $password . $salt;
 		for ($i = 0; $i < $count; ++$i) {

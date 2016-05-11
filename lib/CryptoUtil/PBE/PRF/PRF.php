@@ -62,6 +62,6 @@ abstract class PRF
 			return new HMACSHA1();
 		}
 		throw new \UnexpectedValueException(
-			"PRF algorithm " . $algo->oid() . " not supported");
+			"PRF algorithm " . $algo->oid() . " not supported.");
 	}
 }

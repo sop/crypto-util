@@ -115,7 +115,7 @@ class OpenSSLCrypto extends Crypto
 			return "ecdsa-with-SHA1";
 		}
 		throw new \UnexpectedValueException(
-			"Digest method " . $algo->oid() . " not supported");
+			"Digest method " . $algo->oid() . " not supported.");
 	}
 	
 	/**
@@ -139,11 +139,11 @@ class OpenSSLCrypto extends Crypto
 				return "RC2-40-CBC";
 			}
 			throw new \UnexpectedValueException(
-				$algo->effectiveKeyBits() . " bit RC2 supported");
+				$algo->effectiveKeyBits() . " bit RC2 supported.");
 		case AlgorithmIdentifier::OID_DES_EDE3_CBC:
 			return "DES-EDE3-CBC";
 		}
 		throw new \UnexpectedValueException(
-			"Cipher method " . $algo->oid() . " not supported");
+			"Cipher method " . $algo->oid() . " not supported.");
 	}
 }

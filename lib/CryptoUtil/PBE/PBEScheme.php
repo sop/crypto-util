@@ -87,15 +87,15 @@ abstract class PBEScheme
 	protected function _removePadding($data, $blocksize) {
 		$len = strlen($data);
 		if (!$len) {
-			throw new \UnexpectedValueException("No padding");
+			throw new \UnexpectedValueException("No padding.");
 		}
 		$padding = ord($data[$len - 1]);
 		if ($len < $padding || $padding > $blocksize) {
-			throw new \UnexpectedValueException("Invalid padding length");
+			throw new \UnexpectedValueException("Invalid padding length.");
 		}
 		$ps = substr($data, -$padding);
 		if ($ps !== str_repeat(chr($padding), $padding)) {
-			throw new \UnexpectedValueException("Invalid padding string");
+			throw new \UnexpectedValueException("Invalid padding string.");
 		}
 		return substr($data, 0, -$padding);
 	}
@@ -131,6 +131,6 @@ abstract class PBEScheme
 				$algo->salt(), $algo->iterationCount(), $crypto);
 		}
 		throw new \UnexpectedValueException(
-			"No encryption scheme for oid " . $algo->oid());
+			"No encryption scheme for oid " . $algo->oid() . ".");
 	}
 }

@@ -43,7 +43,7 @@ class PBEKDF2 extends PBEKDF
 	}
 	
 	/**
-	 * XOR-sum function F
+	 * XOR-sum function F.
 	 *
 	 * @param string $P
 	 * @param string $S

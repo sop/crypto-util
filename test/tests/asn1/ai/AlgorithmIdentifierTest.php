@@ -5,6 +5,7 @@ use ASN1\Type\Primitive\NullType;
 use ASN1\Type\Primitive\ObjectIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\GenericAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
 /**
@@ -38,5 +39,15 @@ class AlgorithmIdentifierTest extends PHPUnit_Framework_TestCase
 	public function testEncodeUnknown(GenericAlgorithmIdentifier $ai) {
 		$seq = $ai->toASN1();
 		$this->assertEquals(self::$_unknownASN1, $seq);
+	}
+	
+	/**
+	 * @expectedException BadMethodCallException
+	 */
+	public function testSpecificAlgoBadCall() {
+		$cls = new ReflectionClass(SpecificAlgorithmIdentifier::class);
+		$mtd = $cls->getMethod("_fromASN1Params");
+		$mtd->setAccessible(true);
+		$mtd->invoke(null);
 	}
 }

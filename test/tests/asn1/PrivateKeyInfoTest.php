@@ -7,6 +7,7 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPrivateKey;
 use CryptoUtil\ASN1\PrivateKeyInfo;
+use CryptoUtil\ASN1\PublicKeyInfo;
 use CryptoUtil\ASN1\RSA\RSAPrivateKey;
 use CryptoUtil\PEM\PEM;
 
@@ -82,6 +83,24 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 	public function testECPrivateKeyHasNamedCurve(ECPrivateKey $pk) {
 		$this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, 
 			$pk->namedCurve());
+	}
+	
+	/**
+	 * @depends testDecodeRSA
+	 *
+	 * @param PrivateKeyInfo $pki
+	 */
+	public function testGetRSAPublicKeyInfo(PrivateKeyInfo $pki) {
+		$this->assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
+	}
+	
+	/**
+	 * @depends testDecodeEC
+	 *
+	 * @param PrivateKeyInfo $pki
+	 */
+	public function testGetECPublicKeyInfo(PrivateKeyInfo $pki) {
+		$this->assertInstanceOf(PublicKeyInfo::class, $pki->publicKeyInfo());
 	}
 	
 	public function testFromRSAPEM() {

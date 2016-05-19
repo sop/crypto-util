@@ -129,6 +129,17 @@ class PrivateKeyInfo
 	}
 	
 	/**
+	 * Get public key info corresponding to the private.
+	 *
+	 * @return PublicKeyInfo
+	 */
+	public function publicKeyInfo() {
+		return $this->privateKey()
+			->publicKey()
+			->publicKeyInfo();
+	}
+	
+	/**
 	 * Generate ASN.1 structure.
 	 *
 	 * @return Sequence

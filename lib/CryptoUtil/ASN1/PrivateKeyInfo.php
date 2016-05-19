@@ -129,7 +129,7 @@ class PrivateKeyInfo
 	}
 	
 	/**
-	 * Get public key info corresponding to the private.
+	 * Get public key info corresponding to the private key.
 	 *
 	 * @return PublicKeyInfo
 	 */

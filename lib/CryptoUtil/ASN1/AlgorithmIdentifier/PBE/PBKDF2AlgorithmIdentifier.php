@@ -85,13 +85,18 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");
 		}
+		$params->expectType(Element::TYPE_SEQUENCE);
 		$el = $params->at(0);
-		if (!$el->isType(Element::TYPE_OCTET_STRING)) {
-			// @todo implement
-			throw new \UnexpectedValueException(
-				"otherSource salt not implemented.");
+		switch ($el->tag()) {
+		// specified
+		case Element::TYPE_OCTET_STRING:
+			$salt = $el->string();
+			break;
+		// otherSource
+		case Element::TYPE_SEQUENCE:
+			$salt_source = AlgorithmIdentifier::fromASN1($el);
+			throw new \RuntimeException("otherSource not implemented.");
 		}
-		$salt = $el->string();
 		$iteration_count = $params->at(1, Element::TYPE_INTEGER)->number();
 		$key_length = null;
 		$prf_algo = null;

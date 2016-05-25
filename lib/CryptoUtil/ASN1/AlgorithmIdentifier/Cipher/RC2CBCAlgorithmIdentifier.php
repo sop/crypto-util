@@ -105,7 +105,7 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 		$iv = null;
 		// rfc2268 a choice containing only IV
 		if ($params->isType(Element::TYPE_OCTET_STRING)) {
-			$iv = $params->str();
+			$iv = $params->string();
 		} else {
 			$params->expectType(Element::TYPE_SEQUENCE);
 			$idx = 0;
@@ -115,7 +115,7 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 				$key_bits = self::_versionToEKB($version);
 			}
 			// IV is present in all variants
-			$iv = $params->at($idx, Element::TYPE_OCTET_STRING)->str();
+			$iv = $params->at($idx, Element::TYPE_OCTET_STRING)->string();
 		}
 		return new self($key_bits, $iv);
 	}

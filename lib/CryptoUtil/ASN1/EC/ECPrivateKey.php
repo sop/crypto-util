@@ -70,7 +70,7 @@ class ECPrivateKey extends PrivateKey
 		if ($version != 1) {
 			throw new \UnexpectedValueException("Version must be 1.");
 		}
-		$private_key = $seq->at(1, Element::TYPE_OCTET_STRING)->str();
+		$private_key = $seq->at(1, Element::TYPE_OCTET_STRING)->string();
 		$named_curve = null;
 		if ($seq->hasTagged(0)) {
 			$params = $seq->getTagged(0)->explicit();
@@ -80,7 +80,7 @@ class ECPrivateKey extends PrivateKey
 		if ($seq->hasTagged(1)) {
 			$public_key = $seq->getTagged(1)
 				->explicit(Element::TYPE_BIT_STRING)
-				->str();
+				->string();
 		}
 		return new self($private_key, $named_curve, $public_key);
 	}

@@ -57,7 +57,7 @@ class EncryptedPrivateKeyInfo
 			throw new \UnexpectedValueException(
 				"Unsupported algorithm " . $algo->oid() . ".");
 		}
-		$data = $seq->at(1, Element::TYPE_OCTET_STRING)->str();
+		$data = $seq->at(1, Element::TYPE_OCTET_STRING)->string();
 		return new self($algo, $data);
 	}
 	

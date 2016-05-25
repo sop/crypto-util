@@ -57,7 +57,7 @@ class PrivateKeyInfo
 		}
 		$algo = AlgorithmIdentifier::fromASN1(
 			$seq->at(1, Element::TYPE_SEQUENCE));
-		$key = $seq->at(2, Element::TYPE_OCTET_STRING)->str();
+		$key = $seq->at(2, Element::TYPE_OCTET_STRING)->string();
 		// @todo parse attributes
 		return new self($algo, $key);
 	}

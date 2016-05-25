@@ -39,7 +39,7 @@ class DESCBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");
 		}
-		$iv = $params->expectType(Element::TYPE_OCTET_STRING)->str();
+		$iv = $params->expectType(Element::TYPE_OCTET_STRING)->string();
 		return new self($iv);
 	}
 	

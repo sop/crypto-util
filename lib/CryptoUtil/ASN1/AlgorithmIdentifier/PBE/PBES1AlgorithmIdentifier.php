@@ -48,7 +48,7 @@ abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
 			throw new \UnexpectedValueException("No parameters.");
 		}
 		$params->expectType(Element::TYPE_SEQUENCE);
-		$salt = $params->at(0, Element::TYPE_OCTET_STRING)->str();
+		$salt = $params->at(0, Element::TYPE_OCTET_STRING)->string();
 		$iteration_count = $params->at(1, Element::TYPE_INTEGER)->number();
 		return new static($salt, $iteration_count);
 	}

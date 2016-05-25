@@ -91,7 +91,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 			throw new \UnexpectedValueException(
 				"otherSource salt not implemented.");
 		}
-		$salt = $el->str();
+		$salt = $el->string();
 		$iteration_count = $params->at(1, Element::TYPE_INTEGER)->number();
 		$key_length = null;
 		$prf_algo = null;

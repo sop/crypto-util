@@ -54,4 +54,13 @@ DATA;
 	public function testInvalidFile() {
 		PEM::fromFile(TEST_ASSETS_DIR . "/nonexistent");
 	}
+	
+	/**
+	 * @depends testFromFile
+	 * 
+	 * @param PEM $pem
+	 */
+	public function testStr(PEM $pem) {
+		$this->assertInternalType("string", $pem->str());
+	}
 }

@@ -23,6 +23,7 @@ use CryptoUtil\PEM\PEM;
 
 /**
  * @group crypto
+ * @requires extension openssl
  */
 class OpenSSLCryptoTest extends PHPUnit_Framework_TestCase
 {

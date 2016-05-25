@@ -119,13 +119,21 @@ class PEM
 	 *
 	 * @return string
 	 */
-	public function str() {
+	public function string() {
 		return "-----BEGIN {$this->_type}-----\n" .
 			 trim(chunk_split(base64_encode($this->_data), 64, "\n")) . "\n" .
 			 "-----END {$this->_type}-----";
 	}
 	
+	/**
+	 *
+	 * @deprecated After 1.3.0. Use <code>string()</code>.
+	 */
+	public function str() {
+		return $this->string();
+	}
+	
 	public function __toString() {
-		return $this->str();
+		return $this->string();
 	}
 }

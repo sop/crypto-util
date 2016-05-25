@@ -4,6 +4,7 @@ use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA256AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBKDF2AlgorithmIdentifier;
 
@@ -134,6 +135,20 @@ class PBEKDF2AITest extends PHPUnit_Framework_TestCase
 		$prf = new Sequence(new ObjectIdentifier("1.3.6.1.3"));
 		$params = $seq->at(1);
 		$params = $params->withInserted(3, $prf);
+		$seq = $seq->withReplaced(1, $params);
+		AlgorithmIdentifier::fromASN1($seq);
+	}
+	
+	/**
+	 * @depends testEncode
+	 * @expectedException RuntimeException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeOtherSaltSourceFail(Sequence $seq) {
+		$algo = new GenericAlgorithmIdentifier("1.3.6.1.3");
+		$params = $seq->at(1);
+		$params = $params->withReplaced(0, $algo->toASN1());
 		$seq = $seq->withReplaced(1, $params);
 		AlgorithmIdentifier::fromASN1($seq);
 	}

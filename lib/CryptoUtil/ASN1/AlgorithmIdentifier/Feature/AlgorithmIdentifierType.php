@@ -2,6 +2,8 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Feature;
 
+use ASN1\Type\Constructed\Sequence;
+
 
 /**
  * Base interface for algorithm identifiers.

@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/sop/crypto-util.svg?branch=master)](https://travis-ci.org/sop/crypto-util)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sop/crypto-util/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sop/crypto-util/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/sop/crypto-util/badge.svg?branch=master)](https://coveralls.io/github/sop/crypto-util?branch=master)
 [![License](https://poser.pugx.org/sop/crypto-util/license)](https://github.com/sop/crypto-util/blob/master/LICENSE)
 

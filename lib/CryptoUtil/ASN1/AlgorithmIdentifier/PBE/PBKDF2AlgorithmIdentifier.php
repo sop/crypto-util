@@ -86,6 +86,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 			throw new \UnexpectedValueException("No parameters.");
 		}
 		$params->expectType(Element::TYPE_SEQUENCE);
+		$salt = null;
 		$el = $params->at(0);
 		switch ($el->tag()) {
 		// specified

@@ -102,7 +102,6 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 			throw new \UnexpectedValueException("No parameters.");
 		}
 		$key_bits = 32;
-		$iv = null;
 		// rfc2268 a choice containing only IV
 		if ($params->isType(Element::TYPE_OCTET_STRING)) {
 			$iv = $params->string();

@@ -95,7 +95,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 			break;
 		// otherSource
 		case Element::TYPE_SEQUENCE:
-			$salt_source = AlgorithmIdentifier::fromASN1($el);
+			AlgorithmIdentifier::fromASN1($el);
 			throw new \RuntimeException("otherSource not implemented.");
 		}
 		$iteration_count = $params->at(1, Element::TYPE_INTEGER)->number();

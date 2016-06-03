@@ -2,8 +2,8 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\PBE;
 
-use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 
@@ -57,20 +57,18 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 		$this->_es = $es;
 	}
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");
 		}
-		$params->expectType(Element::TYPE_SEQUENCE);
-		$kdf = AlgorithmIdentifier::fromASN1(
-			$params->at(0, Element::TYPE_SEQUENCE));
+		$seq = $params->asSequence();
+		$kdf = AlgorithmIdentifier::fromASN1($seq->at(0)->asSequence());
 		// ensure we got proper key derivation function algorithm
 		if (!($kdf instanceof PBKDF2AlgorithmIdentifier)) {
 			throw new \UnexpectedValueException(
 				"KDF algorithm " . $kdf->oid() . " not supported.");
 		}
-		$es = AlgorithmIdentifier::fromASN1(
-			$params->at(1, Element::TYPE_SEQUENCE));
+		$es = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
 		// ensure we got proper encryption algorithm
 		if (!($es instanceof CipherAlgorithmIdentifier)) {
 			throw new \UnexpectedValueException(

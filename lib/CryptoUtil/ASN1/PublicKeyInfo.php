@@ -2,7 +2,6 @@
 
 namespace CryptoUtil\ASN1;
 
-use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\BitString;
 use CryptoUtil\ASN1\EC\ECPublicKey;
@@ -49,9 +48,10 @@ class PublicKeyInfo
 	 * @return self
 	 */
 	public static function fromASN1(Sequence $seq) {
-		$algo = AlgorithmIdentifier::fromASN1(
-			$seq->at(0, Element::TYPE_SEQUENCE));
-		$key = $seq->at(1, Element::TYPE_BIT_STRING)->string();
+		$algo = AlgorithmIdentifier::fromASN1($seq->at(0)->asSequence());
+		$key = $seq->at(1)
+			->asBitString()
+			->string();
 		return new self($algo, $key);
 	}
 	

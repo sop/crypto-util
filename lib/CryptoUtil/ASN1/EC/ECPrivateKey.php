@@ -2,7 +2,6 @@
 
 namespace CryptoUtil\ASN1\EC;
 
-use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\BitString;
 use ASN1\Type\Primitive\Integer;
@@ -66,20 +65,25 @@ class ECPrivateKey extends PrivateKey
 	 * @return self
 	 */
 	public static function fromASN1(Sequence $seq) {
-		$version = $seq->at(0, Element::TYPE_INTEGER)->number();
+		$version = $seq->at(0)
+			->asInteger()
+			->number();
 		if ($version != 1) {
 			throw new \UnexpectedValueException("Version must be 1.");
 		}
-		$private_key = $seq->at(1, Element::TYPE_OCTET_STRING)->string();
+		$private_key = $seq->at(1)
+			->asOctetString()
+			->string();
 		$named_curve = null;
 		if ($seq->hasTagged(0)) {
-			$params = $seq->getTagged(0)->explicit();
-			$named_curve = $params->expectType(Element::TYPE_OBJECT_IDENTIFIER)->oid();
+			$params = $seq->getTagged(0)->asExplicit();
+			$named_curve = $params->asObjectIdentifier()->oid();
 		}
 		$public_key = null;
 		if ($seq->hasTagged(1)) {
 			$public_key = $seq->getTagged(1)
-				->explicit(Element::TYPE_BIT_STRING)
+				->asExplicit()
+				->asBitString()
 				->string();
 		}
 		return new self($private_key, $named_curve, $public_key);

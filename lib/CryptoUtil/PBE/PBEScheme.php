@@ -6,6 +6,7 @@ use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBES2AlgorithmIdentifier;
 use CryptoUtil\Crypto\Crypto;
 use CryptoUtil\PBE\HashFunc\MD5;
 use CryptoUtil\PBE\HashFunc\SHA1;
@@ -111,6 +112,9 @@ abstract class PBEScheme
 	public static function fromAlgorithmIdentifier(PBEAlgorithmIdentifier $algo, 
 			Crypto $crypto) {
 		if ($algo->oid() == AlgorithmIdentifier::OID_PBES2) {
+			if (!$algo instanceof PBES2AlgorithmIdentifier) {
+				throw new \UnexpectedValueException("Not a PBES2 algorithm.");
+			}
 			$prf = PRF::fromAlgorithmIdentifier(
 				$algo->kdfAlgorithmIdentifier()->prfAlgorithmIdentifier());
 			return new PBES2($prf, $algo->esAlgorithmIdentifier(), $algo->salt(), 

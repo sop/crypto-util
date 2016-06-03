@@ -2,7 +2,7 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 
-use ASN1\Element;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
@@ -26,7 +26,10 @@ From RFC 5758 - 3.2.  ECDSA Signature Algorithm
 abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
 	SignatureAlgorithmIdentifier
 {
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
+		if (isset($params)) {
+			throw new \UnexpectedValueException("Parameters must be omitted.");
+		}
 		return new static();
 	}
 	

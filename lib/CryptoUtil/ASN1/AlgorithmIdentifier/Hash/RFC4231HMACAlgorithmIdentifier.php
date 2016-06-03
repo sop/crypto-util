@@ -2,8 +2,8 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Hash;
 
-use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
@@ -24,16 +24,15 @@ abstract class RFC4231HMACAlgorithmIdentifier extends SpecificAlgorithmIdentifie
 	 */
 	protected $_params;
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		/*
 		 * RFC 4231 states that the "parameter" component SHOULD be present
 		 * but have type NULL.
 		 */
-		if (isset($params)) {
-			$params->expectType(Element::TYPE_NULL);
-		}
 		$obj = new static();
-		$obj->_params = $params;
+		if (isset($params)) {
+			$obj->_params = $params->asNull();
+		}
 		return $obj;
 	}
 	

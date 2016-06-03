@@ -2,8 +2,8 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Crypto;
 
-use ASN1\Element;
 use ASN1\Type\Primitive\ObjectIdentifier;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
@@ -102,11 +102,11 @@ class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 		$this->_namedCurve = $named_curve;
 	}
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");
 		}
-		$named_curve = $params->expectType(Element::TYPE_OBJECT_IDENTIFIER)->oid();
+		$named_curve = $params->asObjectIdentifier()->oid();
 		return new self($named_curve);
 	}
 	

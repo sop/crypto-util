@@ -157,7 +157,9 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	 * @return self
 	 */
 	public static function fromASN1(Sequence $seq) {
-		$oid = $seq->at(0, Element::TYPE_OBJECT_IDENTIFIER)->oid();
+		$oid = $seq->at(0)
+			->asObjectIdentifier()
+			->oid();
 		$params = $seq->has(1) ? $seq->at(1) : null;
 		// if algorithm identifier has a specific implementation
 		if (array_key_exists($oid, self::MAP_OID_TO_CLASS)) {

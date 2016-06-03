@@ -2,8 +2,8 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 
-use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
@@ -25,7 +25,8 @@ From RFC 3279 - 2.2.1  RSA Signature Algorithm:
 abstract class RFC3279RSASignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
 	SignatureAlgorithmIdentifier
 {
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
+		$params->asNull();
 		return new static();
 	}
 	

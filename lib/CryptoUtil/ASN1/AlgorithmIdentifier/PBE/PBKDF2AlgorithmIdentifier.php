@@ -6,6 +6,7 @@ use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
@@ -81,32 +82,37 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 		$this->_prfAlgo = isset($prf_algo) ? $prf_algo : new HMACWithSHA1AlgorithmIdentifier();
 	}
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");
 		}
-		$params->expectType(Element::TYPE_SEQUENCE);
+		$seq = $params->asSequence();
 		$salt = null;
-		$el = $params->at(0);
+		$el = $seq->at(0);
 		switch ($el->tag()) {
 		// specified
 		case Element::TYPE_OCTET_STRING:
-			$salt = $el->string();
+			$salt = $el->asOctetString()->string();
 			break;
 		// otherSource
 		case Element::TYPE_SEQUENCE:
-			AlgorithmIdentifier::fromASN1($el);
+			AlgorithmIdentifier::fromASN1($el->asSequence());
 			throw new \RuntimeException("otherSource not implemented.");
 		}
-		$iteration_count = $params->at(1, Element::TYPE_INTEGER)->number();
+		$iteration_count = $seq->at(1)
+			->asInteger()
+			->number();
 		$key_length = null;
 		$prf_algo = null;
 		$idx = 2;
-		if ($params->has($idx, Element::TYPE_INTEGER)) {
-			$key_length = $params->at($idx++)->number();
+		if ($seq->has($idx, Element::TYPE_INTEGER)) {
+			$key_length = $seq->at($idx++)
+				->asInteger()
+				->number();
 		}
-		if ($params->has($idx, Element::TYPE_SEQUENCE)) {
-			$prf_algo = AlgorithmIdentifier::fromASN1($params->at($idx++));
+		if ($seq->has($idx, Element::TYPE_SEQUENCE)) {
+			$prf_algo = AlgorithmIdentifier::fromASN1(
+				$seq->at($idx++)->asSequence());
 			if (!($prf_algo instanceof PRFAlgorithmIdentifier)) {
 				throw new \UnexpectedValueException(
 					$prf_algo->oid() .

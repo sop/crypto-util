@@ -3,6 +3,7 @@
 namespace CryptoUtil\ASN1\AlgorithmIdentifier;
 
 use ASN1\Element;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 
 
@@ -22,11 +23,11 @@ class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 	 * Constructor
 	 *
 	 * @param string $oid Algorithm OID
-	 * @param Element|null $params Parameters
+	 * @param UnspecifiedType|null $params Parameters
 	 */
-	public function __construct($oid, Element $params = null) {
+	public function __construct($oid, UnspecifiedType $params = null) {
 		$this->_oid = $oid;
-		$this->_params = $params;
+		$this->_params = $params ? $params->asElement() : null;
 	}
 	
 	/**

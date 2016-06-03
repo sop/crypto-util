@@ -6,6 +6,7 @@ use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\BlockCipherAlgorithmIdentifier;
 
 
@@ -97,24 +98,28 @@ class RC2CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 		$this->_initializationVector = $iv;
 	}
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");
 		}
 		$key_bits = 32;
 		// rfc2268 a choice containing only IV
 		if ($params->isType(Element::TYPE_OCTET_STRING)) {
-			$iv = $params->string();
+			$iv = $params->asOctetString()->string();
 		} else {
-			$params->expectType(Element::TYPE_SEQUENCE);
+			$seq = $params->asSequence();
 			$idx = 0;
 			// version is optional in rfc2898
-			if ($params->has($idx, Element::TYPE_INTEGER)) {
-				$version = $params->at($idx++)->number();
+			if ($seq->has($idx, Element::TYPE_INTEGER)) {
+				$version = $seq->at($idx++)
+					->asInteger()
+					->number();
 				$key_bits = self::_versionToEKB($version);
 			}
 			// IV is present in all variants
-			$iv = $params->at($idx, Element::TYPE_OCTET_STRING)->string();
+			$iv = $seq->at($idx)
+				->asOctetString()
+				->string();
 		}
 		return new self($key_bits, $iv);
 	}

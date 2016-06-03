@@ -2,8 +2,8 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Cipher;
 
-use ASN1\Element;
 use ASN1\Type\Primitive\OctetString;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\BlockCipherAlgorithmIdentifier;
 
 
@@ -36,11 +36,11 @@ class DESEDE3CBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements
 		$this->_initializationVector = $iv;
 	}
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");
 		}
-		$iv = $params->expectType(Element::TYPE_OCTET_STRING)->string();
+		$iv = $params->asOctetString()->string();
 		return new self($iv);
 	}
 	

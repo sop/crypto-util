@@ -5,6 +5,7 @@ namespace CryptoUtil\Crypto;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\PrivateKeyInfo;
 use CryptoUtil\ASN1\PublicKeyInfo;
 
@@ -130,6 +131,9 @@ class OpenSSLCrypto extends Crypto
 		case AlgorithmIdentifier::OID_DES_CBC:
 			return "DES-CBC";
 		case AlgorithmIdentifier::OID_RC2_CBC:
+			if (!$algo instanceof RC2CBCAlgorithmIdentifier) {
+				throw new \UnexpectedValueException("Not an RC2-CBC algorithm.");
+			}
 			switch ($algo->effectiveKeyBits()) {
 			case 128:
 				return "RC2-CBC";

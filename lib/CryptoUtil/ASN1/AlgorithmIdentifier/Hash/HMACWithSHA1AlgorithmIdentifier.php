@@ -2,7 +2,7 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Hash;
 
-use ASN1\Element;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
@@ -34,7 +34,10 @@ class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
 		$this->_oid = self::OID_HMAC_WITH_SHA1;
 	}
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
+		if (isset($params)) {
+			throw new \UnexpectedValueException("Parameters must be omitted.");
+		}
 		return new self();
 	}
 	

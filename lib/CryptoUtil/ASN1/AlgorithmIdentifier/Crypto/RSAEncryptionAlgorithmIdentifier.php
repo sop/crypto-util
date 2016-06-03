@@ -2,8 +2,8 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Crypto;
 
-use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
+use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
@@ -31,7 +31,11 @@ class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 		$this->_oid = self::OID_RSA_ENCRYPTION;
 	}
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
+		if (!isset($params)) {
+			throw new \UnexpectedValueException("No parameters.");
+		}
+		$params->asNull();
 		return new self();
 	}
 	

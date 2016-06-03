@@ -2,7 +2,6 @@
 
 namespace CryptoUtil\ASN1;
 
-use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\OctetString;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEAlgorithmIdentifier;
@@ -51,13 +50,14 @@ class EncryptedPrivateKeyInfo
 	 * @return self
 	 */
 	public static function fromASN1(Sequence $seq) {
-		$algo = AlgorithmIdentifier::fromASN1(
-			$seq->at(0, Element::TYPE_SEQUENCE));
+		$algo = AlgorithmIdentifier::fromASN1($seq->at(0)->asSequence());
 		if (!($algo instanceof PBEAlgorithmIdentifier)) {
 			throw new \UnexpectedValueException(
 				"Unsupported algorithm " . $algo->oid() . ".");
 		}
-		$data = $seq->at(1, Element::TYPE_OCTET_STRING)->string();
+		$data = $seq->at(1)
+			->asOctetString()
+			->string();
 		return new self($algo, $data);
 	}
 	

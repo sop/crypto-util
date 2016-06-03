@@ -2,10 +2,10 @@
 
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\PBE;
 
-use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
+use ASN1\Type\UnspecifiedType;
 
 
 /* @formatter:off *//*
@@ -43,13 +43,17 @@ abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
 		parent::__construct($salt, $iteration_count);
 	}
 	
-	protected static function _fromASN1Params(Element $params = null) {
+	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");
 		}
-		$params->expectType(Element::TYPE_SEQUENCE);
-		$salt = $params->at(0, Element::TYPE_OCTET_STRING)->string();
-		$iteration_count = $params->at(1, Element::TYPE_INTEGER)->number();
+		$seq = $params->asSequence();
+		$salt = $seq->at(0)
+			->asOctetString()
+			->string();
+		$iteration_count = $seq->at(1)
+			->asInteger()
+			->number();
 		return new static($salt, $iteration_count);
 	}
 	

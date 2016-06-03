@@ -2,7 +2,6 @@
 
 namespace CryptoUtil\ASN1;
 
-use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
@@ -51,13 +50,16 @@ class PrivateKeyInfo
 	 * @return self
 	 */
 	public static function fromASN1(Sequence $seq) {
-		$version = $seq->at(0, Element::TYPE_INTEGER)->number();
+		$version = $seq->at(0)
+			->asInteger()
+			->number();
 		if ($version != 0) {
 			throw new \UnexpectedValueException("Version must be 0.");
 		}
-		$algo = AlgorithmIdentifier::fromASN1(
-			$seq->at(1, Element::TYPE_SEQUENCE));
-		$key = $seq->at(2, Element::TYPE_OCTET_STRING)->string();
+		$algo = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
+		$key = $seq->at(2)
+			->asOctetString()
+			->string();
 		// @todo parse attributes
 		return new self($algo, $key);
 	}

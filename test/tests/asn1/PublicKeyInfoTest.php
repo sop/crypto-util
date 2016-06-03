@@ -3,6 +3,7 @@
 use ASN1\Type\Primitive\ObjectIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPublicKey;
 use CryptoUtil\ASN1\PublicKeyInfo;
 use CryptoUtil\ASN1\RSA\RSAPublicKey;
@@ -138,5 +139,25 @@ class PubliceKeyInfoTest extends PHPUnit_Framework_TestCase
 		$ai = $seq->at(0)->withReplaced(0, new ObjectIdentifier("1.3.6.1.3"));
 		$seq = $seq->withReplaced(0, $ai);
 		PublicKeyInfo::fromASN1($seq)->publicKey();
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidECAlgoFail() {
+		$pki = new PublicKeyInfo(new PubliceKeyInfoTest_InvalidECAlgo(), "");
+		$pki->publicKey();
+	}
+}
+
+
+class PubliceKeyInfoTest_InvalidECAlgo extends SpecificAlgorithmIdentifier
+{
+	public function __construct() {
+		$this->_oid = self::OID_EC_PUBLIC_KEY;
+	}
+	
+	protected function _paramsASN1() {
+		return null;
 	}
 }

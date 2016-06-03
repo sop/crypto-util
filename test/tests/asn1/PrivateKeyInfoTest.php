@@ -1,10 +1,12 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\ObjectIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPrivateKey;
 use CryptoUtil\ASN1\PrivateKeyInfo;
 use CryptoUtil\ASN1\PublicKeyInfo;
@@ -162,5 +164,30 @@ class PrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 		$ai = $seq->at(1)->withReplaced(0, new ObjectIdentifier("1.3.6.1.3"));
 		$seq = $seq->withReplaced(1, $ai);
 		PrivateKeyInfo::fromASN1($seq)->privateKey();
+	}
+	
+	/**
+	 * @expectedException RuntimeException
+	 */
+	public function testInvalidECAlgoFail() {
+		$pem = PEM::fromFile(TEST_ASSETS_DIR . "/ec/private_key.pem");
+		$seq = Sequence::fromDER($pem->data());
+		$data = $seq->at(2)
+			->asOctetString()
+			->string();
+		$pki = new PrivateKeyInfo(new PrivateKeyInfoTest_InvalidECAlgo(), $data);
+		$pki->privateKey();
+	}
+}
+
+
+class PrivateKeyInfoTest_InvalidECAlgo extends SpecificAlgorithmIdentifier
+{
+	public function __construct() {
+		$this->_oid = self::OID_EC_PUBLIC_KEY;
+	}
+	
+	protected function _paramsASN1() {
+		return null;
 	}
 }

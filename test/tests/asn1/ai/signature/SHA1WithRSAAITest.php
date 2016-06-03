@@ -1,8 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA1WithRSAEncryptionAlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -28,5 +28,27 @@ class SHA1WithRSAAITest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(SHA1WithRSAEncryptionAlgorithmIdentifier::class, 
 			$ai);
 		return $ai;
+	}
+	
+	/**
+	 * @depends testEncode
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeNoParamsFail(Sequence $seq) {
+		$seq = $seq->withoutElement(1);
+		AlgorithmIdentifier::fromASN1($seq);
+	}
+	
+	/**
+	 * @depends testEncode
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeInvalidParamsFail(Sequence $seq) {
+		$seq = $seq->withReplaced(1, new Sequence());
+		AlgorithmIdentifier::fromASN1($seq);
 	}
 }

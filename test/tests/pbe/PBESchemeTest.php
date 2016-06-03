@@ -8,6 +8,7 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndRC2CBCAlgorithmIdentifi
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithSHA1AndDESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithSHA1AndRC2CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBKDF2AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\Crypto\Crypto;
 use CryptoUtil\PBE\HashFunc\MD5;
 use CryptoUtil\PBE\PBES1;
@@ -123,6 +124,15 @@ class PBESchemeTest extends PHPUnit_Framework_TestCase
 			new PBESchemeTest_UnsupportedPBEAlgo("12345678", 8), 
 			Crypto::getDefault());
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidPBES2AlgoFail() {
+		PBEScheme::fromAlgorithmIdentifier(
+			new PBESchemeTest_InvalidPBES2Algo("12345678", 8), 
+			Crypto::getDefault());
+	}
 }
 
 
@@ -131,6 +141,19 @@ class PBESchemeTest_UnsupportedPBEAlgo extends PBEAlgorithmIdentifier
 	public function __construct($salt, $iteration_count) {
 		parent::__construct($salt, $iteration_count);
 		$this->_oid = "1.3.6.1.3";
+	}
+	
+	protected function _paramsASN1() {
+		return null;
+	}
+}
+
+
+class PBESchemeTest_InvalidPBES2Algo extends PBEAlgorithmIdentifier
+{
+	public function __construct($salt, $iteration_count) {
+		parent::__construct($salt, $iteration_count);
+		$this->_oid = AlgorithmIdentifier::OID_PBES2;
 	}
 	
 	protected function _paramsASN1() {

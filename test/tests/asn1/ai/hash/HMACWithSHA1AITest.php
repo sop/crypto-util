@@ -1,8 +1,9 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
+use ASN1\Type\Primitive\NullType;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -27,5 +28,16 @@ class HMACWithSHA1AITest extends PHPUnit_Framework_TestCase
 		$ai = AlgorithmIdentifier::fromASN1($seq);
 		$this->assertInstanceOf(HMACWithSHA1AlgorithmIdentifier::class, $ai);
 		return $ai;
+	}
+	
+	/**
+	 * @depends testEncode
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeWithParamsFail(Sequence $seq) {
+		$seq = $seq->withInserted(1, new NullType());
+		AlgorithmIdentifier::fromASN1($seq);
 	}
 }

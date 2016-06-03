@@ -14,6 +14,7 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA224WithRSAEncryptionAlgorit
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA256WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA384WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\PrivateKeyInfo;
 use CryptoUtil\ASN1\RSA\RSAPrivateKey;
 use CryptoUtil\Crypto\OpenSSLCrypto;
@@ -203,6 +204,14 @@ class OpenSSLCryptoTest extends PHPUnit_Framework_TestCase
 		self::$_crypto->encrypt(self::DATA, "", 
 			new OpenSSLCryptoTest_UnsupportedCipher());
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidRC2AlgoFail() {
+		self::$_crypto->encrypt(self::DATA, "", 
+			new OpenSSLCryptoTest_InvalidRC2());
+	}
 }
 
 
@@ -210,6 +219,22 @@ class OpenSSLCryptoTest_UnsupportedCipher extends CipherAlgorithmIdentifier
 {
 	public function __construct() {
 		$this->_oid = "1.3.6.1.3";
+	}
+	
+	public function keySize() {
+		return 1;
+	}
+	
+	protected function _paramsASN1() {
+		return null;
+	}
+}
+
+
+class OpenSSLCryptoTest_InvalidRC2 extends CipherAlgorithmIdentifier
+{
+	public function __construct() {
+		$this->_oid = AlgorithmIdentifier::OID_RC2_CBC;
 	}
 	
 	public function keySize() {

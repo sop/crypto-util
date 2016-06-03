@@ -1,8 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\RSAEncryptionAlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -27,5 +27,16 @@ class RSAEncAITest extends PHPUnit_Framework_TestCase
 		$ai = AlgorithmIdentifier::fromASN1($seq);
 		$this->assertInstanceOf(RSAEncryptionAlgorithmIdentifier::class, $ai);
 		return $ai;
+	}
+	
+	/**
+	 * @depends testEncode
+	 * @expectedException UnexpectedValueException
+	 *
+	 * @param Sequence $seq
+	 */
+	public function testDecodeNoParamsFail(Sequence $seq) {
+		$seq = $seq->withoutElement(1);
+		AlgorithmIdentifier::fromASN1($seq);
 	}
 }

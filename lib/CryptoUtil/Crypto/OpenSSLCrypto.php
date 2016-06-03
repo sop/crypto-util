@@ -90,6 +90,26 @@ class OpenSSLCrypto extends Crypto
 	}
 	
 	/**
+	 * Mapping from algorithm OID to OpenSSL digest method name.
+	 *
+	 * @internal
+	 *
+	 * @var array
+	 */
+	const MAP_DIGEST_OID_TO_NAME = array(
+		/* @formatter:off */
+		AlgorithmIdentifier::OID_MD4_WITH_RSA_ENCRYPTION => "md4WithRSAEncryption",
+		AlgorithmIdentifier::OID_MD5_WITH_RSA_ENCRYPTION => "md5WithRSAEncryption",
+		AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION => "sha1WithRSAEncryption",
+		AlgorithmIdentifier::OID_SHA224_WITH_RSA_ENCRYPTION => "sha224WithRSAEncryption",
+		AlgorithmIdentifier::OID_SHA256_WITH_RSA_ENCRYPTION => "sha256WithRSAEncryption",
+		AlgorithmIdentifier::OID_SHA384_WITH_RSA_ENCRYPTION => "sha384WithRSAEncryption",
+		AlgorithmIdentifier::OID_SHA512_WITH_RSA_ENCRYPTION => "sha512WithRSAEncryption",
+		AlgorithmIdentifier::OID_ECDSA_WITH_SHA1 => "ecdsa-with-SHA1"
+		/* @formatter:on */
+	);
+	
+	/**
 	 * Get OpenSSL digest method for given signature algorithm identifier.
 	 *
 	 * @param SignatureAlgorithmIdentifier $algo
@@ -97,26 +117,12 @@ class OpenSSLCrypto extends Crypto
 	 * @return string
 	 */
 	protected function _algoToDigest(SignatureAlgorithmIdentifier $algo) {
-		switch ($algo->oid()) {
-		case AlgorithmIdentifier::OID_MD4_WITH_RSA_ENCRYPTION:
-			return "md4WithRSAEncryption";
-		case AlgorithmIdentifier::OID_MD5_WITH_RSA_ENCRYPTION:
-			return "md5WithRSAEncryption";
-		case AlgorithmIdentifier::OID_SHA1_WITH_RSA_ENCRYPTION:
-			return "sha1WithRSAEncryption";
-		case AlgorithmIdentifier::OID_SHA224_WITH_RSA_ENCRYPTION:
-			return "sha224WithRSAEncryption";
-		case AlgorithmIdentifier::OID_SHA256_WITH_RSA_ENCRYPTION:
-			return "sha256WithRSAEncryption";
-		case AlgorithmIdentifier::OID_SHA384_WITH_RSA_ENCRYPTION:
-			return "sha384WithRSAEncryption";
-		case AlgorithmIdentifier::OID_SHA512_WITH_RSA_ENCRYPTION:
-			return "sha512WithRSAEncryption";
-		case AlgorithmIdentifier::OID_ECDSA_WITH_SHA1:
-			return "ecdsa-with-SHA1";
+		$oid = $algo->oid();
+		if (!array_key_exists($oid, self::MAP_DIGEST_OID_TO_NAME)) {
+			throw new \UnexpectedValueException(
+				"Digest method $oid not supported.");
 		}
-		throw new \UnexpectedValueException(
-			"Digest method " . $algo->oid() . " not supported.");
+		return self::MAP_DIGEST_OID_TO_NAME[$oid];
 	}
 	
 	/**
@@ -134,20 +140,31 @@ class OpenSSLCrypto extends Crypto
 			if (!$algo instanceof RC2CBCAlgorithmIdentifier) {
 				throw new \UnexpectedValueException("Not an RC2-CBC algorithm.");
 			}
-			switch ($algo->effectiveKeyBits()) {
-			case 128:
-				return "RC2-CBC";
-			case 64:
-				return "RC2-64-CBC";
-			case 40:
-				return "RC2-40-CBC";
-			}
-			throw new \UnexpectedValueException(
-				$algo->effectiveKeyBits() . " bit RC2 supported.");
+			return $this->_rc2AlgoToCipher($algo);
 		case AlgorithmIdentifier::OID_DES_EDE3_CBC:
 			return "DES-EDE3-CBC";
 		}
 		throw new \UnexpectedValueException(
 			"Cipher method " . $algo->oid() . " not supported.");
+	}
+	
+	/**
+	 * Get OpenSSL cipher method for given RC2 algorithm identifier.
+	 *
+	 * @param RC2CBCAlgorithmIdentifier $algo
+	 * @throws \UnexpectedValueException
+	 * @return string
+	 */
+	protected function _rc2AlgoToCipher(RC2CBCAlgorithmIdentifier $algo) {
+		switch ($algo->effectiveKeyBits()) {
+		case 128:
+			return "RC2-CBC";
+		case 64:
+			return "RC2-64-CBC";
+		case 40:
+			return "RC2-40-CBC";
+		}
+		throw new \UnexpectedValueException(
+			$algo->effectiveKeyBits() . " bit RC2 supported.");
 	}
 }

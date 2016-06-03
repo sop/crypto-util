@@ -61,7 +61,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	/**
 	 * Pseudorandom function algorithm identifier.
 	 *
-	 * @var PRFAlgorithmIdentifier|null $_prfAlgo
+	 * @var PRFAlgorithmIdentifier $_prfAlgo
 	 */
 	protected $_prfAlgo;
 	

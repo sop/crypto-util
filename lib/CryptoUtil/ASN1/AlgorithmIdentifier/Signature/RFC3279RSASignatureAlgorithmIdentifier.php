@@ -26,6 +26,9 @@ abstract class RFC3279RSASignatureAlgorithmIdentifier extends SpecificAlgorithmI
 	SignatureAlgorithmIdentifier
 {
 	protected static function _fromASN1Params(UnspecifiedType $params = null) {
+		if (!isset($params)) {
+			throw new \UnexpectedValueException("No parameters.");
+		}
 		$params->asNull();
 		return new static();
 	}

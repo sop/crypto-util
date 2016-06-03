@@ -4,7 +4,6 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Cipher;
 
 use ASN1\Type\Primitive\OctetString;
 use ASN1\Type\UnspecifiedType;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\BlockCipherAlgorithmIdentifier;
 
 
 /* @formatter:off *//*
@@ -22,8 +21,7 @@ RFC 2898 defines parameters as follows:
  * @link http://www.oid-info.com/get/1.3.14.3.2.7
  * @link https://tools.ietf.org/html/rfc2898#appendix-C
  */
-class DESCBCAlgorithmIdentifier extends CipherAlgorithmIdentifier implements 
-	BlockCipherAlgorithmIdentifier
+class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 {
 	/**
 	 * Constructor

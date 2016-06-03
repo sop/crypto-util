@@ -2,7 +2,7 @@
 
 namespace CryptoUtil\PBE;
 
-use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\BlockCipherAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\BlockCipherAlgorithmIdentifier;
 use CryptoUtil\Crypto\Crypto;
 use CryptoUtil\PBE\PBEKD\PBEKDF2;
 use CryptoUtil\PBE\PRF\PRF;

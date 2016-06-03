@@ -5,7 +5,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\PBE;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\BlockCipherAlgorithmIdentifier;
 
 
 /* @formatter:off *//*
@@ -39,7 +39,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 	/**
 	 * Encryption algorithm identifier.
 	 *
-	 * @var CipherAlgorithmIdentifier $_es
+	 * @var BlockCipherAlgorithmIdentifier $_es
 	 */
 	protected $_es;
 	
@@ -47,10 +47,10 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 	 * Constructor
 	 *
 	 * @param PBKDF2AlgorithmIdentifier $kdf
-	 * @param CipherAlgorithmIdentifier $es
+	 * @param BlockCipherAlgorithmIdentifier $es
 	 */
 	public function __construct(PBKDF2AlgorithmIdentifier $kdf, 
-			CipherAlgorithmIdentifier $es) {
+			BlockCipherAlgorithmIdentifier $es) {
 		parent::__construct($kdf->salt(), $kdf->iterationCount());
 		$this->_oid = self::OID_PBES2;
 		$this->_kdf = $kdf;
@@ -70,7 +70,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 		}
 		$es = AlgorithmIdentifier::fromASN1($seq->at(1)->asSequence());
 		// ensure we got proper encryption algorithm
-		if (!($es instanceof CipherAlgorithmIdentifier)) {
+		if (!($es instanceof BlockCipherAlgorithmIdentifier)) {
 			throw new \UnexpectedValueException(
 				"ES algorithm " . $es->oid() . " not supported.");
 		}
@@ -89,7 +89,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
 	/**
 	 * Get encryption scheme algorithm identifier.
 	 *
-	 * @return CipherAlgorithmIdentifier
+	 * @return BlockCipherAlgorithmIdentifier
 	 */
 	public function esAlgorithmIdentifier() {
 		return $this->_es;

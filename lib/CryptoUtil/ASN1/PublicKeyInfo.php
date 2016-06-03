@@ -4,6 +4,7 @@ namespace CryptoUtil\ASN1;
 
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\BitString;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPublicKey;
 use CryptoUtil\ASN1\RSA\RSAPublicKey;
 use CryptoUtil\PEM\PEM;
@@ -104,18 +105,21 @@ class PublicKeyInfo
 	 * @return PublicKey
 	 */
 	public function publicKey() {
-		switch ($this->_algo->oid()) {
+		$algo = $this->algorithmIdentifier();
+		switch ($algo->oid()) {
 		// RSA
 		case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
 			return RSAPublicKey::fromDER($this->_publicKeyData);
 		// elliptic curve
 		case AlgorithmIdentifier::OID_EC_PUBLIC_KEY:
+			if (!$algo instanceof ECPublicKeyAlgorithmIdentifier) {
+				throw new \UnexpectedValueException("Not an EC algorithm.");
+			}
 			// ECPoint is directly mapped into public key data
-			return new ECPublicKey($this->_publicKeyData, 
-				$this->_algo->namedCurve());
+			return new ECPublicKey($this->_publicKeyData, $algo->namedCurve());
 		}
 		throw new \RuntimeException(
-			"Public key " . $this->_algo->oid() . " not supported.");
+			"Public key " . $algo->oid() . " not supported.");
 	}
 	
 	/**

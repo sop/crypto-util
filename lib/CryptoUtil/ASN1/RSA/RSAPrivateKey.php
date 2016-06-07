@@ -2,7 +2,6 @@
 
 namespace CryptoUtil\ASN1\RSA;
 
-use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
@@ -106,18 +105,25 @@ class RSAPrivateKey extends PrivateKey
 	 * @return self
 	 */
 	public static function fromASN1(Sequence $seq) {
-		$version = $seq->at(0, Element::TYPE_INTEGER)->number();
+		$version = $seq->at(0)
+			->asInteger()
+			->number();
 		if ($version != 0) {
 			throw new \UnexpectedValueException("Version must be 0.");
 		}
-		$n = $seq->at(1, Element::TYPE_INTEGER)->number();
-		$e = $seq->at(2, Element::TYPE_INTEGER)->number();
-		$d = $seq->at(3, Element::TYPE_INTEGER)->number();
-		$p = $seq->at(4, Element::TYPE_INTEGER)->number();
-		$q = $seq->at(5, Element::TYPE_INTEGER)->number();
-		$dp = $seq->at(6, Element::TYPE_INTEGER)->number();
-		$dq = $seq->at(7, Element::TYPE_INTEGER)->number();
-		$qi = $seq->at(8, Element::TYPE_INTEGER)->number();
+		$int_from_idx = function ($idx) use ($seq) {
+			return $seq->at($idx)
+				->asInteger()
+				->number();
+		};
+		$n = $int_from_idx(1);
+		$e = $int_from_idx(2);
+		$d = $int_from_idx(3);
+		$p = $int_from_idx(4);
+		$q = $int_from_idx(5);
+		$dp = $int_from_idx(6);
+		$dq = $int_from_idx(7);
+		$qi = $int_from_idx(8);
 		return new self($n, $e, $d, $p, $q, $dp, $dq, $qi);
 	}
 	

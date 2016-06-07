@@ -2,7 +2,6 @@
 
 namespace CryptoUtil\ASN1\RSA;
 
-use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
@@ -51,8 +50,12 @@ class RSAPublicKey extends PublicKey
 	 * @return self
 	 */
 	public static function fromASN1(Sequence $seq) {
-		$n = $seq->at(0, Element::TYPE_INTEGER)->number();
-		$e = $seq->at(1, Element::TYPE_INTEGER)->number();
+		$n = $seq->at(0)
+			->asInteger()
+			->number();
+		$e = $seq->at(1)
+			->asInteger()
+			->number();
 		return new self($n, $e);
 	}
 	
@@ -78,12 +81,12 @@ class RSAPublicKey extends PublicKey
 			return self::fromDER($pem->data());
 		}
 		if ($pem->type() != PEM::TYPE_PUBLIC_KEY) {
-			throw new \UnexpectedValueException("Invalid PEM type");
+			throw new \UnexpectedValueException("Invalid PEM type.");
 		}
 		$pki = PublicKeyInfo::fromDER($pem->data());
 		if ($pki->algorithmIdentifier()->oid() !=
 			 AlgorithmIdentifier::OID_RSA_ENCRYPTION) {
-			throw new \UnexpectedValueException("Not an RSA public key");
+			throw new \UnexpectedValueException("Not an RSA public key.");
 		}
 		return self::fromDER($pki->publicKeyData());
 	}

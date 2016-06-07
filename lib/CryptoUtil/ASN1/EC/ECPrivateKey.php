@@ -68,7 +68,7 @@ class ECPrivateKey extends PrivateKey
 		$version = $seq->at(0)
 			->asInteger()
 			->number();
-		if ($version != 1) {
+		if (1 != $version) {
 			throw new \UnexpectedValueException("Version must be 1.");
 		}
 		$private_key = $seq->at(1)

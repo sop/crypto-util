@@ -212,8 +212,8 @@ class ECPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Get private key as a PEM.
 	 *
+	 * @see \CryptoUtil\ASN1\PrivateKey::toPEM()
 	 * @return PEM
 	 */
 	public function toPEM() {

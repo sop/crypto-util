@@ -34,6 +34,13 @@ abstract class PrivateKey
 	abstract public function toDER();
 	
 	/**
+	 * Get the private key as a PEM.
+	 *
+	 * @return PEM
+	 */
+	abstract public function toPEM();
+	
+	/**
 	 * Initialize private key from PEM.
 	 *
 	 * @param PEM $pem

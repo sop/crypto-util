@@ -273,8 +273,8 @@ class RSAPrivateKey extends PrivateKey
 	}
 	
 	/**
-	 * Generate PEM.
 	 *
+	 * @see \CryptoUtil\ASN1\PrivateKey::toPEM()
 	 * @return PEM
 	 */
 	public function toPEM() {

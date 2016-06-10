@@ -281,6 +281,10 @@ class OpenSSLCryptoTest_UnsupportedCipher extends CipherAlgorithmIdentifier
 		$this->_oid = "1.3.6.1.3";
 	}
 	
+	public function name() {
+		return "";
+	}
+	
 	public function keySize() {
 		return 1;
 	}
@@ -299,6 +303,10 @@ class OpenSSLCryptoTest_InvalidRC2 extends CipherAlgorithmIdentifier
 {
 	public function __construct() {
 		$this->_oid = AlgorithmIdentifier::OID_RC2_CBC;
+	}
+	
+	public function name() {
+		return "";
 	}
 	
 	public function keySize() {

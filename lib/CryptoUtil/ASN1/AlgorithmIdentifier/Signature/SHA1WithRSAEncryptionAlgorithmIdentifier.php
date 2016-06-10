@@ -15,4 +15,12 @@ class SHA1WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgori
 	public function __construct() {
 		$this->_oid = self::OID_SHA1_WITH_RSA_ENCRYPTION;
 	}
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "sha1-with-rsa-signature";
+	}
 }

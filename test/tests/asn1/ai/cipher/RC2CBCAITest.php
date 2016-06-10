@@ -110,4 +110,13 @@ class RC2CBCAITest extends PHPUnit_Framework_TestCase
 	public function testInvalidIVSizeFail() {
 		new RC2CBCAlgorithmIdentifier(64, "1234");
 	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
+	}
 }

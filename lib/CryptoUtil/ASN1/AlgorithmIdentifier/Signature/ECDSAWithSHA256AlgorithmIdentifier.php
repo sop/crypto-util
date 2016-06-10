@@ -15,4 +15,12 @@ class ECDSAWithSHA256AlgorithmIdentifier extends ECSignatureAlgorithmIdentifier
 	public function __construct() {
 		$this->_oid = self::OID_ECDSA_WITH_SHA256;
 	}
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "ecdsa-with-SHA256";
+	}
 }

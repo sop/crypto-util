@@ -28,4 +28,13 @@ class HMACWithSHA256AITest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(HMACWithSHA256AlgorithmIdentifier::class, $ai);
 		return $ai;
 	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
+	}
 }

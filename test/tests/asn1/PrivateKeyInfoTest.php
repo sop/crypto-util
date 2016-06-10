@@ -187,6 +187,10 @@ class PrivateKeyInfoTest_InvalidECAlgo extends SpecificAlgorithmIdentifier
 		$this->_oid = self::OID_EC_PUBLIC_KEY;
 	}
 	
+	public function name() {
+		return "";
+	}
+	
 	protected function _paramsASN1() {
 		return null;
 	}

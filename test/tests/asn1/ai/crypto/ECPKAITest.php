@@ -50,4 +50,13 @@ class ECPKAITest extends PHPUnit_Framework_TestCase
 	public function testNamedCurve(ECPublicKeyAlgorithmIdentifier $ai) {
 		$this->assertEquals(self::OID, $ai->namedCurve());
 	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
+	}
 }

@@ -39,4 +39,13 @@ class RSAEncAITest extends PHPUnit_Framework_TestCase
 		$seq = $seq->withoutElement(1);
 		AlgorithmIdentifier::fromASN1($seq);
 	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
+	}
 }

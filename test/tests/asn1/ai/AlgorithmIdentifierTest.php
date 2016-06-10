@@ -50,4 +50,13 @@ class AlgorithmIdentifierTest extends PHPUnit_Framework_TestCase
 		$mtd->setAccessible(true);
 		$mtd->invoke(null);
 	}
+	
+	/**
+	 * @depends testFromUnknownASN1
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
+	}
 }

@@ -29,4 +29,13 @@ class MD4WithRSAAITest extends PHPUnit_Framework_TestCase
 			$ai);
 		return $ai;
 	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
+	}
 }

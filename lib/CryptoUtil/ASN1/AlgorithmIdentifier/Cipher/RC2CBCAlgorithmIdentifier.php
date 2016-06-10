@@ -97,6 +97,14 @@ class RC2CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 		$this->_initializationVector = $iv;
 	}
 	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "rc2-cbc";
+	}
+	
 	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");

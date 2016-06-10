@@ -16,4 +16,12 @@ class MD4WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorit
 	public function __construct() {
 		$this->_oid = self::OID_MD4_WITH_RSA_ENCRYPTION;
 	}
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "md4withRSAEncryption";
+	}
 }

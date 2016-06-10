@@ -31,6 +31,14 @@ class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 		$this->_oid = self::OID_RSA_ENCRYPTION;
 	}
 	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "rsaEncryption";
+	}
+	
 	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");

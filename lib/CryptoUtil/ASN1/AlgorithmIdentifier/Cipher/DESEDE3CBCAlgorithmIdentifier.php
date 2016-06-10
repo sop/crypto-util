@@ -35,6 +35,14 @@ class DESEDE3CBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 		$this->_initializationVector = $iv;
 	}
 	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "des-EDE3-CBC";
+	}
+	
 	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");

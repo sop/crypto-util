@@ -1,8 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithSHA1AndDESCBCAlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -50,7 +50,16 @@ class PBEWithSHA1AndDESCBCAITest extends PHPUnit_Framework_TestCase
 	 * @param PBEWithSHA1AndDESCBCAlgorithmIdentifier $ai
 	 */
 	public function testIterationCount(
-		PBEWithSHA1AndDESCBCAlgorithmIdentifier $ai) {
+			PBEWithSHA1AndDESCBCAlgorithmIdentifier $ai) {
 		$this->assertEquals(self::COUNT, $ai->iterationCount());
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
 	}
 }

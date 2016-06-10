@@ -82,6 +82,14 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 		$this->_prfAlgo = isset($prf_algo) ? $prf_algo : new HMACWithSHA1AlgorithmIdentifier();
 	}
 	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "pBKDF2";
+	}
+	
 	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {
 			throw new \UnexpectedValueException("No parameters.");

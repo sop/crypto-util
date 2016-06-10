@@ -1,8 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndRC2CBCAlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -49,7 +49,16 @@ class PBEWithMD5AndRC2CBCAITest extends PHPUnit_Framework_TestCase
 	 * @param PBEWithMD5AndRC2CBCAlgorithmIdentifier $ai
 	 */
 	public function testIterationCount(
-		PBEWithMD5AndRC2CBCAlgorithmIdentifier $ai) {
+			PBEWithMD5AndRC2CBCAlgorithmIdentifier $ai) {
 		$this->assertEquals(self::COUNT, $ai->iterationCount());
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
 	}
 }

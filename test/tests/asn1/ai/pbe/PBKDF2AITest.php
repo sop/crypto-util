@@ -152,4 +152,13 @@ class PBEKDF2AITest extends PHPUnit_Framework_TestCase
 		$seq = $seq->withReplaced(1, $params);
 		AlgorithmIdentifier::fromASN1($seq);
 	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
+	}
 }

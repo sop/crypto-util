@@ -16,4 +16,12 @@ class MD5WithRSAEncryptionAlgorithmIdentifier extends RFC3279RSASignatureAlgorit
 	public function __construct() {
 		$this->_oid = self::OID_MD5_WITH_RSA_ENCRYPTION;
 	}
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "md5WithRSAEncryption";
+	}
 }

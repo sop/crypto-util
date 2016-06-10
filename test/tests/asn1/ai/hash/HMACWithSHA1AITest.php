@@ -40,4 +40,13 @@ class HMACWithSHA1AITest extends PHPUnit_Framework_TestCase
 		$seq = $seq->withInserted(1, new NullType());
 		AlgorithmIdentifier::fromASN1($seq);
 	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
+	}
 }

@@ -20,4 +20,12 @@ class PBEWithSHA1AndRC2CBCAlgorithmIdentifier extends PBES1AlgorithmIdentifier
 		parent::__construct($salt, $iteration_count);
 		$this->_oid = self::OID_PBE_WITH_SHA1_AND_RC2_CBC;
 	}
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "pbeWithSHA1AndRC2-CBC";
+	}
 }

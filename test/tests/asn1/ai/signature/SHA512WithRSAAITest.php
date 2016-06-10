@@ -1,8 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\SHA512WithRSAEncryptionAlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -28,5 +28,14 @@ class SHA512WithRSAAITest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(
 			SHA512WithRSAEncryptionAlgorithmIdentifier::class, $ai);
 		return $ai;
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
 	}
 }

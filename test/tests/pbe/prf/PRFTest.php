@@ -32,4 +32,8 @@ class PRFTest_UnsupportedAlgo extends RFC4231HMACAlgorithmIdentifier
 	public function __construct() {
 		$this->_oid = "1.3.6.1.3";
 	}
+	
+	public function name() {
+		return "";
+	}
 }

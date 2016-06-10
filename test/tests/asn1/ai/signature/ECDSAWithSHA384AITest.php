@@ -1,8 +1,8 @@
 <?php
 
+use ASN1\Type\Constructed\Sequence;
 use CryptoUtil\ASN1\AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA384AlgorithmIdentifier;
-use ASN1\Type\Constructed\Sequence;
 
 
 /**
@@ -25,8 +25,16 @@ class ECDSAWithSHA384AITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecode(Sequence $seq) {
 		$ai = AlgorithmIdentifier::fromASN1($seq);
-		$this->assertInstanceOf(
-			ECDSAWithSHA384AlgorithmIdentifier::class, $ai);
+		$this->assertInstanceOf(ECDSAWithSHA384AlgorithmIdentifier::class, $ai);
 		return $ai;
+	}
+	
+	/**
+	 * @depends testDecode
+	 *
+	 * @param AlgorithmIdentifier $algo
+	 */
+	public function testName(AlgorithmIdentifier $algo) {
+		$this->assertInternalType("string", $algo->name());
 	}
 }

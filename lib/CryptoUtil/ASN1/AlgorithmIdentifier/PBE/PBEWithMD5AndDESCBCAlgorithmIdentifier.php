@@ -20,4 +20,12 @@ class PBEWithMD5AndDESCBCAlgorithmIdentifier extends PBES1AlgorithmIdentifier
 		parent::__construct($salt, $iteration_count);
 		$this->_oid = self::OID_PBE_WITH_MD5_AND_DES_CBC;
 	}
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "pbeWithMD5AndDES-CBC";
+	}
 }

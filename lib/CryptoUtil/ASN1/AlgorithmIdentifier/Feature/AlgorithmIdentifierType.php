@@ -11,11 +11,18 @@ use ASN1\Type\Constructed\Sequence;
 interface AlgorithmIdentifierType
 {
 	/**
-	 * Get object identifier.
+	 * Get the object identifier of the algorithm.
 	 *
 	 * @return string
 	 */
 	public function oid();
+	
+	/**
+	 * Get a human readable name of the algorithm.
+	 *
+	 * @return string
+	 */
+	public function name();
 	
 	/**
 	 * Generate ASN.1 structure.

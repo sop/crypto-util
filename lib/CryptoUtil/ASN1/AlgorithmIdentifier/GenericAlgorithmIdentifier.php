@@ -32,6 +32,14 @@ class GenericAlgorithmIdentifier extends AlgorithmIdentifier
 	
 	/**
 	 *
+	 * @return string
+	 */
+	public function name() {
+		return $this->_oid;
+	}
+	
+	/**
+	 *
 	 * @see \CryptoUtil\ASN1\AlgorithmIdentifier::_paramsASN1()
 	 * @return Element|null
 	 */

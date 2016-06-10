@@ -143,6 +143,10 @@ class PBESchemeTest_UnsupportedPBEAlgo extends PBEAlgorithmIdentifier
 		$this->_oid = "1.3.6.1.3";
 	}
 	
+	public function name() {
+		return "";
+	}
+	
 	protected function _paramsASN1() {
 		return null;
 	}
@@ -154,6 +158,10 @@ class PBESchemeTest_InvalidPBES2Algo extends PBEAlgorithmIdentifier
 	public function __construct($salt, $iteration_count) {
 		parent::__construct($salt, $iteration_count);
 		$this->_oid = AlgorithmIdentifier::OID_PBES2;
+	}
+	
+	public function name() {
+		return "";
 	}
 	
 	protected function _paramsASN1() {

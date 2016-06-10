@@ -25,13 +25,22 @@ algid-hmacWithSHA1 AlgorithmIdentifier {{PBKDF2-PRFs}} ::=
  * @link https://tools.ietf.org/html/rfc2898#appendix-C
  */
 class HMACWithSHA1AlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
-	HashAlgorithmIdentifier, PRFAlgorithmIdentifier
+	HashAlgorithmIdentifier, 
+	PRFAlgorithmIdentifier
 {
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		$this->_oid = self::OID_HMAC_WITH_SHA1;
+	}
+	
+	/**
+	 *
+	 * @return string
+	 */
+	public function name() {
+		return "hmacWithSHA1";
 	}
 	
 	protected static function _fromASN1Params(UnspecifiedType $params = null) {

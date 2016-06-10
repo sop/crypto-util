@@ -105,8 +105,9 @@ class OpenSSLCrypto extends Crypto
 			AlgorithmIdentifier $key_algo) {
 		if (!$sig_algo->supportsKeyAlgorithm($key_algo)) {
 			throw new \UnexpectedValueException(
-				"Signature algorithm " . $sig_algo->oid() .
-					 " does not support key algorithm " . $key_algo->oid());
+				"Signature algorithm '" . $sig_algo->name() .
+					 "' does not support key algorithm '" . $key_algo->name() .
+					 "'.");
 		}
 	}
 	

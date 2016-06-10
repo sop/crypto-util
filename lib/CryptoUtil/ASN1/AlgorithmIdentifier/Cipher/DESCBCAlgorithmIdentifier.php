@@ -26,9 +26,10 @@ class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 	/**
 	 * Constructor
 	 *
-	 * @param string|null $iv
+	 * @param string|null $iv Initialization vector
 	 */
 	public function __construct($iv = null) {
+		$this->_checkIVSize($iv);
 		$this->_oid = self::OID_DES_CBC;
 		$this->_initializationVector = $iv;
 	}
@@ -53,6 +54,10 @@ class DESCBCAlgorithmIdentifier extends BlockCipherAlgorithmIdentifier
 	}
 	
 	public function keySize() {
+		return 8;
+	}
+	
+	public function ivSize() {
 		return 8;
 	}
 }

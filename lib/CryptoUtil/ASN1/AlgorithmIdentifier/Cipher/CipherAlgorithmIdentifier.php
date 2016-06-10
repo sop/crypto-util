@@ -25,6 +25,13 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	abstract public function keySize();
 	
 	/**
+	 * Get the initialization vector size in bytes.
+	 *
+	 * @return int
+	 */
+	abstract public function ivSize();
+	
+	/**
 	 * Get initialization vector.
 	 *
 	 * @return string|null
@@ -36,12 +43,27 @@ abstract class CipherAlgorithmIdentifier extends SpecificAlgorithmIdentifier
 	/**
 	 * Get copy of the object with given initialization vector.
 	 *
-	 * @param string|null $iv
+	 * @param string|null $iv Initialization vector or null to remove
+	 * @throws \UnexpectedValueException If initialization vector size is
+	 *         invalid
 	 * @return self
 	 */
 	public function withInitializationVector($iv) {
+		$this->_checkIVSize($iv);
 		$obj = clone $this;
 		$obj->_initializationVector = $iv;
 		return $obj;
+	}
+	
+	/**
+	 * Check that initialization vector size is valid for the cipher.
+	 *
+	 * @param string|null $iv
+	 * @throws \UnexpectedValueException
+	 */
+	protected function _checkIVSize($iv) {
+		if (null !== $iv && strlen($iv) != $this->ivSize()) {
+			throw new \UnexpectedValueException("Invalid IV size.");
+		}
 	}
 }

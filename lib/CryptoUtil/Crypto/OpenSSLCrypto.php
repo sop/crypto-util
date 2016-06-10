@@ -165,6 +165,6 @@ class OpenSSLCrypto extends Crypto
 			return "RC2-40-CBC";
 		}
 		throw new \UnexpectedValueException(
-			$algo->effectiveKeyBits() . " bit RC2 supported.");
+			$algo->effectiveKeyBits() . " bit RC2 not supported.");
 	}
 }

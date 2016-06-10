@@ -21,6 +21,8 @@ class OpenSSLCrypto extends Crypto
 	 */
 	public function sign($data, PrivateKeyInfo $privkey_info, 
 			SignatureAlgorithmIdentifier $algo) {
+		$this->_checkSignatureAlgoAndKey($algo, 
+			$privkey_info->algorithmIdentifier());
 		$result = openssl_sign($data, $signature, $privkey_info->toPEM(), 
 			$this->_algoToDigest($algo));
 		if (false === $result) {
@@ -36,6 +38,8 @@ class OpenSSLCrypto extends Crypto
 	 */
 	public function verify($data, Signature $signature, 
 			PublicKeyInfo $pubkey_info, SignatureAlgorithmIdentifier $algo) {
+		$this->_checkSignatureAlgoAndKey($algo, 
+			$pubkey_info->algorithmIdentifier());
 		$result = openssl_verify($data, $signature->octets(), 
 			$pubkey_info->toPEM(), $this->_algoToDigest($algo));
 		if (-1 == $result) {
@@ -90,6 +94,23 @@ class OpenSSLCrypto extends Crypto
 	}
 	
 	/**
+	 * Check that given signature algorithm supports key of given type.
+	 *
+	 * @param SignatureAlgorithmIdentifier $sig_algo Signature algorithm
+	 * @param AlgorithmIdentifier $key_algo Key algorithm
+	 * @throws \UnexpectedValueException If key is not supported
+	 */
+	protected function _checkSignatureAlgoAndKey(
+			SignatureAlgorithmIdentifier $sig_algo, 
+			AlgorithmIdentifier $key_algo) {
+		if (!$sig_algo->supportsKeyAlgorithm($key_algo)) {
+			throw new \UnexpectedValueException(
+				"Signature algorithm " . $sig_algo->oid() .
+					 " does not support key algorithm " . $key_algo->oid());
+		}
+	}
+	
+	/**
 	 * Mapping from algorithm OID to OpenSSL digest method name.
 	 *
 	 * @internal
@@ -105,7 +126,11 @@ class OpenSSLCrypto extends Crypto
 		AlgorithmIdentifier::OID_SHA256_WITH_RSA_ENCRYPTION => "sha256WithRSAEncryption",
 		AlgorithmIdentifier::OID_SHA384_WITH_RSA_ENCRYPTION => "sha384WithRSAEncryption",
 		AlgorithmIdentifier::OID_SHA512_WITH_RSA_ENCRYPTION => "sha512WithRSAEncryption",
-		AlgorithmIdentifier::OID_ECDSA_WITH_SHA1 => "ecdsa-with-SHA1"
+		AlgorithmIdentifier::OID_ECDSA_WITH_SHA1 => "ecdsa-with-SHA1",
+		AlgorithmIdentifier::OID_ECDSA_WITH_SHA224 => "sha224",
+		AlgorithmIdentifier::OID_ECDSA_WITH_SHA256 => "sha256",
+		AlgorithmIdentifier::OID_ECDSA_WITH_SHA384 => "sha384",
+		AlgorithmIdentifier::OID_ECDSA_WITH_SHA512 => "sha512"
 		/* @formatter:on */
 	);
 	

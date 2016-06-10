@@ -76,4 +76,11 @@ class DESEDE3CBCAITest extends PHPUnit_Framework_TestCase
 	public function testKeySize(DESEDE3CBCAlgorithmIdentifier $ai) {
 		$this->assertEquals(24, $ai->keySize());
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidIVSizeFail() {
+		new DESEDE3CBCAlgorithmIdentifier("1234");
+	}
 }

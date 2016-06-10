@@ -225,6 +225,10 @@ class OpenSSLCryptoTest_UnsupportedCipher extends CipherAlgorithmIdentifier
 		return 1;
 	}
 	
+	public function ivSize() {
+		return 1;
+	}
+	
 	protected function _paramsASN1() {
 		return null;
 	}
@@ -238,6 +242,10 @@ class OpenSSLCryptoTest_InvalidRC2 extends CipherAlgorithmIdentifier
 	}
 	
 	public function keySize() {
+		return 1;
+	}
+	
+	public function ivSize() {
 		return 1;
 	}
 	

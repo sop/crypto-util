@@ -36,7 +36,7 @@ class RC2CBCAITest extends PHPUnit_Framework_TestCase
 	public function testDecodeRFC2268OnlyIV() {
 		$seq = new Sequence(
 			new ObjectIdentifier(AlgorithmIdentifier::OID_RC2_CBC), 
-			new OctetString("\0"));
+			new OctetString(self::IV));
 		$ai = AlgorithmIdentifier::fromASN1($seq);
 		$this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
 	}
@@ -88,7 +88,7 @@ class RC2CBCAITest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testEncodeLargeKey() {
-		$ai = new RC2CBCAlgorithmIdentifier(512, "\0");
+		$ai = new RC2CBCAlgorithmIdentifier(512, self::IV);
 		$seq = $ai->toASN1();
 		$this->assertInstanceOf(Sequence::class, $seq);
 		return $seq;
@@ -102,5 +102,12 @@ class RC2CBCAITest extends PHPUnit_Framework_TestCase
 	public function testDecodeLargeKey(Sequence $seq) {
 		$ai = AlgorithmIdentifier::fromASN1($seq);
 		$this->assertInstanceOf(RC2CBCAlgorithmIdentifier::class, $ai);
+	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidIVSizeFail() {
+		new RC2CBCAlgorithmIdentifier(64, "1234");
 	}
 }

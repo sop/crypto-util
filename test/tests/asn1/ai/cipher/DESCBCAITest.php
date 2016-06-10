@@ -76,4 +76,11 @@ class DESCBCAITest extends PHPUnit_Framework_TestCase
 	public function testKeySize(DESCBCAlgorithmIdentifier $ai) {
 		$this->assertEquals(8, $ai->keySize());
 	}
+	
+	/**
+	 * @expectedException UnexpectedValueException
+	 */
+	public function testInvalidIVSizeFail() {
+		new DESCBCAlgorithmIdentifier("1234");
+	}
 }

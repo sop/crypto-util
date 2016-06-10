@@ -6,6 +6,10 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA1AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA224AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA256AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA384AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\ECDSAWithSHA512AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\MD2WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\MD4WithRSAEncryptionAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Signature\MD5WithRSAEncryptionAlgorithmIdentifier;
@@ -126,7 +130,18 @@ class OpenSSLCryptoTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @expectedException RuntimeException
 	 */
-	public function testVerifyInvalidKeyFails() {
+	public function testVerifyBrokenAlgoInvalidKeyType() {
+		$signature = new Signature("");
+		$algo = new OpenSSLCryptoTest_SHA1WithRSAAsEC();
+		$pk = self::$_ecPrivKeyInfo->privateKey()->publicKey();
+		self::$_crypto->verify(self::DATA, $signature, $pk->publicKeyInfo(), 
+			$algo);
+	}
+	
+	/**
+	 * @expectedException RuntimeException
+	 */
+	public function testVerifyInvalidKeyType() {
 		$signature = new Signature("");
 		$algo = new SHA1WithRSAEncryptionAlgorithmIdentifier();
 		$pk = self::$_ecPrivKeyInfo->privateKey()->publicKey();
@@ -211,6 +226,51 @@ class OpenSSLCryptoTest extends PHPUnit_Framework_TestCase
 	public function testInvalidRC2AlgoFail() {
 		self::$_crypto->encrypt(self::DATA, "", 
 			new OpenSSLCryptoTest_InvalidRC2());
+	}
+	
+	/**
+	 * @dataProvider provideSignatureMethod
+	 *
+	 * @param PrivateKeyInfo $pki
+	 * @param SignatureAlgorithmIdentifier $algo
+	 */
+	public function testSignatureMethod(PrivateKeyInfo $pki, 
+			SignatureAlgorithmIdentifier $algo) {
+		$signature = self::$_crypto->sign(self::DATA, $pki, $algo);
+		$result = self::$_crypto->verify(self::DATA, $signature, 
+			$pki->publicKeyInfo(), $algo);
+		$this->assertTrue($result);
+	}
+	
+	public function provideSignatureMethod() {
+		$rsa_key = PrivateKeyInfo::fromPEM(
+			PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem"));
+		$ec_key = PrivateKeyInfo::fromPEM(
+			PEM::fromFile(TEST_ASSETS_DIR . "/ec/private_key.pem"));
+		return array(
+			/* @formatter:off */
+			[$rsa_key, new MD4WithRSAEncryptionAlgorithmIdentifier()],
+			[$rsa_key, new MD5WithRSAEncryptionAlgorithmIdentifier()],
+			[$rsa_key, new SHA1WithRSAEncryptionAlgorithmIdentifier()],
+			[$rsa_key, new SHA224WithRSAEncryptionAlgorithmIdentifier()],
+			[$rsa_key, new SHA256WithRSAEncryptionAlgorithmIdentifier()],
+			[$rsa_key, new SHA384WithRSAEncryptionAlgorithmIdentifier()],
+			[$rsa_key, new SHA512WithRSAEncryptionAlgorithmIdentifier()],
+			[$ec_key, new ECDSAWithSHA1AlgorithmIdentifier()],
+			[$ec_key, new ECDSAWithSHA224AlgorithmIdentifier()],
+			[$ec_key, new ECDSAWithSHA256AlgorithmIdentifier()],
+			[$ec_key, new ECDSAWithSHA384AlgorithmIdentifier()],
+			[$ec_key, new ECDSAWithSHA512AlgorithmIdentifier()]
+			/* @formatter:on */
+		);
+	}
+}
+
+
+class OpenSSLCryptoTest_SHA1WithRSAAsEC extends SHA1WithRSAEncryptionAlgorithmIdentifier
+{
+	public function supportsKeyAlgorithm(AlgorithmIdentifier $algo) {
+		return true;
 	}
 }
 

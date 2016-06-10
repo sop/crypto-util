@@ -5,8 +5,6 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 use ASN1\Element;
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\UnspecifiedType;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
 /* @formatter:off *//*
@@ -23,8 +21,7 @@ From RFC 4055 - 5.  PKCS #1 Version 1.5 Signature Algorithm
  *
  * @link https://tools.ietf.org/html/rfc4055#section-5
  */
-abstract class RFC4055RSASignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
-	SignatureAlgorithmIdentifier
+abstract class RFC4055RSASignatureAlgorithmIdentifier extends RSASignatureAlgorithmIdentifier
 {
 	/**
 	 * Parameters.

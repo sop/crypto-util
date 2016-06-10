@@ -5,6 +5,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 use ASN1\Type\UnspecifiedType;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier;
 
 
 /* @formatter:off *//*
@@ -35,5 +36,9 @@ abstract class ECSignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifie
 	
 	protected function _paramsASN1() {
 		return null;
+	}
+	
+	public function supportsKeyAlgorithm(AlgorithmIdentifier $algo) {
+		return $algo->oid() == self::OID_EC_PUBLIC_KEY;
 	}
 }

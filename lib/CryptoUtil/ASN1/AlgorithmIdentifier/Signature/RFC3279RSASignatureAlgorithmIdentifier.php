@@ -4,8 +4,6 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\UnspecifiedType;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
 /* @formatter:off *//*
@@ -22,8 +20,7 @@ From RFC 3279 - 2.2.1  RSA Signature Algorithm:
  *
  * @link https://tools.ietf.org/html/rfc3279#section-2.2.1
  */
-abstract class RFC3279RSASignatureAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
-	SignatureAlgorithmIdentifier
+abstract class RFC3279RSASignatureAlgorithmIdentifier extends RSASignatureAlgorithmIdentifier
 {
 	protected static function _fromASN1Params(UnspecifiedType $params = null) {
 		if (!isset($params)) {

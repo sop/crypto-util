@@ -58,6 +58,16 @@ class ECPrivateKeyTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * @depends testDecode
+	 *
+	 * @param ECPrivateKey $pk
+	 */
+	public function testPrivateKeyOctets(ECPrivateKey $pk) {
+		$octets = $pk->privateKeyOctets();
+		$this->assertInternalType("string", $octets);
+	}
+	
+	/**
 	 * @depends testFromPKIPEM
 	 *
 	 * @param ECPrivateKey $pk

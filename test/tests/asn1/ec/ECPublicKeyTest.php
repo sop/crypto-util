@@ -1,5 +1,7 @@
 <?php
 
+use ASN1\Type\Primitive\Integer;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPublicKey;
 use CryptoUtil\ASN1\PublicKeyInfo;
 use CryptoUtil\PEM\PEM;
@@ -41,8 +43,15 @@ class ECPublicKeyTest extends PHPUnit_Framework_TestCase
 	 * @expectedException LogicException
 	 */
 	public function testNoNamedCurve() {
-		$pk = new ECPublicKey("\0");
+		$pk = new ECPublicKey("\x04\0\0");
 		$pk->publicKeyInfo();
+	}
+	
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testInvalidECPoint() {
+		new ECPublicKey("\x0");
 	}
 	
 	/**
@@ -68,5 +77,75 @@ class ECPublicKeyTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToDER(ECPublicKey $pk) {
 		$this->assertNotEmpty($pk->toDER());
+	}
+	
+	/**
+	 * @depends testFromPEM
+	 *
+	 * @param ECPublicKey $pk
+	 */
+	public function testCurvePoint(ECPublicKey $pk) {
+		list($x, $y) = $pk->curvePoint();
+		$this->assertInstanceOf(Integer::class, $x);
+		$this->assertInstanceOf(Integer::class, $y);
+		return [$x, $y];
+	}
+	
+	/**
+	 * @depends testFromPEM
+	 *
+	 * @param ECPublicKey $pk
+	 */
+	public function testHasNamedCurve(ECPublicKey $pk) {
+		$this->assertTrue($pk->hasNamedCurve());
+	}
+	
+	/**
+	 * @depends testFromPEM
+	 *
+	 * @param ECPublicKey $pk
+	 */
+	public function testNamedCurve(ECPublicKey $pk) {
+		$this->assertEquals(ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1, 
+			$pk->namedCurve());
+	}
+	
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testNoCurveFail() {
+		$pk = new ECPublicKey("\x4\0\0");
+		$pk->namedCurve();
+	}
+	
+	/**
+	 * @expectedException RuntimeException
+	 */
+	public function testCompressedFail() {
+		$pk = new ECPublicKey("\x3\0");
+		$pk->curvePoint();
+	}
+	
+	/**
+	 * @depends testCurvePoint
+	 */
+	public function testFromCoordinates(array $points) {
+		$x = $points[0]->number();
+		$y = $points[1]->number();
+		$pk = ECPublicKey::fromCoordinates($x, $y, 
+			ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
+		$this->assertInstanceOf(ECPublicKey::class, $pk);
+		return $pk;
+	}
+	
+	/**
+	 * @depends testFromPEM
+	 * @depends testFromCoordinates
+	 *
+	 * @param ECPublicKey $ref
+	 * @param ECPublicKey $new
+	 */
+	public function testFromCoordsEqualsPEM(ECPublicKey $ref, ECPublicKey $new) {
+		$this->assertEquals($ref, $new);
 	}
 }

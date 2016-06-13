@@ -123,12 +123,23 @@ class ECPublicKey extends PublicKey
 	/**
 	 * Get curve point coordinates.
 	 *
-	 * @return Integer[] Tuple of X and Y coordinates as ASN.1 integer.
+	 * @return Integer[] Tuple of X and Y coordinates as ASN.1 integer
 	 */
 	public function curvePoint() {
+		return array_map(
+			function ($os) {
+				return ECConversion::octetStringToInteger($os);
+			}, $this->curvePointOctets());
+	}
+	
+	/**
+	 * Get curve point coordinates in octet string representation.
+	 *
+	 * @return OctetString[] Tuple of X and Y coordinates as ASN.1 OctetString
+	 */
+	public function curvePointOctets() {
 		list($x, $y) = $this->_splitECPoint();
-		return [ECConversion::octetStringToInteger(new OctetString($x)), 
-			ECConversion::octetStringToInteger(new OctetString($y))];
+		return [new OctetString($x), new OctetString($y)];
 	}
 	
 	/**

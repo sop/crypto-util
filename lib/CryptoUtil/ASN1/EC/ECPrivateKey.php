@@ -126,6 +126,15 @@ class ECPrivateKey extends PrivateKey
 	}
 	
 	/**
+	 * Get the EC private key value.
+	 *
+	 * @return string Octets of the private key
+	 */
+	public function privateKeyOctets() {
+		return $this->_privateKey;
+	}
+	
+	/**
 	 * Whether named curve is present.
 	 *
 	 * @return bool

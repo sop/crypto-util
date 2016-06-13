@@ -41,6 +41,7 @@ class ECPublicKey extends PublicKey
 	 *
 	 * @param string $ec_point ECPoint
 	 * @param string|null $named_curve Named curve OID
+	 * @throws \InvalidArgumentException If ECPoint is invalid
 	 */
 	public function __construct($ec_point, $named_curve = null) {
 		// first octet must be 0x04 for uncompressed form, and 0x02 or 0x03
@@ -58,13 +59,36 @@ class ECPublicKey extends PublicKey
 	 * @param int|string $x X coordinate as a base10 number
 	 * @param int|string $y Y coordinate as a base10 number
 	 * @param string|null $named_curve Named curve OID
+	 * @param int|null $bits Size of <i>p</i> in bits
 	 * @return self
 	 */
-	public static function fromCoordinates($x, $y, $named_curve = null) {
-		$x_os = ECConversion::integerToOctetString(new Integer($x))->string();
-		$y_os = ECConversion::integerToOctetString(new Integer($y))->string();
+	public static function fromCoordinates($x, $y, $named_curve = null, $bits = null) {
+		// if bitsize is not explicitly set, check from supported curves
+		if (!isset($bits) && isset($named_curve)) {
+			$bits = self::_curveSize($named_curve);
+		}
+		$mlen = null;
+		if (isset($bits)) {
+			$mlen = ceil($bits / 8);
+		}
+		$x_os = ECConversion::integerToOctetString(new Integer($x), $mlen)->string();
+		$y_os = ECConversion::integerToOctetString(new Integer($y), $mlen)->string();
 		$ec_point = "\x4$x_os$y_os";
 		return new self($ec_point, $named_curve);
+	}
+	
+	/**
+	 * Get the curve size <i>p</i> in bits.
+	 *
+	 * @param string $oid Curve OID
+	 * @return int|null
+	 */
+	private static function _curveSize($oid) {
+		if (!array_key_exists($oid, 
+			ECPublicKeyAlgorithmIdentifier::MAP_CURVE_TO_SIZE)) {
+			return null;
+		}
+		return ECPublicKeyAlgorithmIdentifier::MAP_CURVE_TO_SIZE[$oid];
 	}
 	
 	/**

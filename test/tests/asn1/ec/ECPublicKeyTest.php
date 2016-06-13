@@ -148,4 +148,9 @@ class ECPublicKeyTest extends PHPUnit_Framework_TestCase
 	public function testFromCoordsEqualsPEM(ECPublicKey $ref, ECPublicKey $new) {
 		$this->assertEquals($ref, $new);
 	}
+	
+	public function testFromCoordsUnknownCurve() {
+		$pk = ECPublicKey::fromCoordinates(0, 0, "1.3.6.1.3");
+		$this->assertInstanceOf(ECPublicKey::class, $pk);
+	}
 }

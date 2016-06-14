@@ -1,6 +1,5 @@
 <?php
 
-use ASN1\Type\Primitive\Integer;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Crypto\ECPublicKeyAlgorithmIdentifier;
 use CryptoUtil\ASN1\EC\ECPublicKey;
 use CryptoUtil\ASN1\PublicKeyInfo;
@@ -85,10 +84,9 @@ class ECPublicKeyTest extends PHPUnit_Framework_TestCase
 	 * @param ECPublicKey $pk
 	 */
 	public function testCurvePoint(ECPublicKey $pk) {
-		list($x, $y) = $pk->curvePoint();
-		$this->assertInstanceOf(Integer::class, $x);
-		$this->assertInstanceOf(Integer::class, $y);
-		return [$x, $y];
+		$point = $pk->curvePoint();
+		$this->assertContainsOnly("string", $point);
+		return $point;
 	}
 	
 	/**
@@ -130,8 +128,7 @@ class ECPublicKeyTest extends PHPUnit_Framework_TestCase
 	 * @depends testCurvePoint
 	 */
 	public function testFromCoordinates(array $points) {
-		$x = $points[0]->number();
-		$y = $points[1]->number();
+		list($x, $y) = $points;
 		$pk = ECPublicKey::fromCoordinates($x, $y, 
 			ECPublicKeyAlgorithmIdentifier::CURVE_PRIME256V1);
 		$this->assertInstanceOf(ECPublicKey::class, $pk);

@@ -59,4 +59,14 @@ class IntegerToOctetStringConversionTest extends PHPUnit_Framework_TestCase
 			/* @formatter:on */
 		);
 	}
+	
+	public function testNumberToOctets() {
+		$octets = ECConversion::numberToOctets(0x42);
+		$this->assertEquals("\x42", $octets);
+	}
+	
+	public function testOctetsToNumber() {
+		$number = ECConversion::octetsToNumber("\x42");
+		$this->assertEquals(0x42, $number);
+	}
 }

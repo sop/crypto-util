@@ -50,7 +50,7 @@ class ECConversion
 	 * Defined in SEC 1 section 2.3.7.
 	 *
 	 * @param Integer $num
-	 * @param int $mlen Desired output length
+	 * @param int $mlen Optional desired output length
 	 * @throws \UnexpectedValueException
 	 * @return OctetString
 	 */
@@ -81,5 +81,32 @@ class ECConversion
 	public static function octetStringToInteger(OctetString $os) {
 		$num = gmp_import($os->string(), 1, GMP_MSW_FIRST | GMP_BIG_ENDIAN);
 		return new Integer(gmp_strval($num, 10));
+	}
+	
+	/**
+	 * Convert a base-10 number to octets.
+	 *
+	 * This is a convenicence method for integer <-> octet string conversion
+	 * without the need for external ASN.1 dependencies.
+	 *
+	 * @param int|string $num Number in base-10
+	 * @param int $mlen Optional desired output length
+	 * @return string
+	 */
+	public static function numberToOctets($num, $mlen = null) {
+		return self::integerToOctetString(new Integer($num), $mlen)->string();
+	}
+	
+	/**
+	 * Convert octets to a base-10 number.
+	 *
+	 * This is a convenicence method for integer <-> octet string conversion
+	 * without the need for external ASN.1 dependencies.
+	 *
+	 * @param string $str
+	 * @return int|string Number in base-10
+	 */
+	public static function octetsToNumber($str) {
+		return self::octetStringToInteger(new OctetString($str))->number();
 	}
 }

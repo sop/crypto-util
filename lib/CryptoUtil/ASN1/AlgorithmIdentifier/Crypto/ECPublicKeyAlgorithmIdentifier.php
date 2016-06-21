@@ -4,6 +4,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Crypto;
 
 use ASN1\Type\Primitive\ObjectIdentifier;
 use ASN1\Type\UnspecifiedType;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
@@ -27,7 +28,8 @@ present:
  *
  * @link https://tools.ietf.org/html/rfc5480#section-2.1.1
  */
-class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier
+class ECPublicKeyAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
+	AsymmetricCryptoAlgorithmIdentifier
 {
 	/**
 	 * prime192v1/secp192r1 curve OID.

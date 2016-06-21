@@ -4,6 +4,7 @@ namespace CryptoUtil\ASN1\AlgorithmIdentifier\Crypto;
 
 use ASN1\Type\Primitive\NullType;
 use ASN1\Type\UnspecifiedType;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
 
@@ -22,7 +23,8 @@ From RFC 3447:
  * @link http://www.oid-info.com/get/1.2.840.113549.1.1.1
  * @link https://tools.ietf.org/html/rfc3447#appendix-C
  */
-class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier
+class RSAEncryptionAlgorithmIdentifier extends SpecificAlgorithmIdentifier implements 
+	AsymmetricCryptoAlgorithmIdentifier
 {
 	/**
 	 * Constructor

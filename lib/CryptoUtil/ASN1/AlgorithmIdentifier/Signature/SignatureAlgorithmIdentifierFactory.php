@@ -11,7 +11,7 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 /**
  * Factory class for constructing signature algorithm identifiers.
  */
-abstract class SignatureAlgorithmFactory
+abstract class SignatureAlgorithmIdentifierFactory
 {
 	/**
 	 * Mapping of hash algorithm OID's to RSA signature algorithm OID's.

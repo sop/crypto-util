@@ -17,6 +17,12 @@ use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA224AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA256AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA384AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\HMACWithSHA512AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\MD5AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\SHA1AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\SHA224AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\SHA256AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\SHA384AlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Hash\SHA512AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBES2AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndDESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithMD5AndRC2CBCAlgorithmIdentifier;
@@ -93,6 +99,14 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	const OID_HMAC_WITH_SHA384 = "1.2.840.113549.2.10";
 	const OID_HMAC_WITH_SHA512 = "1.2.840.113549.2.11";
 	
+	// Message digest algorithms
+	const OID_MD5 = "1.2.840.113549.2.5";
+	const OID_SHA1 = "1.3.14.3.2.26";
+	const OID_SHA224 = "2.16.840.1.101.3.4.2.4";
+	const OID_SHA256 = "2.16.840.1.101.3.4.2.1";
+	const OID_SHA384 = "2.16.840.1.101.3.4.2.2";
+	const OID_SHA512 = "2.16.840.1.101.3.4.2.3";
+	
 	/**
 	 * Mapping from OID to class name.
 	 *
@@ -112,6 +126,12 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 		self::OID_HMAC_WITH_SHA256 => HMACWithSHA256AlgorithmIdentifier::class,
 		self::OID_HMAC_WITH_SHA384 => HMACWithSHA384AlgorithmIdentifier::class,
 		self::OID_HMAC_WITH_SHA512 => HMACWithSHA512AlgorithmIdentifier::class,
+		self::OID_MD5 => MD5AlgorithmIdentifier::class,
+		self::OID_SHA1 => SHA1AlgorithmIdentifier::class,
+		self::OID_SHA224 => SHA224AlgorithmIdentifier::class,
+		self::OID_SHA256 => SHA256AlgorithmIdentifier::class,
+		self::OID_SHA384 => SHA384AlgorithmIdentifier::class,
+		self::OID_SHA512 => SHA512AlgorithmIdentifier::class,
 		self::OID_MD2_WITH_RSA_ENCRYPTION => MD2WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_MD4_WITH_RSA_ENCRYPTION => MD4WithRSAEncryptionAlgorithmIdentifier::class,
 		self::OID_MD5_WITH_RSA_ENCRYPTION => MD5WithRSAEncryptionAlgorithmIdentifier::class,

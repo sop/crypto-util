@@ -3,7 +3,6 @@
 namespace CryptoUtil\ASN1\AlgorithmIdentifier\Signature;
 
 use CryptoUtil\ASN1\AlgorithmIdentifier;
-use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\AsymmetricCryptoAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\HashAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Feature\SignatureAlgorithmIdentifier;
 
@@ -52,15 +51,14 @@ abstract class SignatureAlgorithmIdentifierFactory
 	 * Get signature algorithm identifier of given asymmetric cryptographic type
 	 * utilizing given hash algorithm.
 	 *
-	 * @param AsymmetricCryptoAlgorithmIdentifier $crypto_algo Asymmetric
-	 *        cryptography algorithm identifier
+	 * @param AlgorithmIdentifier $crypto_algo Cryptographic algorithm
+	 *        identifier, eg. RSA or EC
 	 * @param HashAlgorithmIdentifier $hash_algo Hash algorithm identifier
 	 * @throws \UnexpectedValueException
 	 * @return SignatureAlgorithmIdentifier
 	 */
 	public static function algoForAsymmetricCrypto(
-			AsymmetricCryptoAlgorithmIdentifier $crypto_algo, 
-			HashAlgorithmIdentifier $hash_algo) {
+			AlgorithmIdentifier $crypto_algo, HashAlgorithmIdentifier $hash_algo) {
 		switch ($crypto_algo->oid()) {
 		case AlgorithmIdentifier::OID_RSA_ENCRYPTION:
 			$oid = self::_oidForRSA($hash_algo);

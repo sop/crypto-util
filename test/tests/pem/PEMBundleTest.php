@@ -33,6 +33,15 @@ class PEMBundleTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param PEMBundle $bundle
 	 */
+	public function testFirst(PEMBundle $bundle) {
+		$this->assertInstanceOf(PEM::class, $bundle->first());
+	}
+	
+	/**
+	 * @depends testBundle
+	 *
+	 * @param PEMBundle $bundle
+	 */
 	public function testCount(PEMBundle $bundle) {
 		$this->assertCount(150, $bundle);
 	}
@@ -74,5 +83,13 @@ DATA;
 	 */
 	public function testInvalidFile() {
 		PEMBundle::fromFile(TEST_ASSETS_DIR . "/nonexistent");
+	}
+	
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testFirstEmptyFail() {
+		$bundle = new PEMBundle();
+		$bundle->first();
 	}
 }

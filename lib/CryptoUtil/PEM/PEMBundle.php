@@ -16,7 +16,7 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	protected $_pems;
 	
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param PEM ...$pems
 	 */
@@ -76,6 +76,19 @@ class PEMBundle implements \Countable, \IteratorAggregate
 	 */
 	public function all() {
 		return $this->_pems;
+	}
+	
+	/**
+	 * Get the first PEM in a bundle.
+	 *
+	 * @throws \LogicException If bundle contains no PEM objects
+	 * @return PEM
+	 */
+	public function first() {
+		if (!count($this->_pems)) {
+			throw new \LogicException("No PEMs.");
+		}
+		return $this->_pems[0];
 	}
 	
 	/**

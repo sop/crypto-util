@@ -65,10 +65,10 @@ abstract class PBEScheme
 	abstract public function kdf();
 	
 	/**
-	 * Add padding
+	 * Add padding.
 	 *
-	 * @param string $data
-	 * @param int $blocksize
+	 * @param string $data Data to pad
+	 * @param int $blocksize Block size of the underlying cipher
 	 * @return string
 	 */
 	protected function _addPadding($data, $blocksize) {
@@ -78,11 +78,15 @@ abstract class PBEScheme
 	}
 	
 	/**
-	 * Remove padding
+	 * Remove padding.
 	 *
-	 * @param string $data
-	 * @param int $blocksize
-	 * @throws \UnexpectedValueException
+	 * It's important that exceptions thrown here are no propagated to any
+	 * user interface. Doing so would expose ciphertext to the padding oracle
+	 * attack.
+	 *
+	 * @param string $data Padded data
+	 * @param int $blocksize Block size of the underlying cipher
+	 * @throws \UnexpectedValueException If the padding is invalid
 	 * @return string
 	 */
 	protected function _removePadding($data, $blocksize) {

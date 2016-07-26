@@ -103,11 +103,16 @@ class PBES2 extends PBEScheme
 	/**
 	 *
 	 * @see \CryptoUtil\PBE\PBEScheme::decryptWithKey()
+	 * @throws \UnexpectedValueException If decryption failed
 	 * @return string
 	 */
 	public function decryptWithKey($data, $key) {
-		$str = $this->_crypto->decrypt($data, $key, $this->_cipher);
-		return $this->_removePadding($str, $this->_cipher->blockSize());
+		try {
+			$str = $this->_crypto->decrypt($data, $key, $this->_cipher);
+			return $this->_removePadding($str, $this->_cipher->blockSize());
+		} catch (\RuntimeException $e) {
+			throw new \UnexpectedValueException("Decryption failed.", null, $e);
+		}
 	}
 	
 	/**

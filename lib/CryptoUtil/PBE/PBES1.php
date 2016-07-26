@@ -108,15 +108,20 @@ class PBES1 extends PBEScheme
 	/**
 	 *
 	 * @see \CryptoUtil\PBE\PBEScheme::decryptWithKey()
+	 * @throws \UnexpectedValueException If decryption failed
 	 * @return string
 	 */
 	public function decryptWithKey($data, $key) {
 		if (strlen($key) !== 16) {
 			throw new \UnexpectedValueException("Invalid key length.");
 		}
-		$algo = $this->_cipher->withInitializationVector(substr($key, 8, 8));
-		$str = $this->_crypto->decrypt($data, substr($key, 0, 8), $algo);
-		return $this->_removePadding($str, 8);
+		try {
+			$algo = $this->_cipher->withInitializationVector(substr($key, 8, 8));
+			$str = $this->_crypto->decrypt($data, substr($key, 0, 8), $algo);
+			return $this->_removePadding($str, 8);
+		} catch (\RuntimeException $e) {
+			throw new \UnexpectedValueException("Decryption failed.", null, $e);
+		}
 	}
 	
 	/**

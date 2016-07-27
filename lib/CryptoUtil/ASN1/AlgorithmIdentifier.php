@@ -5,6 +5,9 @@ namespace CryptoUtil\ASN1;
 use ASN1\Element;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\AES128CBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\AES192CBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\AES256CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\RC2CBCAlgorithmIdentifier;
@@ -79,6 +82,9 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 	const OID_DES_CBC = "1.3.14.3.2.7";
 	const OID_RC2_CBC = "1.2.840.113549.3.2";
 	const OID_DES_EDE3_CBC = "1.2.840.113549.3.7";
+	const OID_AES_128_CBC = "2.16.840.1.101.3.4.1.2";
+	const OID_AES_192_CBC = "2.16.840.1.101.3.4.1.22";
+	const OID_AES_256_CBC = "2.16.840.1.101.3.4.1.42";
 	
 	// PKCS #5 algorithms
 	const OID_PBE_WITH_MD2_AND_DES_CBC = "1.2.840.113549.1.5.1";
@@ -121,6 +127,9 @@ abstract class AlgorithmIdentifier implements AlgorithmIdentifierType
 		self::OID_DES_CBC => DESCBCAlgorithmIdentifier::class,
 		self::OID_DES_EDE3_CBC => DESEDE3CBCAlgorithmIdentifier::class,
 		self::OID_RC2_CBC => RC2CBCAlgorithmIdentifier::class,
+		self::OID_AES_128_CBC => AES128CBCAlgorithmIdentifier::class,
+		self::OID_AES_192_CBC => AES192CBCAlgorithmIdentifier::class,
+		self::OID_AES_256_CBC => AES256CBCAlgorithmIdentifier::class,
 		self::OID_HMAC_WITH_SHA1 => HMACWithSHA1AlgorithmIdentifier::class,
 		self::OID_HMAC_WITH_SHA224 => HMACWithSHA224AlgorithmIdentifier::class,
 		self::OID_HMAC_WITH_SHA256 => HMACWithSHA256AlgorithmIdentifier::class,

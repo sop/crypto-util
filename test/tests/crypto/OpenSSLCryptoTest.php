@@ -1,5 +1,8 @@
 <?php
 
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\AES128CBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\AES192CBCAlgorithmIdentifier;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\AES256CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
@@ -166,11 +169,14 @@ class OpenSSLCryptoTest extends PHPUnit_Framework_TestCase
 	
 	public function provideEncryptAndDecrypt() {
 		$data8 = "12345678";
+		$data16 = str_repeat($data8, 2);
 		$iv8 = hex2bin("8877665544332211");
+		$iv16 = str_repeat($iv8, 2);
 		$key5 = hex2bin("1122334455");
 		$key8 = hex2bin("1122334455667788");
 		$key16 = str_repeat($key8, 2);
 		$key24 = str_repeat($key8, 3);
+		$key32 = str_repeat($key16, 2);
 		return array(
 			/* @formatter:off */
 			[$data8, new DESCBCAlgorithmIdentifier($iv8), $key8],
@@ -178,6 +184,9 @@ class OpenSSLCryptoTest extends PHPUnit_Framework_TestCase
 			[$data8, new RC2CBCAlgorithmIdentifier(40, $iv8), $key5],
 			[$data8, new RC2CBCAlgorithmIdentifier(64, $iv8), $key8],
 			[$data8, new RC2CBCAlgorithmIdentifier(128, $iv8), $key16],
+			[$data16, new AES128CBCAlgorithmIdentifier($iv16), $key16],
+			[$data16, new AES192CBCAlgorithmIdentifier($iv16), $key24],
+			[$data16, new AES256CBCAlgorithmIdentifier($iv16), $key32]
 			/* @formatter:on */
 		);
 	}

@@ -15,4 +15,6 @@ Generate encrypted private keys:
     openssl pkcs8 -in private_key.pem -topk8 -v1 PBE-SHA1-RC2-64 \
       -passout pass:password -out encrypted_private_key.pem &&
     openssl pkcs8 -in private_key.pem -topk8 -v2 des3 \
-      -passout pass:password -out encrypted_private_key_v2.pem
+      -passout pass:password -out encrypted_private_key_v2.pem &&
+    openssl pkcs8 -in private_key.pem -topk8 -v2 aes-256-cbc -v2prf hmacWithSHA512 \
+      -passout pass:password -out encrypted_private_key_v2_aes.pem

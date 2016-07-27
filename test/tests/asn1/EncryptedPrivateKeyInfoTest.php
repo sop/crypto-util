@@ -3,6 +3,7 @@
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
 use ASN1\Type\Primitive\OctetString;
+use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\AES256CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\Cipher\DESEDE3CBCAlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBES2AlgorithmIdentifier;
 use CryptoUtil\ASN1\AlgorithmIdentifier\PBE\PBEWithSHA1AndRC2CBCAlgorithmIdentifier;
@@ -26,16 +27,21 @@ class EncryptedPrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 	
 	private static $_pem_v2;
 	
+	private static $_pem_v2_aes;
+	
 	public static function setUpBeforeClass() {
 		self::$_pem_v1 = PEM::fromFile(
 			TEST_ASSETS_DIR . "/rsa/encrypted_private_key.pem");
 		self::$_pem_v2 = PEM::fromFile(
 			TEST_ASSETS_DIR . "/rsa/encrypted_private_key_v2.pem");
+		self::$_pem_v2_aes = PEM::fromFile(
+			TEST_ASSETS_DIR . "/rsa/encrypted_private_key_v2_aes.pem");
 	}
 	
 	public static function tearDownAfterClass() {
 		self::$_pem_v1 = null;
 		self::$_pem_v2 = null;
+		self::$_pem_v2_aes = null;
 	}
 	
 	public function testFromPEM() {
@@ -192,6 +198,61 @@ class EncryptedPrivateKeyInfoTest extends PHPUnit_Framework_TestCase
 		$epki = EncryptedPrivateKeyInfo::encryptPrivateKeyInfoWithDerivedKey(
 			$pki, $algo, $key, Crypto::getDefault());
 		$this->assertEquals($refkey, $epki);
+	}
+	
+	public function testV2AESFromPEM() {
+		$epki = EncryptedPrivateKeyInfo::fromPEM(self::$_pem_v2_aes);
+		$this->assertInstanceOf(EncryptedPrivateKeyInfo::class, $epki);
+		return $epki;
+	}
+	
+	/**
+	 * @depends testV2AESFromPEM
+	 *
+	 * @param EncryptedPrivateKeyInfo $refkey
+	 */
+	public function testCreateV2AES(EncryptedPrivateKeyInfo $refkey) {
+		$salt = $refkey->encryptionAlgorithm()->salt();
+		$count = $refkey->encryptionAlgorithm()->iterationCount();
+		$iv = $refkey->encryptionAlgorithm()
+			->esAlgorithmIdentifier()
+			->initializationVector();
+		$prf_algo = $refkey->encryptionAlgorithm()
+			->kdfAlgorithmIdentifier()
+			->prfAlgorithmIdentifier();
+		$pki = PrivateKeyInfo::fromPEM(
+			PEM::fromFile(TEST_ASSETS_DIR . "/rsa/private_key.pem"));
+		$algo = new PBES2AlgorithmIdentifier(
+			new PBKDF2AlgorithmIdentifier($salt, $count, null, $prf_algo), 
+			new AES256CBCAlgorithmIdentifier($iv));
+		$epki = EncryptedPrivateKeyInfo::encryptPrivateKeyInfo($pki, $algo, 
+			self::PASSWORD, Crypto::getDefault());
+		$this->assertInstanceOf(EncryptedPrivateKeyInfo::class, $epki);
+		return $epki;
+	}
+	
+	/**
+	 * @depends testV2AESFromPEM
+	 * @depends testCreateV2AES
+	 *
+	 * @param EncryptedPrivateKeyInfo $ref
+	 * @param EncryptedPrivateKeyInfo $new
+	 */
+	public function testV2AESEqualsToRef(EncryptedPrivateKeyInfo $ref, 
+			EncryptedPrivateKeyInfo $new) {
+		$this->assertEquals($ref, $new);
+	}
+	
+	/**
+	 * @depends testCreateV2AES
+	 *
+	 * @param EncryptedPrivateKeyInfo $epki
+	 */
+	public function testDecryptV2AES(EncryptedPrivateKeyInfo $epki) {
+		$pki = $epki->decryptPrivateKeyInfo(self::PASSWORD, 
+			Crypto::getDefault());
+		$this->assertInstanceOf(PrivateKeyInfo::class, $pki);
+		return $pki;
 	}
 	
 	/**

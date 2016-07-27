@@ -50,6 +50,23 @@ abstract class PRF
 	}
 	
 	/**
+	 * Mapping from hash algorithm identifier OID to class name.
+	 *
+	 * @internal
+	 *
+	 * @var array
+	 */
+	const MAP_HASH_OID_TO_CLASS = array(
+		/* @formatter:off */
+		AlgorithmIdentifier::OID_HMAC_WITH_SHA1 => HMACSHA1::class,
+		AlgorithmIdentifier::OID_HMAC_WITH_SHA224 => HMACSHA224::class,
+		AlgorithmIdentifier::OID_HMAC_WITH_SHA256 => HMACSHA256::class,
+		AlgorithmIdentifier::OID_HMAC_WITH_SHA384 => HMACSHA384::class,
+		AlgorithmIdentifier::OID_HMAC_WITH_SHA512 => HMACSHA512::class
+		/* @formatter:on */
+	);
+	
+	/**
 	 * Get PRF by algorithm identifier.
 	 *
 	 * @param PRFAlgorithmIdentifier $algo
@@ -57,9 +74,10 @@ abstract class PRF
 	 * @return self
 	 */
 	public static function fromAlgorithmIdentifier(PRFAlgorithmIdentifier $algo) {
-		switch ($algo->oid()) {
-		case AlgorithmIdentifier::OID_HMAC_WITH_SHA1:
-			return new HMACSHA1();
+		$oid = $algo->oid();
+		if (array_key_exists($oid, self::MAP_HASH_OID_TO_CLASS)) {
+			$cls = self::MAP_HASH_OID_TO_CLASS[$oid];
+			return new $cls();
 		}
 		throw new \UnexpectedValueException(
 			"PRF algorithm " . $algo->oid() . " not supported.");

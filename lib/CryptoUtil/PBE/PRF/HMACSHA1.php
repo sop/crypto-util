@@ -8,16 +8,16 @@ namespace CryptoUtil\PBE\PRF;
  *
  * @link https://tools.ietf.org/html/rfc2898#appendix-B.1.1
  */
-class HMACSHA1 extends PRF
+class HMACSHA1 extends HMACPRF
 {
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct() {
 		$this->_length = 20;
 	}
 	
-	public function compute($arg1, $arg2) {
-		return hash_hmac("sha1", $arg2, $arg1, true);
+	protected function _hashAlgo() {
+		return "sha1";
 	}
 }

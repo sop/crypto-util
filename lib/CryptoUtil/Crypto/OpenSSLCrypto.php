@@ -80,7 +80,7 @@ class OpenSSLCrypto extends Crypto
 	}
 	
 	/**
-	 * Get last OpenSSL error message
+	 * Get last OpenSSL error message.
 	 *
 	 * @return string|null
 	 */
@@ -152,6 +152,23 @@ class OpenSSLCrypto extends Crypto
 	}
 	
 	/**
+	 * Mapping from algorithm OID to OpenSSL cipher method name.
+	 *
+	 * @internal
+	 *
+	 * @var array
+	 */
+	const MAP_CIPHER_OID_TO_NAME = array(
+		/* @formatter:off */
+		AlgorithmIdentifier::OID_DES_CBC => "DES-CBC", 
+		AlgorithmIdentifier::OID_DES_EDE3_CBC => "DES-EDE3-CBC",
+		AlgorithmIdentifier::OID_AES_128_CBC => "AES-128-CBC",
+		AlgorithmIdentifier::OID_AES_192_CBC => "AES-192-CBC",
+		AlgorithmIdentifier::OID_AES_256_CBC => "AES-256-CBC"
+		/* @formatter:on */
+	);
+	
+	/**
 	 * Get OpenSSL cipher method for given cipher algorithm identifier.
 	 *
 	 * @param CipherAlgorithmIdentifier $algo
@@ -159,16 +176,15 @@ class OpenSSLCrypto extends Crypto
 	 * @return string
 	 */
 	protected function _algoToCipher(CipherAlgorithmIdentifier $algo) {
-		switch ($algo->oid()) {
-		case AlgorithmIdentifier::OID_DES_CBC:
-			return "DES-CBC";
-		case AlgorithmIdentifier::OID_RC2_CBC:
+		$oid = $algo->oid();
+		if (array_key_exists($oid, self::MAP_CIPHER_OID_TO_NAME)) {
+			return self::MAP_CIPHER_OID_TO_NAME[$oid];
+		}
+		if (AlgorithmIdentifier::OID_RC2_CBC == $oid) {
 			if (!$algo instanceof RC2CBCAlgorithmIdentifier) {
 				throw new \UnexpectedValueException("Not an RC2-CBC algorithm.");
 			}
 			return $this->_rc2AlgoToCipher($algo);
-		case AlgorithmIdentifier::OID_DES_EDE3_CBC:
-			return "DES-EDE3-CBC";
 		}
 		throw new \UnexpectedValueException(
 			"Cipher method " . $algo->oid() . " not supported.");

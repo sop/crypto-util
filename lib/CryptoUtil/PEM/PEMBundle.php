@@ -5,6 +5,8 @@ namespace CryptoUtil\PEM;
 
 /**
  * Container for multiple PEM objects.
+ *
+ * The order of PEMs shall be retained, eg. when read from a file.
  */
 class PEMBundle implements \Countable, \IteratorAggregate
 {
